@@ -1,11 +1,14 @@
 import React from 'react';
 import './App.css';
-import ChatContainer from './components/chat-components/ChatContainer';
-
+import Main from './components/main-components/Main';
+import Navigation from './components/main-components/Navigation';
+import Footer from './components/main-components/Footer';
 function App() {
   return (
     <div className="App">
-      <ChatContainer />
+      <Navigation />
+      <Main />
+      <Footer />
     </div>
   );
 }
