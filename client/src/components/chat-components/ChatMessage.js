@@ -1,9 +1,12 @@
 import React from 'react';
 
-const ChatMessage = () => {
+const ChatMessage = ({ message }) => {
 	return (
-		<div>
-			hello from ChatMessage
+		<div user={message.id}>
+			<h5>{message.username}</h5>
+			<p>
+				{message.message}
+			</p>
 		</div>
 	)
 }
