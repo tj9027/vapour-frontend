@@ -3,11 +3,12 @@ import ChatHeader from './ChatHeader';
 import ChatForm from './ChatForm';
 import MessageList from './MessageList';
 import messages from '../../mocks/chatmessages';
+import '../../styles/chat-styles/chatcontainer.css';
 
 
 const ChatContainer = () => {
 	return (
-		<div>
+		<div className="chat__container">
 			hello from ChatContainer
 			<ChatHeader />
 			<MessageList messages={messages} />

@@ -1,9 +1,11 @@
 .App {
-  align-items: center;
+  box-sizing: border-box;
+  font-size: 62.5%;
+  /* align-items: center; */
   color: white;
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-between; */
   height: 100%;
   text-align: center;
   width: 100%;

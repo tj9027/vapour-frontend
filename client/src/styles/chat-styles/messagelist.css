@@ -1,0 +1,8 @@
+.message-list__container {
+	/* align-items: center; */
+	background-color: grey;
+	border: solid thin black;
+	display: flex;
+	flex-direction: column;
+	/* justify-content: center; */
+}

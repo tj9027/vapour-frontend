@@ -1,0 +1,16 @@
+.player-card__container {
+	align-items: center;
+	background-color: #424242;
+	border: solid thin black;
+	display: flex;
+	justify-content: flex-start;
+	margin: 1.2rem;
+}
+
+.online {
+	color: white
+}
+
+.offline {
+	color: grey
+}
