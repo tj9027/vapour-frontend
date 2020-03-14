@@ -8,7 +8,6 @@ const MessageList = ({ messages }) => {
 	const messagesToComponent = messages.map(mes => <ChatMessage message={mes} key={randomNumber()} />);
 	return (
 		<div className="message-list__container">
-			hello from MessageList
 			{messagesToComponent}
 		</div>
 	)

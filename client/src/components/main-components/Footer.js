@@ -1,12 +1,11 @@
 import React from 'react';
 import '../../styles/main-styles/footer.css';
 
-const Footer = () => {
+const Footer = ({ showPlayersNChat }) => {
 	return (
 		<div className="footer__container">
-			hello from Footer
-			<div className="footer__player-list-toggle">
-				player list
+			<div className="footer__player-list-toggle" onClick={e => { e.preventDefault(); showPlayersNChat() }}>
+				Players & Chat
 			</div>
 		</div>
 	)

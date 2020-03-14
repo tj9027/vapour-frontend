@@ -1,4 +1,10 @@
 .main__container{
 	height: 100%;
 	color: black;
+	overflow:hidden;
+	position: relative;
+}
+
+.draggable__container{
+	width: 20rem;
 }

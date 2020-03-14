@@ -9,7 +9,6 @@ import '../../styles/chat-styles/chatcontainer.css';
 const ChatContainer = () => {
 	return (
 		<div className="chat__container">
-			hello from ChatContainer
 			<ChatHeader />
 			<MessageList messages={messages} />
 			<ChatForm />
