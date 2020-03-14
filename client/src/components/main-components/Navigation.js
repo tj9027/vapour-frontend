@@ -11,7 +11,9 @@ const Navigation = () => {
 					Vapour
 				</p>
 			</div>
-
+			<div className="navigation__player-list-toggle button" onClick={e => { e.preventDefault(); }}>
+				Players & Chat
+			</div>
 			<div className="navigation__logout button">
 				log out
 			</div>

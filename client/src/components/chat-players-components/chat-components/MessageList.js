@@ -1,6 +1,6 @@
 import React from 'react';
 import ChatMessage from './ChatMessage';
-import '../../styles/chat-styles/messagelist.css';
+import '../../../styles/chat-styles/messagelist.css';
 
 
 const MessageList = ({ messages }) => {

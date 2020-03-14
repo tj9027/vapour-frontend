@@ -1,6 +1,6 @@
 import React from 'react';
-import playerList from '../../mocks/playerlist';
-import '../../styles/player-styles/playerlist.css';
+import playerList from '../../../mocks/playerlist';
+import '../../../styles/player-styles/playerlist.css';
 import PlayerCard from './PlayerCard';
 
 const PlayerList = ({ handlePlayerNChat }) => {

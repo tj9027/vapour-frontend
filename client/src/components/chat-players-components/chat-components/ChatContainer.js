@@ -2,8 +2,8 @@ import React from 'react';
 import ChatHeader from './ChatHeader';
 import ChatForm from './ChatForm';
 import MessageList from './MessageList';
-import messages from '../../mocks/chatmessages';
-import '../../styles/chat-styles/chatcontainer.css';
+import messages from '../../../mocks/chatmessages';
+import '../../../styles/chat-styles/chatcontainer.css';
 
 
 const ChatContainer = () => {

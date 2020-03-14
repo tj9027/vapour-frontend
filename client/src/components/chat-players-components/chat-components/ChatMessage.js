@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../styles/chat-styles/chatmessage.css';
+import '../../../styles/chat-styles/chatmessage.css';
 
 const ChatMessage = ({ message }) => {
 	const who = () => message.id === 1 ? "me" : "you";

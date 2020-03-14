@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../styles/player-styles/playercard.css';
+import '../../../styles/player-styles/playercard.css';
 
 const PlayerCard = ({ player }) => {
 	const status = () => player.status ? "online" : "offline";

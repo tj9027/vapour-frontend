@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../styles/chat-styles/chatform.css';
+import '../../../styles/chat-styles/chatform.css';
 
 const ChatForm = () => {
 	const [value, setValue] = useState("");

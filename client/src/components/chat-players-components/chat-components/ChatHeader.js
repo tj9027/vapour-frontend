@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../styles/chat-styles/chatheader.css';
+import '../../../styles/chat-styles/chatheader.css';
 
 const ChatHeader = () => {
 	return (
