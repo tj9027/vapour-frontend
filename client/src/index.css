@@ -26,3 +26,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.button{
+  margin: 1.2rem;
+  padding: .3rem;
+}
+.button:hover {
+  color: white;
+}
