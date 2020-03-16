@@ -1,5 +1,6 @@
 import React from 'react';
 import '../../styles/game-styles/gamecard.css';
+import { Link } from 'react-router-dom';
 
 const GameCard = ({ game }) => {
 	return (
@@ -8,11 +9,18 @@ const GameCard = ({ game }) => {
 				<img className="game-card__image" src={game.image} alt={game.name} />
 			</div>
 			<div className="game-card__details-container">
-				<h4 className="game-card__details-title">{game.name}</h4>
-				<h6>How to Play:</h6>
+				<h2 className="game-card__details-title">{game.name}</h2>
+				<h4>How to Play:</h4>
 				<p className="game-card__details-how-to">
 					{game.description}
 				</p>
+				<Link
+					to={`/game/${game.id}`}
+					className="button game-card__button">
+					<span>
+						Play
+					</span>
+				</Link>
 			</div>
 		</div>
 	)

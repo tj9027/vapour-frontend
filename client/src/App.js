@@ -6,6 +6,7 @@ import Footer from './components/main-components/Footer';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import SocialMain from './components/chat-players-components/SocialMain';
 import players from './mocks/playerlist';
+import GameScreen from './components/game-components/GameScreen';
 
 function App() {
   const [user, setUser] = useState(players[0]);
@@ -20,6 +21,9 @@ function App() {
           </Route>
           <Route exact path="/social">
             <SocialMain user={user} setUser={setUser} />
+          </Route>
+          <Route exact path="/game/:id">
+            <GameScreen />
           </Route>
         </Switch>
         <Footer />
