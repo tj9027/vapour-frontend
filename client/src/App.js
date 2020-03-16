@@ -23,7 +23,7 @@ function App() {
             <SocialMain user={user} setUser={setUser} />
           </Route>
           <Route exact path="/game/:id">
-            <GameScreen />
+            <GameScreen user={user} />
           </Route>
         </Switch>
         <Footer />

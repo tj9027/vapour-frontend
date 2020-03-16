@@ -3,9 +3,13 @@
 	background-color: #1D1F24;
 	display: flex;
 	flex-direction: column;
-	position: relative;
-	height: 100%;
-	overflow: hidden;
+	position: absolute;
+	flex-grow:1;
+	height:92%;
+	overflow: scroll;
 	/* justify-content: center; */
 	width: 100%;
+}
+::-webkit-scrollbar{
+	display: none;
 }

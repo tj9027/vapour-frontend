@@ -1,0 +1,32 @@
+.game-screen__container{
+	align-items: center;
+	display:flex;
+	flex-direction: column;
+	height:100%;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.game-screen__side-to-side{
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	height:100%;
+	justify-content: space-between;
+	width:100%;
+}
+
+.game-screen__main-container{
+	flex-grow: 1;
+}
+
+.game-screen__chat-container{
+	background-color: #1D1F24;
+	display:flex;
+	flex-direction: column;
+	height:100%;
+	flex-grow: .2;
+}
+.game-screen__form-container{
+	height: 3rem;
+}
