@@ -6,12 +6,12 @@ import messages from '../../../mocks/chatmessages';
 import '../../../styles/chat-styles/chatcontainer.css';
 
 
-const ChatContainer = () => {
+const ChatContainer = ({ handleChatSubmit, user, messages, secondUser, chatSessionId }) => {
 	return (
 		<div className="chat__container">
-			<ChatHeader />
+			<ChatHeader secondUser={secondUser} chatSessionId={chatSessionId} />
 			<MessageList messages={messages} />
-			<ChatForm />
+			<ChatForm handleChatSubmit={handleChatSubmit} user={user} />
 		</div>
 	)
 };

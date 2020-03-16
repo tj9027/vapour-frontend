@@ -1,4 +1,13 @@
 .player-list__container{
 	border: solid thin black;
-	width: 20rem;
+	width: 30rem;
+	background-color: #1D1F24;
+}
+.player-list__user-container{
+	border-bottom: 1px solid rgba(67, 73, 83, 0.5);
+}
+.player-list__user-container p{
+	background-color: transparent;
+	display: block;	
+	text-shadow: 0rem 0rem 1rem #03b5eb;
 }

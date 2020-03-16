@@ -1,8 +1,23 @@
 .chat-form__container{
-	border: solid thin black;
 	align-content: center;
 	display:flex;
 	flex-direction: column;
-	height: 2.4rem;
+	height: 4rem;
+	width:100%;
 	justify-content: center;
+}
+.chat-form__container form {
+	border-top: .3rem solid #434953;
+	display:flex;
+	height: 100%;
+	width: 100%;
+}
+.chat-form__input {
+	padding: 1rem;
+	margin: .4rem;
+	width:80%;
+}
+.chat-form__submit{
+	width:20%;
+	margin: .4rem;
 }

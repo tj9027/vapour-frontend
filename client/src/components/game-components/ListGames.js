@@ -7,7 +7,7 @@ import 'react-awesome-slider/dist/styles.css';
 
 const ListGames = () => {
 	const randomNumber = () => Math.floor(Math.random() * 10000);
-	const gamesToComponent = gamesList.map(game => <div className="game-card__outer-container"><GameCard game={game} key={randomNumber()} /></div>);
+	const gamesToComponent = gamesList.map(game => <div className="game-card__outer-container" key={randomNumber()}> <GameCard game={game} /></div >);
 
 
 

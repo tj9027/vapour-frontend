@@ -1,6 +1,9 @@
 .chat-header__container {
-	background-color: #424242;
+	align-items: center;
+	background-color:#434953;
 	color:white;
-	border: solid thin black;
-	height: 2.4rem;
+	display: flex;
+	justify-content: center;
+	height: 5rem;
+	width:100%;
 }

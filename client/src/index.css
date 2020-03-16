@@ -32,8 +32,10 @@ code {
 
 
 .button{
+  color:#b8b6b4;
   margin: 1.2rem;
   padding: .3rem;
+  text-decoration: none;
 }
 .button:hover {
   color: white;

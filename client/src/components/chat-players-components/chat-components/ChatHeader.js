@@ -1,12 +1,13 @@
 import React from 'react';
 import '../../../styles/chat-styles/chatheader.css';
 
-const ChatHeader = () => {
+const ChatHeader = ({ secondUser, chatSessionId }) => {
+	console.log(chatSessionId)
 	return (
 		<div className="chat-header__container">
-
-		//must render username of the player you are chatting to
-		</div>
+			{secondUser.username}<br />
+			{chatSessionId}
+		</div >
 	)
 };
 

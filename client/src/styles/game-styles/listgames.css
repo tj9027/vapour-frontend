@@ -1,6 +1,6 @@
 .list-games__container {
 	align-items: center;
-	background-image: linear-gradient(#1A3F56,#1B2838);
+	background-image: linear-gradient(#1A3F56 3%,#1B2838 100%);
 	/* border: solid thin black; */
 	display:flex;
 	height: 100%;
@@ -19,5 +19,5 @@
 	width: 100%;
 }
 .awssld__content{
-	background-image: linear-gradient(#1A3F56,#1B2838);
+	background-image: linear-gradient(#1A3F56 ,#1B2838 25%);
 }

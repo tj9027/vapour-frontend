@@ -3,10 +3,12 @@ import './styles/App.css';
 import Main from './components/main-components/Main';
 import Navigation from './components/main-components/Navigation';
 import Footer from './components/main-components/Footer';
-import { Switch, Route, Router } from 'react-router-dom';
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import SocialMain from './components/chat-players-components/SocialMain';
+import players from './mocks/playerlist';
 
 function App() {
+  const [user, setUser] = useState(players[0]);
 
   return (
     <Router>
@@ -16,8 +18,8 @@ function App() {
           <Route exact path="/">
             <Main />
           </Route>
-          <Route path="/social">
-            <SocialMain />
+          <Route exact path="/social">
+            <SocialMain user={user} />
           </Route>
         </Switch>
         <Footer />
