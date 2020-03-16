@@ -20,7 +20,7 @@ const ChatHeader = ({ secondUser }) => {
 				{secondUser.username}
 			</p>
 			<p className="chat-header__status">
-				{status()}
+				<span className={`chat-header__status-icon ${status()}`}></span>
 			</p>
 		</div >
 	)

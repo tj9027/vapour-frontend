@@ -30,7 +30,7 @@ code {
     monospace;
 }
 
-
+/*general button*/
 .button{
   color:#b8b6b4;
   margin: 1.2rem;
@@ -39,4 +39,16 @@ code {
 }
 .button:hover {
   color: white;
+}
+
+/*player status icon colour*/
+
+.online {
+ background-color: #03b5eb;
+}
+.away {
+  background-color: #fff59d;
+}
+.offline {
+  background-color: #b0bec5;
 }
