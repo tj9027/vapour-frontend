@@ -19,7 +19,7 @@ function App() {
             <Main />
           </Route>
           <Route exact path="/social">
-            <SocialMain user={user} />
+            <SocialMain user={user} setUser={setUser} />
           </Route>
         </Switch>
         <Footer />

@@ -15,7 +15,7 @@ const ChatForm = ({ handleChatSubmit, user }) => {
 					if (value) {
 						handleChatSubmit(
 							{
-								timeStamp: new Date().getTime(),
+								timeStamp: new Date(),
 								id: user.id,
 								username: user.username,
 								message: value

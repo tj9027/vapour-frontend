@@ -1,13 +1,26 @@
 .player-list__container{
+	background-color: #1D1F24;
 	border: solid thin black;
 	width: 30rem;
-	background-color: #1D1F24;
 }
 .player-list__user-container{
+	display: flex;
+	justify-content: center;
 	border-bottom: 1px solid rgba(67, 73, 83, 0.5);
 }
-.player-list__user-container p{
+.player-list__status-selector{
 	background-color: transparent;
+	border: none;
+  color: #b8b6b4;
 	display: block;	
+	padding: .6px;
 	text-shadow: 0rem 0rem 1rem #03b5eb;
+}
+select:focus {
+	box-shadow: none;
+	border: none;
+	outline: none;
+}
+option{
+	background-color: none;
 }

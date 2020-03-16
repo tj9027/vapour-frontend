@@ -4,7 +4,7 @@ import ChatContainer from './chat-components/ChatContainer';
 import '../../styles/socialmain.css';
 import chatdb from '../../mocks/chatdb';
 
-const SocialMain = ({ user }) => {
+const SocialMain = ({ user, setUser }) => {
 	const [chatting, setChatting] = useState();
 	const [messages, setMessages] = useState();
 	let chatSessionId = '';
@@ -20,7 +20,7 @@ const SocialMain = ({ user }) => {
 	}
 	return (
 		<div className="social-main__container">
-			<PlayerList user={user} handleShowChat={handleShowChat} />
+			<PlayerList user={user} handleShowChat={handleShowChat} setUser={setUser} />
 			{chatting && <ChatContainer
 				handleChatSubmit={handleChatSubmit}
 				user={user}

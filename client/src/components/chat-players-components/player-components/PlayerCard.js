@@ -9,11 +9,12 @@ const PlayerCard = ({ player, handleShowChat }) => {
 	return (
 		<div
 			className={`player-card__container ${status()}`}
-			onClick={e => { e.preventDefault(); handleShowChat(player); }}
 		>
 			<h4 className="player-card__player-name">{player.username}</h4>
 			<div
-				className={`player-card__button ${statusButton()}`}>
+				className={`player-card__button ${statusButton()}`}
+				onClick={e => { e.preventDefault(); player.status > 0 && handleShowChat(player); }}
+			>
 				<img
 					className="player-card__icon"
 					src={chatIcon}

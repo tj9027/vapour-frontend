@@ -7,3 +7,9 @@
 	height: 5rem;
 	width:100%;
 }
+
+.chat-header__status {
+	margin-left: .6rem;
+	font-size: 1.4rem;
+	font-variant: normal;
+}
