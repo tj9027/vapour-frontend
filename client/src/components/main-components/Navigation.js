@@ -1,9 +1,14 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../redux/actions/session-actions';
+
 import '../../styles/main-styles/navigation.css';
 import logo from '../../assets/images/logo.svg';
 import { Link } from 'react-router-dom';
 
 const Navigation = () => {
+	const dispatch = useDispatch();
+
 	return (
 		<div className="navigation__container ">
 			<Link
@@ -21,8 +26,7 @@ const Navigation = () => {
 				<div >
 					Players & Chat
 			</div>
-			</Link>
-			<div className="navigation__logout button">
+			<div className="navigation__logout button" onClick={() => dispatch(logout())}>
 				log out
 			</div>
 		</div>
