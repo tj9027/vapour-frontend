@@ -3,13 +3,13 @@ import playerList from '../../../mocks/playerlist';
 import '../../../styles/player-styles/playerlist.css';
 import PlayerCard from './PlayerCard';
 
-const PlayerList = ({ user, handleShowChat, setUser }) => {
-	const randomNumber = () => Math.floor(Math.random() * 10000);
+const PlayerList = ( { user, handleShowChat }) => {
+
 	const playerListToComponent = playerList.map(player => {
-		if (player.id !== user.id) return (
+		if (player._id !== user._id) return (
 			<PlayerCard
 				player={player}
-				key={randomNumber()}
+				key={player._id}
 				handleShowChat={handleShowChat}
 			/>
 		)
@@ -19,9 +19,9 @@ const PlayerList = ({ user, handleShowChat, setUser }) => {
 		<div className="player-list__container">
 			<div className="player-list__user-container">
 				<div className="toHaveShadow"></div>
-				<h3 className={user.status ? "button" : "disabled"}>{user.username}</h3>
+				<h3 className={user.status ? "button" : "disabled"}>{user.name}</h3>
 
-				<select
+				{/* <select
 					className="player-list__status-selector"
 					value={user.status}
 					onChange={e => {
@@ -32,7 +32,7 @@ const PlayerList = ({ user, handleShowChat, setUser }) => {
 					<option value='1'>online</option>
 					<option value='2'>away</option>
 					<option value='0'>offline</option>
-				</select>
+				</select> */}
 			</div>
 			<div className="player-list__list-container">
 				{playerListToComponent}

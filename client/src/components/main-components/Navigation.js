@@ -17,7 +17,7 @@ const Navigation = () => {
 			<Link
 				className="navigation__player-list-toggle button"
 				onClick={e => { }}
-				to="/social">
+				to="/messages">
 				<div >
 					Players & Chat
 			</div>

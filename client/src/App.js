@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles/App.css';
 import Main from './components/main-components/Main';
 import Navigation from './components/main-components/Navigation';
@@ -9,19 +9,14 @@ import players from './mocks/playerlist';
 import GameScreen from './components/game-components/GameScreen';
 
 function App() {
-  const [user, setUser] = useState(players[0]);
 
   return (
     <Router>
       <div className="App">
         <Navigation />
         <Switch>
-          <Route exact path="/">
-            <Main />
-          </Route>
-          <Route exact path="/social">
-            <SocialMain user={user} setUser={setUser} />
-          </Route>
+          <Route exact path="/" component={Main} />
+          <Route exact path="/messages" component={SocialMain} />
           <Route exact path="/game/:id">
             <GameScreen />
           </Route>
