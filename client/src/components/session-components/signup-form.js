@@ -4,80 +4,56 @@ import { signup } from '../../redux/actions/session-actions';
 
 export const SignupForm = props => {
   const dispatch = useDispatch();
-  const errs = useSelector( state =>  state.errors.session)
 
-  const [formState, setFormState] = useState({
-    name: '',
-    email: '',
-    password: '',
-    password2: '',
-    errors: {},
-  });
-
-  useEffect( () => {
-    setFormState(errors => errs)
-  }, [formState.errors])
+  const [name, setName]  = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
   
   
-  const update = field => {
-    return e => setFormState({
-      [field]: e.currentTarget.value
-    });
-  }
-
   const handleSubmit = (e) => {
     e.preventDefault();
     let user = {
-      name: formState.name,
-      email: formState.email,
-      password: formState.password,
-      password2: formState.password2
+      name: name,
+      email: email,
+      password: password,
+      password2: password2
     };
 
     dispatch(signup(user)); 
   }
-
-  const renderErrors = () => {
-    return (
-      <ul>
-        {Object.keys(formState.errors).map((error, i) => (
-          <li key={`error-${i}`}>{formState.errors[error]}</li>
-        ))}
-      </ul>
-    );
-  };
-      
+     
   return (
     <div className="signup-form-container">
       <form onSubmit={handleSubmit}>
         <div className="signup-form">
           <br/>
             <input type="text"
-              value={formState.name}
-              onChange={update('name')}
+              value={name || ""}
+              onChange={(e) => setName(e.target.value)}
               placeholder="Name"
             />
           <br/>
             <input type="text"
-              value={formState.email}
-              onChange={update('email')}
+              value={email || ""}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
             />
           <br/>
             <input type="password"
-              value={formState.password}
-              onChange={update('password')}
+              value={password || ""}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
             />
           <br/>
             <input type="password"
-              value={formState.password2}
-              onChange={update('password2')}
+              value={password2 || ""}
+              onChange={(e) => setPassword2(e.target.value)}
               placeholder="Confirm Password"
             />
           <br/>
           <input type="submit" value="Submit" />
-          {renderErrors()}
+
         </div>
       </form>
     </div>

@@ -11,7 +11,13 @@ export const setAuthToken = token => {
 };
 
 export const signup = (userData) => {
-  return axios.post('/users/register', userData);
+  return fetch("http://localhost:4000/users/register", {
+    method: 'POST',
+    headers: postHeaders,
+    mode: 'cors',
+    body: JSON.stringify(userData),
+    redirect: 'follow'
+  }); 
 };
 
 

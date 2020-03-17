@@ -9,6 +9,10 @@ const initialState = {
   user: _nullUser,
   errors: []
 };
+// user = {
+//   name:
+//   id:  
+// }
 
 export default function(state = initialState, action) {
   switch (action.type) {
@@ -18,7 +22,7 @@ export default function(state = initialState, action) {
         isAuthenticated: !!action.currentUser,
         user: action.currentUser
       };
-    case RECEIVE_USER_LOGOUT:
+    case 'RECEIVE_USER_LOGOUT':
       return {
         isAuthenticated: false,
         user: _nullUser

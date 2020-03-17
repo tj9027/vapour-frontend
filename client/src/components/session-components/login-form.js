@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "../../redux/actions/session-actions";
+import { Link } from 'react-router-dom';
 
 export const LoginForm = props => {
   const dispatch = useDispatch();
-  // const errs = useSelector( state =>  state.errors.session)
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
-
-  // useEffect( () => {
-  //   setFormState(errors => errs)
-  // }, [formState.errors])
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -22,6 +18,10 @@ export const LoginForm = props => {
 
     dispatch(login(user));
   };
+
+  useEffect(() => {
+    console.log('current user: ', props.currentUser);
+}, [props.currentUser])
 
   return (
     <div>
@@ -44,7 +44,8 @@ export const LoginForm = props => {
           />
           <br />
           <input type="submit" value="Submit" />
-          {/* {renderErrors()} */}
+          <br />
+          <Link to="/signup">No account yet? Please register</Link>
         </div>
       </form>
     </div>

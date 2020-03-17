@@ -28,10 +28,12 @@ const Root = ({ store }) => (
 
 document.addEventListener("DOMContentLoaded", () => {
     let store;
-  
+    if (!localStorage.jwtToken || localStorage.jwtToken === undefined) {
+      // If this is a first time user, start with an empty store
+      store = configureStore({});
+    
+    } else {
     // If a returning user has a session token stored in localStorage
-    if (localStorage.jwtToken) {
-  
       // Set the token as a common header for all axios requests
       // TODO is there a way to do this with fetch, which actually works, unlike axios?
       setAuthToken(localStorage.jwtToken);
@@ -50,11 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
           store.dispatch(logout());
           window.location.href = '/login';
         } 
-    } else {
-      // If this is a first time user, start with an empty store
-      store = configureStore({});
-      }
-      
+    }
       ReactDOM.render(<Root store={store} />, document.getElementById("root"));
 });
 
