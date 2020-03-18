@@ -4,11 +4,10 @@ import '../../../styles/chat-styles/messagelist.css';
 
 const MessageList = ({ messages }) => {
 
-  // const randomNumber = () => Math.floor(Math.random() * 10000);
   if (messages.length !== 0) {
     const messagesToComponent =
       messages &&
-      messages.messageHistory.map((mes, index) => (
+      messages.map((mes, index) => (
         <ChatMessage message={mes} key={index} />
       ));
     return (

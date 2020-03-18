@@ -24,11 +24,11 @@ const SocialMain = () => {
   const currentUser = useSelector(state => state.session.user);
 
   useEffect(() => {
-    socket = io(ENDPOINT+'messages');
+    socket = io(ENDPOINT);
 
     if (secondUser) {
       let messageHistory, roomId;
-      if (!currentUser.messages[secondUser._id]) {
+      if (currentUser.messages === {} || !currentUser.messages.get(secondUser._id.toString())) {
         postNewThread(
           ENDPOINT + 'users/new-thread',
           secondUser._id,
@@ -39,9 +39,9 @@ const SocialMain = () => {
       } else {
         ({ messageHistory, roomId } = currentUser.messages[secondUser._id]);
       }
-      const room = currentUser.messages[secondUser._id];
-      const roomid = room.roomId;
-      socket.emit('join', currentUser.name, currentUser._id, roomid, () => {});
+
+      const roomid = currentUser.messages.get(secondUser._id.toString()).roomId;
+      socket.emit('join', currentUser._id, roomid, () => {});
     }
     return () => {
       socket.emit('disconnect');
@@ -63,7 +63,7 @@ const SocialMain = () => {
 
   useEffect(() => {
     socket.on('message', message => {
-      setMessages([...messages, message]);
+      setMessages([...messages, message.message]);
     });
   }, [messages]);
 
@@ -72,27 +72,32 @@ const SocialMain = () => {
 
   const handleChatSubmit = e => {
     e.preventDefault();
-    const roomId = secondUser.messages[user._id].roomId;
-    console.log(socket)
-    
+
     if (message) {
-      sendMessage(
-        ENDPOINT + 'messages',
-        message,
-        secondUser._id,
-        user._id
-      ).then(res => {
-        socket.emit('sendMessage', message, roomId, () => setMessage(''));
-      });
-    
-  };}
+      sendMessage(ENDPOINT + 'messages', message, secondUser._id, user._id)
+        .then(res => socket.emit('message', res, () => setMessage('')))
+        .catch(err => err);
+    }
+  };
 
   const handleShowChat = secondUser => {
+    let roomId, messageHistory;
+    if (!currentUser.messages[secondUser._id]) {
+      postNewThread(
+        ENDPOINT + 'users/new-thread',
+        secondUser._id,
+        currentUser._id
+      ).then(res => {
+        ({ roomId, messageHistory } = res);
+      });
+    } else {
+      ({ messageHistory, roomId } = currentUser.messages[secondUser._id]);
+    }
     setChatting(secondUser);
     setSecondUser(secondUser);
 
     getPlayerMessages(ENDPOINT, user, secondUser)
-      .then(res => setMessages(res))
+      .then(res => setMessages(res.messageHistory))
       .catch(err => console.log(err));
   };
 
