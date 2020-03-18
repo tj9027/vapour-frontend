@@ -1,0 +1,14 @@
+.App {
+  box-sizing: border-box;
+  align-items: center;
+  color: #b8b6b4;
+  font-size: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+

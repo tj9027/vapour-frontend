@@ -1,0 +1,7 @@
+.social-main__container {
+	background-color: #434953;
+	display:flex;
+	height:100%;
+	position: relative;
+	width: 100%;
+}

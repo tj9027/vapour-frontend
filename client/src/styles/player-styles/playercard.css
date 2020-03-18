@@ -1,0 +1,37 @@
+.player-card__container {
+	align-items: center;
+	background-color: #434953;
+	border: 2px solid #3B4048;
+	display: flex;
+	justify-content: space-around;
+	margin: 1.2rem;
+}
+.online {
+	color: white
+}
+
+.offline {
+	color: grey
+}
+
+.button-enabled {
+	background-color: #26a69a;
+}
+
+.button-disabled {
+	background-color: grey;
+}
+
+.player-card__button {
+	align-items: center;
+	border-radius: 50%;
+	display: flex;
+	height:4rem;
+	justify-content: center;
+	overflow: hidden;
+	width:4rem;
+}
+
+.player-card__icon {
+	max-width: 90%;
+}

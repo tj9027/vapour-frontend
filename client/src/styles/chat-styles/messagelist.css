@@ -1,0 +1,11 @@
+.message-list__container {
+	/* align-items: center; */
+	background-color: #1D1F24;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	height: 100%;
+	overflow: hidden;
+	/* justify-content: center; */
+	width: 100%;
+}

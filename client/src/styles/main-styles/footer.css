@@ -1,0 +1,9 @@
+.footer__container{
+	align-items: center;
+	background-color: #171a21;
+	border-top: 2px solid #16191f;
+	display: flex;
+	justify-content: space-between;
+	height: 6.0rem;
+	width: 100%;
+}
