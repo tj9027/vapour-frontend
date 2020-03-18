@@ -12,7 +12,6 @@ import { LoginForm } from './components/session-components/login-form';
 import { SignupForm } from './components/session-components/signup-form';
 import { setAuthToken } from './api-services/session-api-util'; // the session utility
 import { logout } from './redux/actions/session-actions';
-
  
 const Root = ({ store }) => (
   <Provider store={store}>

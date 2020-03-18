@@ -1,8 +1,28 @@
 .chat-message__container {
-	border-radius: 1.2rem;
-	max-width: 45%;
-	margin:.6rem;
-	padding: .6rem;
+	border-bottom: .1rem solid#21272F;
+	/* max-width: 45%; */
+	align-items: flex-start;
+	display:flex;
+	flex-direction: column;
+	font-variant: normal;
+	justify-content: flex-start;
+	margin:.2rem;
+	padding: .2rem;
+}
+.chat-message__divider {
+	margin-bottom : .7rem;
+}
+.chat-message__line-margin {
+	margin: 0 .5rem;
+}
+.chat-message__message {
+	font-size: 1.8rem;
+	font-weight: 700;
+}
+.chat-message__time-stamp {
+	color: grey;
+	font-size: 1.1rem;
+	font-style: italic;
 }
 
 .me {
