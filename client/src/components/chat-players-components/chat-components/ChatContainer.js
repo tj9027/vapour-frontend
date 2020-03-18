@@ -10,7 +10,7 @@ const ChatContainer = ({ handleChatSubmit, user, messages, setMessage, message, 
 	
 	return (
 		<div className="chat__container">
-			{/* <ChatHeader secondUser={secondUser} chatSessionId={chatSessionId} /> */}
+			<ChatHeader secondUser={secondUser} chatSessionId={chatSessionId} />
 			<MessageList messages={messages} />
 			<ChatForm handleChatSubmit={handleChatSubmit} roomid={roomid} setMessage={setMessage} message={message} user={user} />
 		</div>
