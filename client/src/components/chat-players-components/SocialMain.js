@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
-import queryString from 'query-string';
 import PlayerList from './player-components/PlayerList';
 import ChatContainer from './chat-components/ChatContainer';
 import '../../styles/socialmain.css';
-import Moment from 'moment';
-import chatdb from '../../mocks/chatdb';
 import playerlistmock from '../../mocks/playerlist';
 import {
   fetchData,
@@ -25,13 +22,10 @@ const SocialMain = ({ location }) => {
   const ENDPOINT = 'http://localhost:4000/';
 
   useEffect(() => {
-    console.log(secondUser);
     socket = io(ENDPOINT);
     if (secondUser) {
-      console.log()
       fetchData(ENDPOINT, user, secondUser, socket, setMessages);
     }
-
     return () => {
       socket.emit('disconnect');
       socket.off();
@@ -63,9 +57,7 @@ const SocialMain = ({ location }) => {
 
   const handleShowChat = secondUser => {
     let messageHistory, roomId;
-    console.log('showing chat')
     if (!user.messages[secondUser._id]) {
-      console.log('hey')
       postNewThread(
         ENDPOINT + 'users/new-thread',
         secondUser._id,
@@ -74,7 +66,6 @@ const SocialMain = ({ location }) => {
     } else {
       ({ messageHistory, roomId } = user.messages[secondUser._id]);
     }
-    console.log(messageHistory)
     setMessages(messageHistory);
     setChatting(secondUser);
     setSecondUser(secondUser);

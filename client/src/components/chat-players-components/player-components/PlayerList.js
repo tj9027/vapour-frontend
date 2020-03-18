@@ -4,7 +4,7 @@ import '../../../styles/player-styles/playerlist.css';
 import PlayerCard from './PlayerCard';
 
 const PlayerList = ( { user, handleShowChat }) => {
-
+	
 	const playerListToComponent = playerList.map(player => {
 		if (player._id !== user._id) return (
 			<PlayerCard
