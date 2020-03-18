@@ -4,7 +4,7 @@ import gamedb from '../../mocks/gameslist';
 
 const GameScreen = () => {
 	const { id } = useParams();
-	const game = gamedb.find(el => el.id == id);
+	const game = gamedb.find(el => el.id === id);
 	return (
 		<div>
 			<div className="game-screen__header">

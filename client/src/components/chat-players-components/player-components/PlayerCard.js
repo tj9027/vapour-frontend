@@ -21,11 +21,11 @@ const PlayerCard = ({ player, handleShowChat }) => {
         }}
         to={`/messages/?name=${player.name}`}
       >
-        <img className="player-card__icon" src={chatIcon}></img>
+        <img className="player-card__icon" src={chatIcon} alt="player-thumbnail"></img>
       </Link>
 
       <div className={`player-card__button button-disabled`}>
-        <img className="player-card__icon" src={phoneIcon} />
+        <img className="player-card__icon" src={phoneIcon} alt="player-thumbnail"/>
       </div>
     </div>
   );
