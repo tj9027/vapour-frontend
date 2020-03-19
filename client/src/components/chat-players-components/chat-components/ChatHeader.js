@@ -17,7 +17,7 @@ const ChatHeader = ({ secondUser }) => {
 	return (
 		<div className="chat-header__container">
 			<p>
-				{secondUser.username}
+				{secondUser.name}
 			</p>
 			<p className="chat-header__status">
 				<span className={`chat-header__status-icon ${status()}`}></span>

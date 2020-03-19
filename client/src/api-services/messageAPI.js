@@ -1,4 +1,5 @@
-const sendMessage = async (url, newMessage, recipientId, senderId) => {
+const sendMessage = async (url, newMessage, recipientId, senderId, senderName) => {
+  console.log(senderName)
   const message = { message: newMessage, time: Date.now() };
   const response = await fetch(url, {
     method: 'POST',
@@ -6,7 +7,7 @@ const sendMessage = async (url, newMessage, recipientId, senderId) => {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ message, recipientId, senderId })
+    body: JSON.stringify({ message, recipientId, senderId, senderName })
   });
   return response.json();
 };
@@ -23,10 +24,10 @@ const postNewThread = async (url, recipientId, senderId) => {
   return response.json();
 };
 
-const getPlayerMessages = async (ENDPOINT, user, secondUser) => {
+const getPlayerMessages = async (ENDPOINT, sender, recipient) => {
   const response = await fetch(
     //from parameter determined the person who has LOGGED IN, to detetmines to whom the messages will be sent
-    ENDPOINT + `users/find/?from=${user._id}&to=${secondUser._id}`
+    ENDPOINT + `users/find/?from=${sender._id}&to=${recipient._id}`
   )
     .then(res => res.json())
     .catch(err => err);
