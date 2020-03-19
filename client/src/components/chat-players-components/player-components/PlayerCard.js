@@ -21,10 +21,11 @@ const PlayerCard = ({ player, handleShowChat }) => {
         }}
         to={`/messages/?name=${player.name}`}
       >
-        <img className="player-card__icon" src={chatIcon}></img>
+        <img className="player-card__icon" src={chatIcon} alt="player-thumbnail"></img>
       </Link>
 
       <div className={`player-card__button button-disabled`}>
+<<<<<<< HEAD
         {/* /////////////////////////////////////////////////////////////////////////////////// */}
         {/* flow: 
         caller clicks on call button by a recipient player's name --> sends them an 'offer'
@@ -34,6 +35,9 @@ const PlayerCard = ({ player, handleShowChat }) => {
         --> caller's camera/voice is initiated && recipient's camera/voice is initiated */}
         {/* this is where rtc client logic goes */}
         <img className="player-card__icon" src={phoneIcon} />
+=======
+        <img className="player-card__icon" src={phoneIcon} alt="player-thumbnail"/>
+>>>>>>> 7207ccf674c2996ae94a4c7faa6e5b90e9ae00c1
       </div>
     </div>
   );
