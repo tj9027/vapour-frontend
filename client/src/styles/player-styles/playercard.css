@@ -25,14 +25,14 @@
 .player-card__player-name-container{
 	padding-left: 1.4rem;
 	text-align: left ;
-width:50%;
+width:30%;
 }
 
 .player-card__buttons-container{
 	align-items: center;
 	display:flex;
 	justify-content: space-evenly;
-	width:50%
+	width:70%
 }
 
 .player-card__button {

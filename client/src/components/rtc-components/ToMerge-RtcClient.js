@@ -1,6 +1,6 @@
 //our username 
 var name;
-var connectedUser;
+var userToMsg;
 
 //connecting to our signaling server
 // replace with correct address: 
@@ -17,27 +17,31 @@ conn.onmessage = function (msg) {
   var data = JSON.parse(msg.data);
 
   switch (data.type) {
-    // remove these for merge --> use existing login route
-    // case "login":
-    //   handleLogin(data.success);
-    //   break;
 
-    // when we want to call someone
+    // when someone tries to call us
+    case "receiveCall":
+    // handleReceiveCall(data.proposal, data.name)
+
+    // when the recipient accepts our call and makes an offer
     case "offer":
       handleOffer(data.offer, data.name);
       break;
-    // when somebody wants to call us 
+
+    // when the caller responds with an answer
     case "answer":
       handleAnswer(data.answer);
       break;
+
     // when a remote peer sends an ice candidate to us 
     case "candidate":
       handleCandidate(data.candidate);
       break;
+
     // when ending a call
     case "leave":
       handleLeave();
       break;
+
     default:
       break;
   }
@@ -47,30 +51,25 @@ conn.onerror = function (err) {
   console.log("Got error", err);
 };
 
-//alias for sending JSON encoded messages 
+//alias for sending JSON encoded messages -- TODO :: check/fix this re. message.name
 function send(message) {
   //attach the other peer username to our messages 
-  if (connectedUser) {
-    message.name = connectedUser;
+  if (userToMsg) {
+    message.name = userToMsg;
   }
   conn.send(JSON.stringify(message));
 };
 
 //UI selectors block 
 
-// can be removed for integration
-// var loginPage = document.querySelector('#loginPage');
-// var usernameInput = document.querySelector('#usernameInput');
-// var loginBtn = document.querySelector('#loginBtn');
+const callPage = document.querySelector('#callPage');
+// edit for integration --> call btn will be directly linked to another user
+// const callToUsernameInput = document.querySelector('#callToUsernameInput');
 
-var callPage = document.querySelector('#callPage');
-// can be removed for integration --> call btn will be directly linked to another user
-// var callToUsernameInput = document.querySelector('#callToUsernameInput');
-
-var callBtn = document.querySelector('#callBtn');
-var hangUpBtn = document.querySelector('#hangUpBtn');
-var localVideo = document.querySelector('#localVideo');
-var remoteVideo = document.querySelector('#remoteVideo');
+const acceptCallBtn = document.querySelector('#acceptCallBtn');
+const hangUpBtn = document.querySelector('#hangUpBtn');
+const localVideo = document.querySelector('#localVideo');
+const remoteVideo = document.querySelector('#remoteVideo');
 
 // alternative audio-only case - replace above two lines with:
 // var localAudio = document.querySelector('#localAudio');
@@ -79,76 +78,110 @@ var remoteVideo = document.querySelector('#remoteVideo');
 var yourConn;
 var stream;
 
+// TODO :: figure out what to do with these:
 callPage.style.display = "none";
-
-// remove following login handler for integration
-// Login when the user clicks the button 
-loginBtn.addEventListener("click", function (event) {
-  name = usernameInput.value;
-
-  if (name.length > 0) {
-    send({
-      type: "login",
-      name: name
-    });
-  }
-});
+callPage.style.display = "block";
 
 // refactored handleLogin & calling / receiving for integration
-function handleLogin(success) {
-  if (success === false) {
-    alert("Ooops...try a different username");
-  } else {
-    loginPage.style.display = "none";
-    callPage.style.display = "block";
 
-    //Starting a peer connection 
+const handleCreateCall = (player) => {
+  console.log(player);
+  //Starting a peer connection 
+  //getting local video stream 
+  navigator.mediaDevices.getUserMedia = (navigator.mediaDevices.getUserMedia ||
+    navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia ||
+    navigator.msGetUserMedia);
 
-    //getting local video stream 
-    navigator.mediaDevices.getUserMedia = (navigator.mediaDevices.getUserMedia ||
-      navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia ||
-      navigator.msGetUserMedia);
+  navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+    // for audio only: navigator.mediaDevices.getUserMedia({ video: false, audio: true })
+    .then(function (stream) {
+      //displaying local video stream on the page 
+      localVideo.srcObject = stream;
+      //using Google public stun server 
+      var configuration = {
+        "iceServers": [{ "url": "stun:stun2.1.google.com:19302" }]
+      };
+      yourConn = new RTCPeerConnection(configuration);
+      // setup stream listening 
+      yourConn.addStream(stream);
+      //when a remote user adds stream to the peer connection, we display it 
+      yourConn.onaddstream = function (e) {
+        remoteVideo.srcObject = e.stream;
+        // for audio-only stream:
+        // remoteAudio.srcObject = e.stream;
+      };
+      // Setup ice handling 
+      yourConn.onicecandidate = function (event) {
+        if (event.candidate) {
+          send({
+            type: "candidate",
+            candidate: event.candidate
+          });
+        }
+      };
+    });
+  send({
+    type: "receiveCall" // is this possible?
+  });
 
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-      // for audio only: 
-      // navigator.mediaDevices.getUserMedia({ video: false, audio: true })
-      .then(function (stream) {
-        //displaying local video stream on the page 
-        localVideo.srcObject = stream;
-        //using Google public stun server 
-        var configuration = {
-          "iceServers": [{ "url": "stun:stun2.1.google.com:19302" }]
-        };
-        yourConn = new RTCPeerConnection(configuration);
-        // setup stream listening 
-        yourConn.addStream(stream);
-        //when a remote user adds stream to the peer connection, we display it 
-        yourConn.onaddstream = function (e) {
-          remoteVideo.srcObject = e.stream;
-          // for audio-only stream:
-          // remoteAudio.srcObject = e.stream;
-        };
-        // Setup ice handling 
-        yourConn.onicecandidate = function (event) {
-          if (event.candidate) {
-            send({
-              type: "candidate",
-              candidate: event.candidate
-            });
-          }
-        };
-      });
-  }
-};
+}
 
-//initiating a call 
-callBtn.addEventListener("click", function () {
+
+// makeCallBtn.addEventListener("click", function () {
+
+// });
+
+
+function receiveCall() {
+  // trigger pop-up on screen
+}
+
+rejectCallBtn.addEventListener("click", function () {
+  send({
+    type: "leave"
+  });
+  handleLeave();
+});
+
+//initiating an RTC connection 
+// this is the 'accept call' button on the recipient side
+acceptCallBtn.addEventListener("click", function () {
+  navigator.mediaDevices.getUserMedia = (navigator.mediaDevices.getUserMedia ||
+    navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia ||
+    navigator.msGetUserMedia);
+
+  navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+    .then(function (stream) {
+      //display local video stream on the page 
+      localVideo.srcObject = stream;
+      //using Google public stun server 
+      var configuration = {
+        "iceServers": [{ "url": "stun:stun2.1.google.com:19302" }]
+      };
+      yourConn = new RTCPeerConnection(configuration);
+      // setup stream listening 
+      yourConn.addStream(stream);
+      //display caller's video stream to the peer connection 
+      yourConn.onaddstream = function (e) {
+        remoteVideo.srcObject = e.stream;
+      };
+      // Setup ice handling 
+      yourConn.onicecandidate = function (event) {
+        if (event.candidate) {
+          send({
+            type: "candidate",
+            candidate: event.candidate
+          });
+        }
+      };
+    });
+  // make 'offer' from recipient to caller
+  // change callToUsername function to reference peer name
   var callToUsername = callToUsernameInput.value;
-  // replace this with checking if the username/uuid being called is online -- or only allow calling to online users;
-  // add an 'accept call' button on recipient side - instead of the following if statement, or in 'handleOffer' function below
   if (callToUsername.length > 0) {
-    connectedUser = callToUsername;
+    userToMsg = callToUsername;
     // create an offer 
     yourConn.createOffer(function (offer) {
       send({
@@ -161,6 +194,7 @@ callBtn.addEventListener("click", function () {
     });
   }
 });
+
 
 //when somebody sends us an offer 
 function handleOffer(offer, name) {
@@ -197,9 +231,13 @@ hangUpBtn.addEventListener("click", function () {
 });
 
 function handleLeave() {
-  connectedUser = null;
+  userToMsg = null;
   remoteVideo.src = null;
   yourConn.close();
   yourConn.onicecandidate = null;
   yourConn.onaddstream = null;
+  // TODO :: video component should disappear from caller's screen 
+  // && pop-up should disappear from recipient/rejector's screen
 };
+
+export { handleCreateCall };

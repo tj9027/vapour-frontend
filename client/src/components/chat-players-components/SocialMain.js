@@ -4,6 +4,7 @@ import { getCurrentUser } from '../../redux/actions/current-user-actions';
 import io from 'socket.io-client';
 import PlayerList from './player-components/PlayerList';
 import ChatContainer from './chat-components/ChatContainer';
+import RtcContainer from '../rtc-components/RtcContainer';
 import '../../styles/socialmain.css';
 import {
   getPlayerMessages,
@@ -16,6 +17,8 @@ let socket;
 
 const SocialMain = () => {
   const [user, setUser] = useState();
+  const [calling, setCalling] = useState();
+  const [chatting, setChatting] = useState();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
   const [secondUser, setSecondUser] = useState();
@@ -51,7 +54,7 @@ const SocialMain = () => {
         ({ messageHistory, roomId } = currentUser.messages[secondUser._id]);
       }
 
-      socket.emit('join', currentUser._id, roomId, () => {});
+      socket.emit('join', currentUser._id, roomId, () => { });
     }
     return () => {
       socket.emit('disconnect');
@@ -77,7 +80,6 @@ const SocialMain = () => {
     });
   }, [messages]);
 
-  const [chatting, setChatting] = useState();
   let chatSessionId = '';
 
   const handleChatSubmit = e => {
@@ -91,6 +93,7 @@ const SocialMain = () => {
   };
 
   const handleShowChat = secondUser => {
+    console.log(secondUser);
     let roomId, messageHistory;
     if (currentUser.messages === {} || !currentUser.messages[secondUser._id]) {
       postNewThread(
@@ -111,6 +114,10 @@ const SocialMain = () => {
       .catch(err => console.log(err));
   };
 
+  const handleShowCall = targetUser => {
+    setSecondUser(targetUser);
+  }
+
   if (players) {
     return (
       <div className="social-main__container">
@@ -118,6 +125,9 @@ const SocialMain = () => {
           currentUser={currentUser}
           players={players}
           handleShowChat={handleShowChat}
+          setCalling={setCalling}
+          calling={calling}
+          handleShowCall={handleShowCall}
         />
         {chatting && (
           <ChatContainer
@@ -129,6 +139,9 @@ const SocialMain = () => {
             setMessage={setMessage}
             messages={messages}
           />
+        )}
+        {calling && (
+          <RtcContainer secondUser={secondUser} />
         )}
       </div>
     );
