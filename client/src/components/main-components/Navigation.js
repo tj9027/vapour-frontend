@@ -20,14 +20,15 @@ const Navigation = () => {
         onClick={e => {}}
         to="/messages"
       >
-        <div>Players & Chat</div>
+        <div>PLAYERS & CHAT</div>
       </Link>
-      <div
+      <Link
         className="navigation__logout button"
         onClick={() => dispatch(logout())}
+        to='/'
       >
-        log out
-      </div>
+        SIGN OUT
+      </Link>
     </div>
   );
 };
