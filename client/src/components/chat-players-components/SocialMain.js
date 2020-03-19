@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getCurrentUser } from '../../redux/actions/current-user-actions';
 import io from 'socket.io-client';
 import PlayerList from './player-components/PlayerList';
 import ChatContainer from './chat-components/ChatContainer';
@@ -21,18 +22,28 @@ const SocialMain = () => {
   const [players, setPlayers] = useState();
 
   const ENDPOINT = 'http://localhost:4000/';
-  const currentUser = useSelector(state => state.session.user);
+
+  const dispatch = useDispatch();
+  const sessionUser = useSelector(state => state.session.user);
+  const currentUser = useSelector(state => state.currentUser);
+
+  useEffect(() => {
+    dispatch(getCurrentUser(sessionUser._id));
+  }, [dispatch]);
 
   useEffect(() => {
     socket = io(ENDPOINT);
 
     if (secondUser) {
       let messageHistory, roomId;
-      if (currentUser.messages === {} || !currentUser.messages.get(secondUser._id.toString())) {
+      if (
+        currentUser.messages === {} ||
+        !currentUser.messages[secondUser._id]
+      ) {
         postNewThread(
           ENDPOINT + 'users/new-thread',
-          secondUser._id,
-          currentUser._id
+          currentUser._id,
+          secondUser._id
         ).then(res => {
           ({ roomId, messageHistory } = res);
         });
@@ -40,8 +51,7 @@ const SocialMain = () => {
         ({ messageHistory, roomId } = currentUser.messages[secondUser._id]);
       }
 
-      const roomid = currentUser.messages.get(secondUser._id.toString()).roomId;
-      socket.emit('join', currentUser._id, roomid, () => {});
+      socket.emit('join', currentUser._id, roomId, () => {});
     }
     return () => {
       socket.emit('disconnect');
@@ -50,8 +60,8 @@ const SocialMain = () => {
   }, [ENDPOINT, secondUser]);
 
   useEffect(() => {
-    if (!user && !players) {
-      setUser(Object.assign(currentUser, { status: '1' }));
+    if (!players) {
+      Object.assign(currentUser, { status: '1' });
       getPlayers(ENDPOINT)
         .then(res => res.map(user => Object.assign(user, { status: '1' })))
         .then(res => {
@@ -74,7 +84,7 @@ const SocialMain = () => {
     e.preventDefault();
 
     if (message) {
-      sendMessage(ENDPOINT + 'messages', message, secondUser._id, user._id)
+      sendMessage(ENDPOINT + 'messages', message, secondUser._id, currentUser._id)
         .then(res => socket.emit('message', res, () => setMessage('')))
         .catch(err => err);
     }
@@ -82,7 +92,7 @@ const SocialMain = () => {
 
   const handleShowChat = secondUser => {
     let roomId, messageHistory;
-    if (!currentUser.messages[secondUser._id]) {
+    if (currentUser.messages === {} || !currentUser.messages[secondUser._id]) {
       postNewThread(
         ENDPOINT + 'users/new-thread',
         secondUser._id,
@@ -96,7 +106,7 @@ const SocialMain = () => {
     setChatting(secondUser);
     setSecondUser(secondUser);
 
-    getPlayerMessages(ENDPOINT, user, secondUser)
+    getPlayerMessages(ENDPOINT, currentUser, secondUser)
       .then(res => setMessages(res.messageHistory))
       .catch(err => console.log(err));
   };
@@ -105,13 +115,13 @@ const SocialMain = () => {
     return (
       <div className="social-main__container">
         <PlayerList
-          user={user}
+          currentUser={currentUser}
           players={players}
           handleShowChat={handleShowChat}
         />
         {chatting && (
           <ChatContainer
-            user={user}
+            user={currentUser}
             chatSessionId={chatSessionId}
             secondUser={secondUser}
             message={message}
