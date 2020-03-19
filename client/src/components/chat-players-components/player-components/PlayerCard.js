@@ -25,6 +25,14 @@ const PlayerCard = ({ player, handleShowChat }) => {
       </Link>
 
       <div className={`player-card__button button-disabled`}>
+        {/* /////////////////////////////////////////////////////////////////////////////////// */}
+        {/* flow: 
+        caller clicks on call button by a recipient player's name --> sends them an 'offer'
+        recipient receives a pop-up somewhere on their screen (somewhere less intrusive? e.g. top-right?) with '${name} is calling you: accept or decline'
+        on clicking 'accept', recipient sends caller an 'answer'
+        on receiving the answer, rtc connection is made --> window appears (next to chat window?) with caller & recipients camera streams
+        --> caller's camera/voice is initiated && recipient's camera/voice is initiated */}
+        {/* this is where rtc client logic goes */}
         <img className="player-card__icon" src={phoneIcon} />
       </div>
     </div>

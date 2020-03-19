@@ -5,7 +5,8 @@ const RtcHeader = () => {
 	return (
 		<div className="rtc-header__container">
 
-		//must render username of the player you are calling with
+		{/* must render username of the player you are calling with */}
+		
 		</div>
 	)
 };
