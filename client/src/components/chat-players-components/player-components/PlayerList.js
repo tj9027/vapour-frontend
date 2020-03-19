@@ -3,6 +3,7 @@ import '../../../styles/player-styles/playerlist.css';
 import PlayerCard from './PlayerCard';
 
 const PlayerList = ({ currentUser, players, handleShowCall, handleShowChat, calling, setCalling }) => {
+  console.log(players)
   const playerListToComponent = players.map(player => {
     if (player._id !== currentUser._id)
       return (
