@@ -10,13 +10,15 @@ const PlayerCard = ({ player, handleShowChat }) => {
     player.status ? 'button-enabled' : 'button-disabled';
   return (
     <div className={`player-card__container ${status()}`}>
-      <h4 className="player-card__player-name">{player.name}</h4>
-      <Link
+      <div className="player-card__player-name-container">
+        <h4 className="player-card__player-name">{player.name}</h4>
+      </div>
+      <div className="player-card__buttons-container"> <Link
         className={`player-card__button ${statusButton()}`}
         onClick={e => {
-		  console.log('you clicked!');
-		  console.log(player.name)
-        //   e.preventDefault();
+          console.log('you clicked!');
+          console.log(player.name)
+          //   e.preventDefault();
           player.status > 0 && handleShowChat(player);
         }}
         to={`/messages/?name=${player.name}`}
@@ -24,8 +26,9 @@ const PlayerCard = ({ player, handleShowChat }) => {
         <img className="player-card__icon" src={chatIcon} alt="player-thumbnail"></img>
       </Link>
 
-      <div className={`player-card__button button-disabled`}>
-        <img className="player-card__icon" src={phoneIcon} alt="player-thumbnail"/>
+        <div className={`player-card__button button-disabled`}>
+          <img className="player-card__icon" src={phoneIcon} alt="player-thumbnail" />
+        </div>
       </div>
     </div>
   );

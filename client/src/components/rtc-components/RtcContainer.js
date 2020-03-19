@@ -1,5 +1,5 @@
 import React from 'react';
-import RtcHeader from '. RtcHeader';
+// import RtcHeader from '. RtcHeader';
 import '../../styles/rtc-styles/rtccontainer.css';
 
 {/* not sure if either of these need to be included somewhere::
@@ -9,20 +9,7 @@ import '../../styles/rtc-styles/rtccontainer.css';
 const RtcContainer = () => {
   return (
     <div className="rtc__container">
-      < RtcHeader />
-      {/* remove this login for merge --> use existing login/auth route */}
-      <div id="loginPage" class="container text-center">
-        <div class="row">
-          <div class="col-md-4 col-md-offset-4">
-            <h2>WebRTC Video Demo. Please sign in</h2>
-            <label for="usernameInput" class="sr-only">Login</label>
-            <input type="email" id="usernameInput" class="form-control formgroup" placeholder="Login" required="" autofocus="" />
-            <button id="loginBtn" class="btn btn-lg btn-primary btnblock">Sign in</button>
-            {/* need to add in client.js handlers here */}
-          </div>
-        </div>
-      </div>
-      <div id="callPage" class="call-page">
+      < div id="callPage" class="call-page" >
         <video id="localVideo" autoplay></video>
         <video id="remoteVideo" autoplay></video>
         <div class="row text-center">
@@ -35,9 +22,9 @@ const RtcContainer = () => {
             {/* need to add in client.js handlers here */}
           </div>
         </div>
-      </div>
-      <script src="./clientVideo.js"></script>
-    </div>
+      </div >
+      <script src="./ToMerge-RtcClient"></script>
+    </div >
   )
 };
 

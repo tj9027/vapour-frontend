@@ -2,7 +2,7 @@ import React from 'react';
 import '../../../styles/chat-styles/chatmessage.css';
 
 const ChatMessage = ({ message }) => {
-
+	console.log(message)
 	return (
 		<div user={message._id} className={`chat-message__container`}>
 			<div className="chat-message__divider">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/actions/session-actions";
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 export const LoginForm = props => {
   const dispatch = useDispatch();
@@ -17,11 +17,13 @@ export const LoginForm = props => {
     };
 
     dispatch(login(user));
+    // return <Redirect to="/" />
+
   };
 
   useEffect(() => {
     console.log('current user: ', props.currentUser);
-}, [props.currentUser])
+  }, [props.currentUser])
 
   return (
     <div>
