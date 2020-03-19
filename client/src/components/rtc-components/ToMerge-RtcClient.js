@@ -20,7 +20,7 @@ conn.onmessage = function (msg) {
 
     // when someone tries to call us
     case "receiveCall":
-      handleReceiveCall(data.proposal, data.name)
+    // handleReceiveCall(data.proposal, data.name)
 
     // when the recipient accepts our call and makes an offer
     case "offer":
@@ -83,8 +83,9 @@ callPage.style.display = "none";
 callPage.style.display = "block";
 
 // refactored handleLogin & calling / receiving for integration
-makeCallBtn.addEventListener("click", function () {
 
+const handleCreateCall = (player) => {
+  console.log(player);
   //Starting a peer connection 
   //getting local video stream 
   navigator.mediaDevices.getUserMedia = (navigator.mediaDevices.getUserMedia ||
@@ -123,7 +124,13 @@ makeCallBtn.addEventListener("click", function () {
   send({
     type: "receiveCall" // is this possible?
   });
-});
+
+}
+
+
+// makeCallBtn.addEventListener("click", function () {
+
+// });
 
 
 function receiveCall() {
@@ -232,3 +239,5 @@ function handleLeave() {
   // TODO :: video component should disappear from caller's screen 
   // && pop-up should disappear from recipient/rejector's screen
 };
+
+export { handleCreateCall };

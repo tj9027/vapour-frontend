@@ -3,7 +3,7 @@ import '../../../styles/chat-styles/chatheader.css';
 
 const ChatHeader = ({ secondUser }) => {
 	const status = () => {
-		switch (secondUser.status) {
+		switch (+secondUser.status) {
 			case 0:
 				return 'offline';
 			case 1:
