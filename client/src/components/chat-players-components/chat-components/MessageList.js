@@ -1,6 +1,7 @@
 import React from 'react';
 import ChatMessage from './ChatMessage';
 import '../../../styles/chat-styles/messagelist.css';
+import ScrollToBottom from 'react-scroll-to-bottom'
 
 const MessageList = ({ messages }) => {
   const messagesToComponent =
@@ -10,9 +11,9 @@ const MessageList = ({ messages }) => {
     ));
 
   return (
-    <div className="message-list__container">
+    <ScrollToBottom className="message-list__container">
       {messages.length !== 0 ? messagesToComponent : 'no messages'}
-    </div>
+    </ScrollToBottom>
   );
 };
 
