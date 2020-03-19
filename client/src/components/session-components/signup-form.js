@@ -4,12 +4,15 @@ import { signup } from '../../redux/actions/session-actions';
 
 export const SignupForm = props => {
   const dispatch = useDispatch();
-
+  const currentUser = useSelector(state => state.session.user);
   const [name, setName]  = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-  
+
+  useEffect(() => {
+    // console.log('currentUser', currentUser.id)
+  }, [currentUser])
   
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,6 +25,7 @@ export const SignupForm = props => {
 
     dispatch(signup(user)); 
   }
+
      
   return (
     <div className="signup-form-container">
