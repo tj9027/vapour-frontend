@@ -1,27 +1,30 @@
 import React from 'react';
-import playerList from '../../../mocks/playerlist';
 import '../../../styles/player-styles/playerlist.css';
 import PlayerCard from './PlayerCard';
 
-const PlayerList = ( { user, handleShowChat }) => {
-	
-	const playerListToComponent = playerList.map(player => {
-		if (player._id !== user._id) return (
-			<PlayerCard
-				player={player}
-				key={player._id}
-				handleShowChat={handleShowChat}
-			/>
-		)
-	});
+const PlayerList = ({ currentUser, players, handleShowCall, handleShowChat, calling, setCalling }) => {
+  console.log(players)
+  const playerListToComponent = players.map(player => {
+    if (player._id !== currentUser._id)
+      return (
+        <PlayerCard
+          player={player}
+          key={player._id}
+          handleShowChat={handleShowChat}
+          setCalling={setCalling}
+          calling={calling}
+          handleShowCall={handleShowCall}
+        />
+      );
+  });
 
-	return (
-		<div className="player-list__container">
-			<div className="player-list__user-container">
-				<div className="toHaveShadow"></div>
-				<h3 className={user.status ? "button" : "disabled"}>{user.name}</h3>
+  return (
+    <div className="player-list__container">
+      <div className="player-list__user-container">
+        <div className="toHaveShadow"></div>
+        <h3 className={currentUser.status ? 'button' : 'disabled'}>{currentUser.name}</h3>
 
-				{/* <select
+        {/* <select
 					className="player-list__status-selector"
 					value={user.status}
 					onChange={e => {
@@ -33,12 +36,10 @@ const PlayerList = ( { user, handleShowChat }) => {
 					<option value='2'>away</option>
 					<option value='0'>offline</option>
 				</select> */}
-			</div>
-			<div className="player-list__list-container">
-				{playerListToComponent}
-			</div>
-		</div>
-	)
+      </div>
+      <div className="player-list__list-container">{playerListToComponent}</div>
+    </div>
+  );
 };
 
 export default PlayerList;
