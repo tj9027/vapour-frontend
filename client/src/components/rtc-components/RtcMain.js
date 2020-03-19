@@ -1,11 +1,12 @@
+
+import '../../styles/socialmain.css';
+
+
 //our username 
-var name;
-var userToMsg;
+let userToMsg;
 
 //connecting to our signaling server
-// replace with correct address: 
-// var conn = new WebSocket('ws://boiling-gorge-94896.herokuapp.com/');
-var conn = new WebSocket('ws://localhost:9090');
+const conn = new WebSocket('ws://localhost:9090');
 
 conn.onopen = function () {
   console.log("Connected to the signaling server");
@@ -17,11 +18,10 @@ conn.onmessage = function (msg) {
   var data = JSON.parse(msg.data);
 
   switch (data.type) {
-
     // when someone tries to call us
     case "receiveCall":
     // handleReceiveCall(data.proposal, data.name)
-
+    
     // when the recipient accepts our call and makes an offer
     case "offer":
       handleOffer(data.offer, data.name);
@@ -65,7 +65,6 @@ function send(message) {
 const callPage = document.querySelector('#callPage');
 // edit for integration --> call btn will be directly linked to another user
 // const callToUsernameInput = document.querySelector('#callToUsernameInput');
-
 const acceptCallBtn = document.querySelector('#acceptCallBtn');
 const hangUpBtn = document.querySelector('#hangUpBtn');
 const localVideo = document.querySelector('#localVideo');
@@ -79,12 +78,14 @@ var yourConn;
 var stream;
 
 // TODO :: figure out what to do with these:
-callPage.style.display = "none";
-callPage.style.display = "block";
+// callPage.style.display = "none";
+// callPage.style.display = "block";
 
 // refactored handleLogin & calling / receiving for integration
 
 const handleCreateCall = (player) => {
+
+  // player is User2 - who is *receiving* the call
   console.log(player);
   //Starting a peer connection 
   //getting local video stream 
@@ -127,26 +128,14 @@ const handleCreateCall = (player) => {
 
 }
 
-
-// makeCallBtn.addEventListener("click", function () {
-
-// });
-
-
 function receiveCall() {
   // trigger pop-up on screen
 }
 
-rejectCallBtn.addEventListener("click", function () {
-  send({
-    type: "leave"
-  });
-  handleLeave();
-});
-
 //initiating an RTC connection 
 // this is the 'accept call' button on the recipient side
-acceptCallBtn.addEventListener("click", function () {
+const acceptCall = (player) => {
+
   navigator.mediaDevices.getUserMedia = (navigator.mediaDevices.getUserMedia ||
     navigator.webkitGetUserMedia ||
     navigator.mozGetUserMedia ||
@@ -179,7 +168,7 @@ acceptCallBtn.addEventListener("click", function () {
     });
   // make 'offer' from recipient to caller
   // change callToUsername function to reference peer name
-  var callToUsername = callToUsernameInput.value;
+  var callToUsername = player.name;
   if (callToUsername.length > 0) {
     userToMsg = callToUsername;
     // create an offer 
@@ -193,12 +182,12 @@ acceptCallBtn.addEventListener("click", function () {
       alert("Error when creating an offer");
     });
   }
-});
+};
 
 
 //when somebody sends us an offer 
-function handleOffer(offer, name) {
-  connectedUser = name;
+function handleOffer(offer, player) {
+  var connectedUser = player.name;
   yourConn.setRemoteDescription(new RTCSessionDescription(offer));
   //create an answer to an offer 
   yourConn.createAnswer(function (answer) {
@@ -222,15 +211,11 @@ function handleCandidate(candidate) {
   yourConn.addIceCandidate(new RTCIceCandidate(candidate));
 };
 
-//hang up 
-hangUpBtn.addEventListener("click", function () {
+
+const handleLeave = () => {
   send({
     type: "leave"
   });
-  handleLeave();
-});
-
-function handleLeave() {
   userToMsg = null;
   remoteVideo.src = null;
   yourConn.close();
@@ -240,4 +225,4 @@ function handleLeave() {
   // && pop-up should disappear from recipient/rejector's screen
 };
 
-export { handleCreateCall };
+export { handleCreateCall, handleLeave, acceptCall };

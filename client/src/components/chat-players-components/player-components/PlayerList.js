@@ -2,7 +2,7 @@ import React from 'react';
 import '../../../styles/player-styles/playerlist.css';
 import PlayerCard from './PlayerCard';
 
-const PlayerList = ({ currentUser, players, handleShowCall, handleShowChat, calling, setCalling }) => {
+const PlayerList = ({ currentUser, players, handleShowCall, handleShowChat, handleLeave, calling, setCalling }) => {
   const playerListToComponent = players.map(player => {
     if (player._id !== currentUser._id)
       return (

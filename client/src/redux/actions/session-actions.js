@@ -33,6 +33,7 @@ export const signup = user => dispatch =>
     .then(res => res.json())
     .then(data => {
       const { token } = data;
+      if (!token) throw new Error('invalid registration data')
       localStorage.setItem('jwtToken', token);
       APIUtil.setAuthToken(token);
       const decoded = jwt_decode(token);
