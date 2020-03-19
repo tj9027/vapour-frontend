@@ -3,7 +3,6 @@ import ChatMessage from './ChatMessage';
 import '../../../styles/chat-styles/messagelist.css';
 
 const MessageList = ({ messages }) => {
-  console.log(messages.length)
   const messagesToComponent =
     messages &&
     messages.map((mes, index) => (

@@ -24,3 +24,11 @@ select:focus {
 option{
 	background-color: none;
 }
+
+.player-list__list-container{
+	overflow:scroll;
+	height:72vh;
+}
+.player-list__list-container::-webkit-scrollbar{
+	display: none;
+}
