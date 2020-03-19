@@ -11,7 +11,6 @@ import {
 } from '../../api-services/messageAPI';
 import { getPlayers } from '../../api-services/playersAPI';
 import { useSelector } from 'react-redux';
-
 const ENDPOINT = 'http://localhost:4000/';
 let socket;
 
@@ -27,13 +26,9 @@ const SocialMain = () => {
 
   const ENDPOINT = 'http://localhost:4000/';
 
-  const dispatch = useDispatch();
-  const sessionUser = useSelector(state => state.session.user);
   const currentUser = useSelector(state => state.currentUser);
 
-  useEffect(() => {
-    dispatch(getCurrentUser(sessionUser._id));
-  }, [dispatch]);
+
 
   useEffect(() => {
     socket = io(ENDPOINT);
