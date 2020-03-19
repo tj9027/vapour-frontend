@@ -14,9 +14,7 @@ const PlayerCard = ({ player, handleShowChat }) => {
       <Link
         className={`player-card__button ${statusButton()}`}
         onClick={e => {
-		  console.log('you clicked!');
-		  console.log(player.name)
-        //   e.preventDefault();
+          e.preventDefault();
           player.status > 0 && handleShowChat(player);
         }}
         to={`/messages/?name=${player.name}`}
