@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import '../../../styles/player-styles/playercard.css';
 import chatIcon from '../../../assets/icons/chat-icon.png';
 import phoneIcon from '../../../assets/icons/phone-icon.png';
-import {handleCreateCall, handleLeave, acceptCall} from '../../rtc-components/RtcMain';
+import { handleCreateCall, handlePickup, handleReject, handleLeave, } from '../../rtc-components/RtcMain';
 
 
 const PlayerCard = ({ player, handleShowChat, handleShowCall, calling, setCalling }) => {
@@ -40,28 +40,44 @@ const PlayerCard = ({ player, handleShowChat, handleShowCall, calling, setCallin
         </div>
         {calling &&
           <div
-          className="player-card__call-buttons"
+            className="player-card__call-buttons"
           //should have an event listener for incoming calls. 
           >
             <div
               //should accept connection
-              onClick={e => { e.preventDefault(); setConnected(true); acceptCall(player) }}
+              onClick={e => {
+                e.preventDefault();
+                setConnected(true);
+                handlePickup(player)
+              }}
               className={`player-card__button pickup`}>
               pickup
         </div>
             <div
               //should close connection
-              onClick={e => { e.preventDefault(); setCalling(false); handleLeave() }}
+              onClick={e => {
+                e.preventDefault();
+                setCalling(false);
+                handleReject()
+              }}
               className={'player-card__button reject'}>
               reject
-        </div>
+            </div>
           </div>
         }
-        {connected && <div
-          //should close connection
-          onClick={e => { e.preventDefault(); setConnected(false); setCalling(false); handleLeave() }
+        {connected &&
+          <div
+            //should close connection
+            onClick={e => {
+              e.preventDefault();
+              setConnected(false);
+              setCalling(false);
+              handleLeave()
+            }}
+            className={'player-card__button end'}>
+            end call
+          </div>
         }
-        >end call</div>}
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import '../../styles/socialmain.css';
 
 
 //our username 
-let userToMsg;
+let secondUser
 
 //connecting to our signaling server
 const conn = new WebSocket('ws://localhost:9090');
@@ -12,16 +12,13 @@ conn.onopen = function () {
   console.log("Connected to the signaling server");
 };
 
-//when we got a message from a signaling server 
+//when we get a message from a signaling server 
 conn.onmessage = function (msg) {
   console.log("Got message", msg.data);
   var data = JSON.parse(msg.data);
 
   switch (data.type) {
-    // when someone tries to call us
-    case "receiveCall":
-    // handleReceiveCall(data.proposal, data.name)
-    
+
     // when the recipient accepts our call and makes an offer
     case "offer":
       handleOffer(data.offer, data.name);
@@ -51,22 +48,23 @@ conn.onerror = function (err) {
   console.log("Got error", err);
 };
 
-//alias for sending JSON encoded messages -- TODO :: check/fix this re. message.name
+//alias for sending JSON encoded messages 
+//TODO :: fix message.name --> secondUser (import?)
 function send(message) {
   //attach the other peer username to our messages 
-  if (userToMsg) {
-    message.name = userToMsg;
+  if (secondUser) {
+    message.name = secondUser;
   }
   conn.send(JSON.stringify(message));
 };
 
 //UI selectors block 
 
-const callPage = document.querySelector('#callPage');
-// edit for integration --> call btn will be directly linked to another user
-// const callToUsernameInput = document.querySelector('#callToUsernameInput');
-const acceptCallBtn = document.querySelector('#acceptCallBtn');
-const hangUpBtn = document.querySelector('#hangUpBtn');
+// const callPage = document.querySelector('#callPage');
+// const acceptCallBtn = document.querySelector('#acceptCallBtn');
+// const pickupBtn;
+// const rejectBtn;
+// const hangUpBtn = document.querySelector('#hangUpBtn');
 const localVideo = document.querySelector('#localVideo');
 const remoteVideo = document.querySelector('#remoteVideo');
 
@@ -75,66 +73,12 @@ const remoteVideo = document.querySelector('#remoteVideo');
 // var remoteAudio = document.querySelector('#remoteAudio');
 
 var yourConn;
-var stream;
+// var stream;
 
-// TODO :: figure out what to do with these:
-// callPage.style.display = "none";
-// callPage.style.display = "block";
 
-// refactored handleLogin & calling / receiving for integration
-
-const handleCreateCall = (player) => {
-
-  // player is User2 - who is *receiving* the call
-  console.log(player);
-  //Starting a peer connection 
-  //getting local video stream 
-  navigator.mediaDevices.getUserMedia = (navigator.mediaDevices.getUserMedia ||
-    navigator.webkitGetUserMedia ||
-    navigator.mozGetUserMedia ||
-    navigator.msGetUserMedia);
-
-  navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-    // for audio only: navigator.mediaDevices.getUserMedia({ video: false, audio: true })
-    .then(function (stream) {
-      //displaying local video stream on the page 
-      localVideo.srcObject = stream;
-      //using Google public stun server 
-      var configuration = {
-        "iceServers": [{ "url": "stun:stun2.1.google.com:19302" }]
-      };
-      yourConn = new RTCPeerConnection(configuration);
-      // setup stream listening 
-      yourConn.addStream(stream);
-      //when a remote user adds stream to the peer connection, we display it 
-      yourConn.onaddstream = function (e) {
-        remoteVideo.srcObject = e.stream;
-        // for audio-only stream:
-        // remoteAudio.srcObject = e.stream;
-      };
-      // Setup ice handling 
-      yourConn.onicecandidate = function (event) {
-        if (event.candidate) {
-          send({
-            type: "candidate",
-            candidate: event.candidate
-          });
-        }
-      };
-    });
-  send({
-    type: "receiveCall" // is this possible?
-  });
-
-}
-
-function receiveCall() {
-  // trigger pop-up on screen
-}
-
-//initiating an RTC connection 
-// this is the 'accept call' button on the recipient side
-const acceptCall = (player) => {
+function mediaStreamOnIce(player) {
+  //Get local video stream 
+  //Start a peer connection 
 
   navigator.mediaDevices.getUserMedia = (navigator.mediaDevices.getUserMedia ||
     navigator.webkitGetUserMedia ||
@@ -166,28 +110,46 @@ const acceptCall = (player) => {
         }
       };
     });
+}
+
+const handleCreateCall = (player) => {
+  // player being passed up from PlayerCard
+  console.log(player);
+  mediaStreamOnIce(player)
+  send({
+    type: "receiveCall" // is this possible?
+  });
+}
+
+//initiating an RTC connection 
+const handlePickup = (player) => {
+
+  mediaStreamOnIce(player)
   // make 'offer' from recipient to caller
   // change callToUsername function to reference peer name
-  var callToUsername = player.name;
-  if (callToUsername.length > 0) {
-    userToMsg = callToUsername;
-    // create an offer 
-    yourConn.createOffer(function (offer) {
-      send({
-        type: "offer",
-        offer: offer
-      });
-      yourConn.setLocalDescription(offer);
-    }, function (error) {
-      alert("Error when creating an offer");
+  // var recipient = player.name;
+  // create an offer 
+  yourConn.createOffer(function (offer) {
+    send({
+      type: "offer",
+      offer: offer
     });
-  }
+    yourConn.setLocalDescription(offer);
+  }, function (error) {
+    alert("Error when creating an offer");
+  });
 };
 
+const handleReject = () => {
+  send({
+    type: "leave"
+  });
+  // player = null;
+}
 
 //when somebody sends us an offer 
 function handleOffer(offer, player) {
-  var connectedUser = player.name;
+  // var connectedUser = player.name;
   yourConn.setRemoteDescription(new RTCSessionDescription(offer));
   //create an answer to an offer 
   yourConn.createAnswer(function (answer) {
@@ -216,13 +178,12 @@ const handleLeave = () => {
   send({
     type: "leave"
   });
-  userToMsg = null;
+  secondUser = null;
   remoteVideo.src = null;
   yourConn.close();
   yourConn.onicecandidate = null;
   yourConn.onaddstream = null;
   // TODO :: video component should disappear from caller's screen 
-  // && pop-up should disappear from recipient/rejector's screen
 };
 
-export { handleCreateCall, handleLeave, acceptCall };
+export { handleCreateCall, handlePickup, handleReject, handleLeave, };

@@ -3,10 +3,6 @@ import React from 'react';
 // import 
 import '../../styles/rtc-styles/rtccontainer.css';
 
-{/* not sure if either of these need to be included somewhere::
-    <meta charset="utf-8" />
-    <link rel = "stylesheet" href = "node_modules/bootstrap/dist/css/bootstrap.min.css"/> */}
-
 const video = () => {
   const videoStream = navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(data => {
     console.log("VIDEO LOG", data)
