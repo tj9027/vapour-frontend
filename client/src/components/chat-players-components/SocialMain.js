@@ -20,7 +20,7 @@ const SocialMain = () => {
 
   const ENDPOINT = 'http://localhost:4000/';
 
-  const currentUser = useSelector(state => state.currentUser);
+  const currentUser = useSelector(state => state.user);
   useEffect(() => {
     if (!players) {
       Object.assign(currentUser, { status: '1' });
