@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/actions/session-actions";
 import { Link, Redirect } from 'react-router-dom';
 import '../../styles/session-styles/login-form.css';
@@ -8,6 +8,7 @@ import logo from '../../assets/images/logo.svg';
 
 export const LoginForm = props => {
   const dispatch = useDispatch();
+  const currentUser = useSelector(state => state.session.user);
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
 
@@ -25,8 +26,8 @@ export const LoginForm = props => {
   };
 
   useEffect(() => {
-    console.log('current user: ', props.currentUser);
-  }, [props.currentUser])
+    // console.log('current user: ', currentUser);
+}, [currentUser])
 
   return (
     <div className="login__container">
