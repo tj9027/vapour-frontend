@@ -1,10 +1,10 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { logout } from '../../redux/actions/session-actions';
+import React from "react";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/actions/session-actions";
 
-import '../../styles/main-styles/navigation.css';
-import logo from '../../assets/images/logo.svg';
-import { Link } from 'react-router-dom';
+import "../../styles/main-styles/navigation.css";
+import logo from "../../assets/images/logo.svg";
+import { Link } from "react-router-dom";
 
 const Navigation = () => {
   const dispatch = useDispatch();
@@ -23,9 +23,16 @@ const Navigation = () => {
         <div>PLAYERS & CHAT</div>
       </Link>
       <Link
+        className="navigation__player-list-toggle button"
+        onClick={e => {}}
+        to="/forum"
+      >
+        <div>Forum</div>
+      </Link>
+      <Link
         className="navigation__logout button"
         onClick={() => dispatch(logout())}
-        to='/'
+        to="/"
       >
         SIGN OUT
       </Link>
