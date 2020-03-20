@@ -33,12 +33,18 @@ export const signup = user => dispatch =>
     .then(res => res.json())
     .then(data => {
       const { token } = data;
+      if (!token) {
+        throw new Error('invalid registration data')
+      }
       localStorage.setItem('jwtToken', token);
       APIUtil.setAuthToken(token);
       const decoded = jwt_decode(token);
       dispatch(receiveCurrentUser(decoded));
     })
-    .catch(err => dispatch(receiveErrors(err.response.data)));
+    .catch(err => {
+      console.log("can't register", err);
+      // dispatch(receiveErrors(err.response));
+    });
 
 export const login = user => dispatch =>
   APIUtil.login(user)

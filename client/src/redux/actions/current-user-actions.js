@@ -16,6 +16,7 @@ export const getCurrentUser = _id => dispatch => {
   return fetch(baseURL + `find-current?_id=${_id}`)
     .then(response => response.json())
     .then(currentUser => {
+      console.log(currentUser)
       dispatch(receiveCurrentUser(currentUser));
     })
     .catch(err => console.log('An error occurred.', err));

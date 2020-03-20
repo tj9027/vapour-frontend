@@ -7,13 +7,16 @@ import logo from '../../assets/images/logo.svg';
 
 export const SignupForm = props => {
   const dispatch = useDispatch();
-
-  const [name, setName] = useState("");
+  const currentUser = useSelector(state => state.session.user);
+  const [name, setName]  = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
 
-
+  useEffect(() => {
+    // console.log('currentUser', currentUser.id)
+  }, [currentUser])
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     let user = {
@@ -26,6 +29,7 @@ export const SignupForm = props => {
     dispatch(signup(user));
   }
 
+     
   return (
     <div className="signup__container">
       <div className="signup-form__logo-container">
