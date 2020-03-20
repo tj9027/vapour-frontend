@@ -15,7 +15,7 @@ const ENDPOINT = 'http://localhost:4000/';
 let socket;
 
 const SocialMain = () => {
-  const [user, setUser] = useState();
+
   const [calling, setCalling] = useState();
   const [chatting, setChatting] = useState();
   const [messages, setMessages] = useState([]);
@@ -27,8 +27,6 @@ const SocialMain = () => {
   const ENDPOINT = 'http://localhost:4000/';
 
   const currentUser = useSelector(state => state.currentUser);
-
-
 
   useEffect(() => {
     socket = io(ENDPOINT);
