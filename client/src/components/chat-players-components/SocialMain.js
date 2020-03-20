@@ -11,7 +11,6 @@ import {
 } from '../../api-services/messageAPI';
 import { getPlayers } from '../../api-services/playersAPI';
 import { useSelector } from 'react-redux';
-
 const ENDPOINT = 'http://localhost:4000/';
 let socket;
 
@@ -28,7 +27,6 @@ const SocialMain = () => {
   const ENDPOINT = 'http://localhost:4000/';
 
   const currentUser = useSelector(state => state.currentUser);
-
 
   useEffect(() => {
     socket = io(ENDPOINT);
@@ -74,7 +72,7 @@ const SocialMain = () => {
     socket = io(ENDPOINT);
     socket.on('connect', data => {
       if (roomid) {
-        socket.emit('join', currentUser.name, roomid, () => {});
+        socket.emit('join', currentUser.name, roomid, () => { });
       } else {
         socket.emit('disconnect');
         socket.off();
