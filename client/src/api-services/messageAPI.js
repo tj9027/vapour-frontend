@@ -1,5 +1,5 @@
 const sendMessage = async (url, newMessage, recipientId, senderId, senderName) => {
-  console.log(senderName)
+
   const message = { message: newMessage, time: Date.now() };
   const response = await fetch(url, {
     method: 'POST',
