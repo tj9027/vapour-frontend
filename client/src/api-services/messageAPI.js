@@ -12,18 +12,6 @@ const sendMessage = async (url, newMessage, recipientId, senderId, senderName) =
   return response.json();
 };
 
-const postNewThread = async (url, recipientId, senderId) => {
-  const response = await fetch(url, {
-    method: 'POST',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ recipientId, senderId })
-  });
-  return response.json();
-};
-
 const getPlayerMessages = async (ENDPOINT, sender, recipient) => {
   const response = await fetch(
     //from parameter determined the person who has LOGGED IN, to detetmines to whom the messages will be sent
@@ -34,4 +22,4 @@ const getPlayerMessages = async (ENDPOINT, sender, recipient) => {
   return response;
 };
 
-export { getPlayerMessages, sendMessage, postNewThread };
+export { getPlayerMessages, sendMessage };
