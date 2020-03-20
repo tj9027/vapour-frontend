@@ -18,7 +18,7 @@ const GameScreen = () => {
 							allow="fullscreen"
 							id="gameFrame"
     					title="inline frame"
-    					width="700"
+    					width="1500"
     					height="700"
    						src={game.url}>
 </iframe>
