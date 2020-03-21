@@ -1,6 +1,7 @@
-
+import React, { useRef, useEffect } from "react";
+import ReactDOM from "react-dom";
+import { useUserMedia } from "./mediaStream/hooks/userMedia";
 import '../../styles/socialmain.css';
-
 
 //our username 
 let secondUser
@@ -59,45 +60,75 @@ function send(message) {
 };
 
 //UI selectors block 
-
-// const callPage = document.querySelector('#callPage');
-// const acceptCallBtn = document.querySelector('#acceptCallBtn');
-// const pickupBtn;
-// const rejectBtn;
-// const hangUpBtn = document.querySelector('#hangUpBtn');
 const localVideo = document.querySelector('#localVideo');
 const remoteVideo = document.querySelector('#remoteVideo');
 
-// alternative audio-only case - replace above two lines with:
-// var localAudio = document.querySelector('#localAudio');
-// var remoteAudio = document.querySelector('#remoteAudio');
-
-var yourConn;
+let yourConn;
 // var stream;
+
+
+
+function Camera() {
+  console.log("Render camera");
+  let videoRef = useRef(null);
+  let canvasRef = useRef();
+
+  const mediaStream = useUserMedia({
+    audio: false,
+    video: { width: 300, height: 300 }
+  });
+
+  if (mediaStream && videoRef.current && !videoRef.current.srcObject) {
+    videoRef.current.srcObject = mediaStream;
+  }
+
+  // Stop the video stream when component is unmount
+  useEffect(() => {
+    return () => {
+      if (mediaStream) {
+        mediaStream.getTracks()[0].stop();
+      }
+    };
+  }, [mediaStream]);
+
+  return (
+    <>
+      <div>
+        <video ref={videoRef} autoPlay muted />
+        <canvas ref={canvasRef} width={300} height={300} />
+      </div>
+    </>
+  );
+}
 
 
 function mediaStreamOnIce(player) {
   //Get local video stream 
   //Start a peer connection 
+  
+  // navigator.mediaDevices.getUserMedia = (navigator.mediaDevices.getUserMedia ||
+  //   navigator.webkitGetUserMedia ||
+  //   navigator.mozGetUserMedia ||
+  //   navigator.msGetUserMedia);
+    
+  //   navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+  //   .then(function (stream) {
+  //     //display local video stream on the page 
+  //     localVideo.srcObject = stream;
 
-  navigator.mediaDevices.getUserMedia = (navigator.mediaDevices.getUserMedia ||
-    navigator.webkitGetUserMedia ||
-    navigator.mozGetUserMedia ||
-    navigator.msGetUserMedia);
+  Camera()
 
-  navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-    .then(function (stream) {
-      //display local video stream on the page 
-      localVideo.srcObject = stream;
       //using Google public stun server 
-      var configuration = {
+      const configuration = {
         "iceServers": [{ "url": "stun:stun2.1.google.com:19302" }]
       };
       yourConn = new RTCPeerConnection(configuration);
       // setup stream listening 
+      let stream = Camera()
       yourConn.addStream(stream);
       //display caller's video stream to the peer connection 
       yourConn.onaddstream = function (e) {
+        // TODO :: fix this mediastream
         remoteVideo.srcObject = e.stream;
       };
       // Setup ice handling 
@@ -109,27 +140,26 @@ function mediaStreamOnIce(player) {
           });
         }
       };
+    };
+    
+  const handleCreateCall = (player) => {
+    // player being passed up from PlayerCard
+    console.log(player);
+    mediaStreamOnIce(player)
+    send({
+      type: "receiveCall" // is this possible?
     });
-}
-
-const handleCreateCall = (player) => {
-  // player being passed up from PlayerCard
-  console.log(player);
-  mediaStreamOnIce(player)
-  send({
-    type: "receiveCall" // is this possible?
-  });
-}
-
-//initiating an RTC connection 
-const handlePickup = (player) => {
-
-  mediaStreamOnIce(player)
-  // make 'offer' from recipient to caller
-  // change callToUsername function to reference peer name
-  // var recipient = player.name;
-  // create an offer 
-  yourConn.createOffer(function (offer) {
+  }
+  
+  //initiating an RTC connection 
+  const handlePickup = (player) => {
+    
+    mediaStreamOnIce(player)
+    // make 'offer' from recipient to caller
+    // change callToUsername function to reference peer name
+    // var recipient = player.name;
+    // create an offer 
+    yourConn.createOffer(function (offer) {
     send({
       type: "offer",
       offer: offer
@@ -173,7 +203,6 @@ function handleCandidate(candidate) {
   yourConn.addIceCandidate(new RTCIceCandidate(candidate));
 };
 
-
 const handleLeave = () => {
   send({
     type: "leave"
@@ -187,3 +216,5 @@ const handleLeave = () => {
 };
 
 export { handleCreateCall, handlePickup, handleReject, handleLeave, };
+const rootElement = document.getElementById("root");
+ReactDOM.render(<Camera />, rootElement);
