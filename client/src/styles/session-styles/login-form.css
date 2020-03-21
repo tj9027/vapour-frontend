@@ -58,3 +58,6 @@
 	border: .2rem solid #1B2838;
 	padding: 1rem 2rem;
 }
+.login-container{
+  min-width:40vw;
+}

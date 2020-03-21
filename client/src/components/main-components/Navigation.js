@@ -1,6 +1,5 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { logout } from "../../redux/actions/session-actions";
+import React from 'react';
+import { useDispatch } from 'react-redux';
 
 import "../../styles/main-styles/navigation.css";
 import logo from "../../assets/images/logo.svg";
@@ -9,6 +8,21 @@ import { Link } from "react-router-dom";
 const Navigation = () => {
   const dispatch = useDispatch();
 
+  const logout = () => {
+    console.log('logging out')
+    fetch('http://localhost:4000/users/logout', {
+      headers: {
+        'Accept': 'application/json', 'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      method: 'GET',
+    })        
+    .then(res => res.status < 400 ? res : Promise.reject(res))
+    .then(res => res.json())
+    .then(data => {
+      dispatch({ type: 'LOGOUT' })
+    })
+  }
   return (
     <div className="navigation__container ">
       <Link to="/" className="navigation__logo">
@@ -31,7 +45,7 @@ const Navigation = () => {
       </Link>
       <Link
         className="navigation__logout button"
-        onClick={() => dispatch(logout())}
+        onClick={logout}
         to="/"
       >
         SIGN OUT

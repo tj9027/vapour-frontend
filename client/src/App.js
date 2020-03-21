@@ -9,6 +9,7 @@ import Footer from "./components/main-components/Footer";
 import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
 import SocialMain from "./components/chat-players-components/SocialMain";
 import GameScreen from "./components/game-components/GameScreen";
+
 import Forum from "./components/chat-players-components/chat-components/Forum";
 let socket;
 function App() {
@@ -27,7 +28,8 @@ function App() {
     //delete logged in people
   }, [dispatch, sessionUser._id]);
 
-  if (currentUser._id.length !== 0) {
+
+  if (user._id.length !== 0) {
     return (
       <Router>
         <div className="App">
