@@ -16,7 +16,6 @@ const store = createStore(
 ReactDOM.render(
   <Provider store={store}>
     <AuthRouter />
-
   </Provider>
   , document.getElementById('root'));
 
