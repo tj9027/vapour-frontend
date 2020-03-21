@@ -18,9 +18,7 @@ const SocialMain = () => {
   const [secondUser, setSecondUser] = useState({});
   const [players, setPlayers] = useState();
 
-  const ENDPOINT = 'http://localhost:4000/';
-
-  const currentUser = useSelector(state => state.user);
+  const currentUser = useSelector(state => state.currentUser);
   useEffect(() => {
     if (!players) {
       Object.assign(currentUser, { status: '1' });
@@ -34,25 +32,25 @@ const SocialMain = () => {
   }, [players]);
 
   useEffect(() => {
-    socket = io(ENDPOINT);
-    socket.on('connect', data => {
-      if (roomid && secondUser) {
-        socket.emit('join', currentUser.name, roomid, () => {});
-      } else {
+    if (socket) {
+      socket.disconnect();
+    }
+    if (roomid && secondUser) {
+      socket = io(ENDPOINT);
+      socket.emit('join', currentUser.name, roomid, currentUser._id, () => {});
+      return () => {
         socket.emit('disconnect');
         socket.off();
-      }
-    });
-    return () => {
-      socket.emit('disconnect');
-      socket.off();
-    };
+      };
+    }
   }, [ENDPOINT, secondUser]);
 
   useEffect(() => {
-    socket.on('message', message => {
-      setMessages([...messages, message.message]);
-    });
+    if (roomid && secondUser) {
+      socket.on('message', message => {
+        setMessages([...messages, message.message]);
+      });
+    }
   }, [messages]);
 
   let chatSessionId = '';
