@@ -18,7 +18,8 @@ const SocialMain = () => {
   const [secondUser, setSecondUser] = useState({});
   const [players, setPlayers] = useState();
 
-  const currentUser = useSelector(state => state.currentUser);
+  const currentUser = useSelector(state => state.user);
+
   useEffect(() => {
     if (!players) {
       Object.assign(currentUser, { status: '1' });
