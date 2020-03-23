@@ -3,7 +3,7 @@ import gameImage from '../assets/images/game.jpg';
 export default [
 	{
 		id: 1,
-		name: 'Dot Eater',
+		name: '(oneDot).bind(all)',
 		image: 'https://img.y8.com/cloud/y8-thumbs/24548/small.jpg',
 		description: 'move with the mouse, shoot with a click',
 		url: 'https://db-game1.herokuapp.com/',

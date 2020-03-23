@@ -5,7 +5,6 @@ import moment from 'moment';
 const ChatMessage = ({ message }) => {
 	const time = new Date(+message.time * 1000).toLocaleTimeString();
 	const now = new Date().toDateString();
-	console.log(now)
 	if (message.senderName) {
 		return (
 			<div user={message._id} className={`chat-message__container`}>

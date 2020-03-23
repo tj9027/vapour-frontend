@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import "../../styles/main-styles/navigation.css";
 import logo from "../../assets/images/logo.svg";
@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 
 const Navigation = () => {
   const dispatch = useDispatch();
+  // const currentUser = useSelector(({user}) => user);
 
   const logout = () => {
     console.log('logging out')
@@ -19,6 +20,7 @@ const Navigation = () => {
     })        
     .then(res => res.status < 400 ? res : Promise.reject(res))
     .then(res => res.json())
+    // .then(res => {socket.emit('logout', currentUser._id); return res})
     .then(data => {
       dispatch({ type: 'LOGOUT' })
     })
@@ -42,6 +44,13 @@ const Navigation = () => {
         to="/forum"
       >
         <div>Forum</div>
+      </Link>
+      <Link
+        className="navigation__player-list-toggle button"
+        onClick={e => {}}
+        to="/profile"
+      >
+        <div>Profile</div>
       </Link>
       <Link
         className="navigation__logout button"

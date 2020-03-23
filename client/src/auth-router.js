@@ -23,6 +23,7 @@ function AuthRouter () {
       .then(res => res.json())
       .then(data => {
         console.log('fetching')
+        console.log(data)
         if (data.user) dispatch({ type: 'AUTHENTICATE', user: data.user })
         else dispatch({ type: 'FAILAUTHENTICATE' })
       })
