@@ -33,7 +33,7 @@ const PlayerList = ({
           src={currentUser.avatar ? currentUser.avatar : placeHolderAvatar}
           alt={currentUser.name.charAt(0)}
         />
-        <h3 className={currentUser.status ? "button" : "disabled"}>
+        <h3 className={currentUser.status === '1' ? "button" : "disabled"}>
           {currentUser.name}
         </h3>
 

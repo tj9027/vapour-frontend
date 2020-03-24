@@ -1,27 +1,31 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import "../../styles/main-styles/navigation.css";
-import logo from "../../assets/images/logo.svg";
-import { Link } from "react-router-dom";
+import '../../styles/main-styles/navigation.css';
+import logo from '../../assets/images/logo.svg';
+import { Link } from 'react-router-dom';
 
-const Navigation = ({currentUser, socket}) => {
+const Navigation = ({ currentUser, socket }) => {
   const dispatch = useDispatch();
 
   const logout = () => {
     fetch('http://localhost:4000/users/logout', {
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
       },
       credentials: 'include',
-      method: 'GET',
-    })        
-    .then(res => res.status < 400 ? res : Promise.reject(res))
-    .then(res => res.json())
-    .then(res => {socket.emit('logout', currentUser._id); return res})
-    .then(data => {
-      dispatch({ type: 'LOGOUT' })
+      method: 'GET'
+    })
+      .then(res => (res.status < 400 ? res : Promise.reject(res)))
+      .then(res => res.json())
+      .then(res => {
+        socket.emit('logout', currentUser._id);
+        return res;
+      })
+      .then(data => {
+        dispatch({ type: 'LOGOUT' });
+      });
   };
   return (
     <div className="navigation__container ">
