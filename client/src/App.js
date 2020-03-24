@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import './styles/App.css';
-import { useSelector, useDispatch } from 'react-redux';
-import Main from './components/main-components/Main';
-import Navigation from './components/main-components/Navigation';
-import Footer from './components/main-components/Footer';
-import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
-import SocialMain from './components/chat-players-components/SocialMain';
-import GameScreen from './components/game-components/GameScreen';
-import Profile from './components/profile-components/Profile';
-import { firstSocketLogin } from './redux/actions/socket-actions';
+import React, { useEffect, useState } from "react";
+import "./styles/App.css";
+import { useSelector, useDispatch } from "react-redux";
+import Main from "./components/main-components/Main";
+import Navigation from "./components/main-components/Navigation";
+import Footer from "./components/main-components/Footer";
+import { Switch, Route, BrowserRouter as Router } from "react-router-dom";
+import SocialMain from "./components/chat-players-components/SocialMain";
+import GameScreen from "./components/game-components/GameScreen";
+import Profile from "./components/profile-components/Profile";
+import { firstSocketLogin } from "./redux/actions/socket-actions";
 
-import Forum from './components/chat-players-components/chat-components/Forum';
+import Forum from "./components/chat-players-components/chat-components/Forum";
 
 function App({ socket }) {
   const currentUser = useSelector(({ loginReducer }) => loginReducer.user);
@@ -18,14 +18,15 @@ function App({ socket }) {
   const [loggedInUsers, setLoggedInUsers] = useState([]);
 
   useEffect(() => {
+    console.log(loggedInUsers);
     if (currentUser._id.length !== 0) {
       dispatch(
-        firstSocketLogin(currentUser._id, socket, loggedInUsers =>
-          setLoggedInUsers([...loggedInUsers])
+        firstSocketLogin(currentUser._id, socket, users =>
+          setLoggedInUsers([...users])
         )
       );
     }
-    socket.on('updateUsers', data => console.log(data));
+    socket.on("updateUsers", data => console.log(data));
   }, [currentUser._id, dispatch, socket]);
 
   if (currentUser._id.length !== 0) {

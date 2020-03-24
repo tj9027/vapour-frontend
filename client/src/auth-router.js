@@ -35,11 +35,10 @@ function AuthRouter() {
   return (
     <Router>
       <AnimatedSwitch
-        className="App"
         atEnter={{ opacity: 0 }}
         atLeave={{ opacity: 0 }}
         atActive={{ opacity: 1 }}
-        className="switch-wrapper"
+        className="App switch-wrapper"
       >
         {/* <Switch> */}
         <Auth exact path="/landing" component={Landing} />
