@@ -1,3 +1,5 @@
+import React, { useRef, useState } from 'react';
+import { useUserMedia } from './useUserMedia';
 
 import '../../styles/socialmain.css';
 
@@ -76,11 +78,34 @@ var yourConn;
 // var stream;
 
 
-function mediaStreamOnIce(player) {
+// function mediaStreamOnIce(player) {
   //Get local video stream 
   //Start a peer connection 
 
-  navigator.mediaDevices.getUserMedia = (navigator.mediaDevices.getUserMedia ||
+  //function Camera() {
+    // const CAPTURE_OPTIONS = {
+    //     audio: true,
+    //     video: { facingMode: "user" },
+    // };
+    // const videoRef = useRef();
+    // const mediaStream = useUserMedia(CAPTURE_OPTIONS);
+    // if (mediaStream && videoRef.current && !videoRef.current.srcObject) {
+    //   videoRef.current.srcObject = mediaStream;
+    // }
+    // function handleCanPlay() {
+    //   videoRef.current.play();
+    // }
+  
+    // return (
+    //   <video ref={videoRef} onCanPlay={handleCanPlay} autoPlay playsInline muted />
+    // );
+  // }
+
+
+  function mediaStreamOnIce(player) {
+
+  navigator.mediaDevices.getUserMedia = (
+    navigator.mediaDevices.getUserMedia ||
     navigator.webkitGetUserMedia ||
     navigator.mozGetUserMedia ||
     navigator.msGetUserMedia);
@@ -89,6 +114,7 @@ function mediaStreamOnIce(player) {
     .then(function (stream) {
       //display local video stream on the page 
       localVideo.srcObject = stream;
+
       //using Google public stun server 
       var configuration = {
         "iceServers": [{ "url": "stun:stun2.1.google.com:19302" }]

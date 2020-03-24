@@ -1,32 +1,40 @@
-import React from 'react';
+import React, { createRef } from 'react';
+import Webcam from 'react-webcam';
 // import RtcHeader from './RtcHeader';
-// import 
 import '../../styles/rtc-styles/rtccontainer.css';
+// import RtcMain from './RtcMain'
+// import { useUserMedia } from './useUserMedia'
 
-const video = () => {
-  const videoStream = navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(data => {
-    console.log("VIDEO LOG", data)
-    return data
-  })
-  return videoStream
-}
 const RtcContainer = ({ secondUser }) => {
+  const videoRef = createRef(null);
+
+
+  const startCall = React.useCallback(() => {
+    console.log(videoRef.current.stream);
+  }, [videoRef]);
+  const endCall = React.useCallback(() => {
+    console.log(videoRef.current.stream);
+  }, [videoRef]);
+  // useUserMedia(videoRef)
+
   return (
     <div className="rtc__container">
       <h2>{secondUser.name}</h2>
-      < div id="callPage" className="call-page" >
-        <video id="localVideo" autoPlay>
-
-          <source srcObject={video()}
-            type="video/webm">
-
-          </source>
-        </video>
+      <div id="callPage" className="call-page">
+        <Webcam id="localVideo"
+          audio={true}
+          mirrored={true}
+          ref={videoRef}
+        />
+        <button onClick={startCall}>Start Call</button>
+        <button onClick={endCall}>End Call</button>
         <video id="remoteVideo" autoPlay></video>
-      </div >
-      <script src="./ToMerge-RtcClient"></script>
-    </div >
-  )
-};
+{/* TODO: stream incoming video here */}
 
+      </div>
+    </div>
+  );
+};
 export default RtcContainer;
+
+
