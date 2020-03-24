@@ -23,7 +23,7 @@ const GameScreen = () => {
         title="inline frame"
         width={frameWidth}
         height="700"
-        src={game.url + '/?a=' + currentUser._id + '&b=' + currentUser.password}>
+        src={game.url + '?a=' + currentUser._id + '&b=' + currentUser.password}>
       </iframe>
     </div>
   )

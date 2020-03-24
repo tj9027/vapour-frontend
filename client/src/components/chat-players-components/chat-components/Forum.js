@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client';
-import MessageList from './MessageList';
-import ChatForm from './ChatForm';
-import { useSelector } from 'react-redux';
-// import "../../../styles/chat-styles/forum.css";
+import React, { useState, useEffect } from "react";
+import io from "socket.io-client";
+import MessageList from "./MessageList";
+import ChatForm from "./ChatForm";
+import { useSelector } from "react-redux";
+import "../../../styles/chat-styles/forum.css";
+import ChatHeader from "./ChatHeader";
 
 let socket;
-const ENDPOINT = 'http://localhost:4000/';
-const forumsubjects = ['forum', '#gaming', '#coding', '#careers', '#lifestyle'];
+const ENDPOINT = "http://localhost:4000/";
+const forumsubjects = ["forum", "#gaming", "#coding", "#careers", "#lifestyle"];
 
 const Forum = ({ location }) => {
   const [forumPosts, setForumPosts] = useState([]);
@@ -23,7 +24,7 @@ const Forum = ({ location }) => {
       setForumPosts([]);
       socket = io(ENDPOINT);
       socket.emit(
-        'join',
+        "join",
         currentUser.name,
         forumsubjects[forumSubject],
         currentUser._id,
@@ -31,13 +32,13 @@ const Forum = ({ location }) => {
       );
     }
     return () => {
-      socket.emit('disconnect');
+      socket.emit("disconnect");
       socket.off();
     };
   }, [ENDPOINT, location, forumSubject]);
 
   useEffect(() => {
-    socket.on('message', ({ message }) => {
+    socket.on("message", ({ message }) => {
       setForumPosts([...forumPosts, message]);
     });
   }, [forumPosts]);
@@ -50,8 +51,8 @@ const Forum = ({ location }) => {
   const handleForumSubmit = message => {
     if (message) {
       socket.emit(
-        'message',
-        { senderName: currentUser.name, message: message, time: new Date() },
+        "message",
+        { senderName: currentUser.name, message: message, time: Date.now() },
         () => {}
       );
     }
@@ -59,19 +60,29 @@ const Forum = ({ location }) => {
 
   if (currentUser.name.length !== 0) {
     return (
-      <>
-        <div className="subjects-container">
+      <div className="forum__container">
+        <div className="forum__subjects-container">
+          <p>select room</p>
           {forumsubjects.map(subject => (
-            <button key={subject} value={subject} onClick={handleSetForum}>
+            <button
+              className="forum__subject-card"
+              key={subject}
+              value={subject}
+              onClick={handleSetForum}
+            >
               {subject}
             </button>
           ))}
         </div>
-        <div className="forum__container">
+        <div className="forum__chat-container">
+          <ChatHeader
+            displayStatus={false}
+            secondUser={{ name: forumsubjects[forumSubject] }}
+          />
           <MessageList messages={forumPosts} />
           <ChatForm handleChatSubmit={handleForumSubmit} />
         </div>
-      </>
+      </div>
     );
   } else return null;
 };
