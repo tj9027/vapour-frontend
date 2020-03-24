@@ -62,6 +62,7 @@ const Forum = ({ location }) => {
     return (
       <div className="forum__container">
         <div className="forum__subjects-container">
+          <p>select room</p>
           {forumsubjects.map(subject => (
             <button
               className="forum__subject-card"
