@@ -9,11 +9,10 @@ const Navigation = ({currentUser, socket}) => {
   const dispatch = useDispatch();
 
   const logout = () => {
-    console.log('logging out')
-    // dispatch(logOut())
     fetch('http://localhost:4000/users/logout', {
       headers: {
-        'Accept': 'application/json', 'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
       credentials: 'include',
       method: 'GET',
@@ -23,13 +22,19 @@ const Navigation = ({currentUser, socket}) => {
     .then(res => {socket.emit('logout', currentUser._id); return res})
     .then(data => {
       dispatch({ type: 'LOGOUT' })
-    })
-  }
+  };
   return (
     <div className="navigation__container ">
       <Link to="/" className="navigation__logo">
         <img src={logo} alt="logo" />
         <p>Vapour</p>
+      </Link>
+      <Link
+        className="navigation__player-list-toggle button"
+        onClick={e => {}}
+        to="/profile"
+      >
+        <div>Profile</div>
       </Link>
       <Link
         className="navigation__player-list-toggle button"
@@ -45,18 +50,7 @@ const Navigation = ({currentUser, socket}) => {
       >
         <div>Forum</div>
       </Link>
-      <Link
-        className="navigation__player-list-toggle button"
-        onClick={e => {}}
-        to="/profile"
-      >
-        <div>Profile</div>
-      </Link>
-      <Link
-        className="navigation__logout button"
-        onClick={logout}
-        to="/"
-      >
+      <Link className="navigation__logout button" onClick={logout} to="/">
         SIGN OUT
       </Link>
     </div>

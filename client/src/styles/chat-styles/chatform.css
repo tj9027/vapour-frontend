@@ -1,23 +1,27 @@
-.chat-form__container{
-	align-content: center;
-	display:flex;
-	flex-direction: column;
-	height: 4rem;
-	width:100%;
-	justify-content: center;
+.chat-form__container {
+  align-content: center;
+  display: flex;
+  flex-direction: column;
+  height: 4rem;
+  width: 100%;
+  justify-content: center;
 }
 .chat-form__container form {
-	border-top: .3rem solid #434953;
-	display:flex;
-	height: 100%;
-	width: 100%;
+  border-top: 0.3rem solid #434953;
+  display: flex;
+  height: 100%;
+  width: 100%;
 }
 .chat-form__input {
-	padding: 1rem;
-	margin: .4rem;
-	width:80%;
+  padding: 1rem;
+  margin: 0.4rem;
+  width: 100%;
 }
-.chat-form__submit{
-	width:20%;
-	margin: .4rem;
+.chat-form__submit {
+  color: #b8b6b4;
+  background-color: #434953;
+  border: 2px solid #3b4048;
+  border: 0.2rem solid #1b2838;
+  font-size: 1.4rem;
+  padding: 1rem 2rem;
 }

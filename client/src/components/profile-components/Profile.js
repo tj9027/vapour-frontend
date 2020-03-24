@@ -1,15 +1,16 @@
-import React, { createRef, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import Webcam from 'react-webcam';
-import ImageUploader from 'react-images-upload';
-import '../../styles/profile-styles/Profile.css';
-import * as faceapi from 'face-api.js';
-const MODEL_URL = '/models';
+import React, { createRef, useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import Webcam from "react-webcam";
+import ImageUploader from "react-images-upload";
+import "../../styles/profile-styles/Profile.css";
+import * as faceapi from "face-api.js";
+import { uploadAvatar } from "../../redux/actions/current-user-actions";
+const MODEL_URL = "/models";
 
 const videoConstraints = {
   width: 400,
   height: 400,
-  facingMode: 'user'
+  facingMode: "user"
 };
 
 const Profile = () => {
@@ -20,7 +21,7 @@ const Profile = () => {
     }
     load();
   }, []);
-
+  const dispatch = useDispatch();
   const currentUser = useSelector(({ loginReducer }) => loginReducer.user);
   const [imageSrc, setImageSrc] = useState('');
 
@@ -35,8 +36,12 @@ const Profile = () => {
   }, [webcamRef]);
 
   function clearImage() {
-    setImageSrc('');
+    setImageSrc("");
   }
+
+  const handleSaveAvatar = (id, src) => {
+    dispatch(uploadAvatar(id, src));
+  };
 
   function getBase64(file, cb) {
     let reader = new FileReader();
@@ -56,42 +61,40 @@ const Profile = () => {
         image,
         new faceapi.TinyFaceDetectorOptions()
       );
-
-      const x = detections[0].box['_x'];
-      const y = detections[0].box['_y'];
-      const width = detections[0].box['_width'];
-      const height = detections[0].box['_height'];
-
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
+      const x = detections[0].box["_x"];
+      const y = detections[0].box["_y"];
+      const width = detections[0].box["_width"];
+      const height = detections[0].box["_height"];
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
       canvas.width = image.width;
       canvas.height = image.height;
       const centerX = x + width / 2;
       const centerY = y + height / 2 - height * 0.2;
       const radius = (height / 2) * 1.5;
       ctx.drawImage(image, 0, 0);
-      ctx.globalCompositeOperation = 'destination-in';
+      ctx.globalCompositeOperation = "destination-in";
       ctx.beginPath();
       ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
       ctx.closePath();
       ctx.fill();
-      const tempCanvas = document.createElement('canvas');
-      const tCtx = tempCanvas.getContext('2d');
+      const tempCanvas = document.createElement("canvas");
+      const tCtx = tempCanvas.getContext("2d");
       tempCanvas.width = radius * 2;
       tempCanvas.height = radius * 2;
       tCtx.drawImage(canvas, -(centerX - radius), -(centerY - radius));
-      const img = tempCanvas.toDataURL('image/png');
+      const img = tempCanvas.toDataURL("image/png");
       setImageSrc(img);
     } catch (error) {
       alert(
-        'Sorry, your face was not detected. Please ensure your face is clearly visible'
+        "Sorry, your face was not detected. Please ensure your face is clearly visible"
       );
     }
   }
 
   if (currentUser.name.length !== 0) {
     return (
-      <>
+      <div className="profile__container">
         <h1>{currentUser._id}</h1>
         <h1>{currentUser.name}</h1>
         <div className="container">
@@ -109,15 +112,21 @@ const Profile = () => {
               withIcon={true}
               buttonText="Choose Avatar"
               onChange={onDrop}
-              imgExtension={['.jpg', '.gif', '.png', '.gif']}
+              imgExtension={[".jpg", ".gif", ".png", ".gif"]}
               maxFileSize={5242880}
             />
           </div>
           <div className="details-container">
-            <img style={{ width: '400px' }} src={imageSrc} id="myImage" alt="avatar"/>
+            <img style={{ width: "400px" }} src={imageSrc} id="myImage" />
+            <div
+              className="button"
+              onClick={e => handleSaveAvatar(currentUser._id, imageSrc)}
+            >
+              keep avatar
+            </div>
           </div>
         </div>
-      </>
+      </div>
     );
   } else return null;
 };

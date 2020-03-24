@@ -35,7 +35,7 @@ const Forum = ({ location, currentUser, socket }) => {
   }, [location, forumSubject, socket, dispatch, currentUser]);
 
   useEffect(() => {
-    socket.on('message', ({ message }) => {
+    socket.on("message", ({ message }) => {
       setForumPosts([...forumPosts, message]);
     });
   }, [forumPosts, socket]);
@@ -59,19 +59,29 @@ const Forum = ({ location, currentUser, socket }) => {
 
   if (currentUser.name.length !== 0) {
     return (
-      <>
-        <div className="subjects-container">
+      <div className="forum__container">
+        <div className="forum__subjects-container">
+          <p>select room</p>
           {forumsubjects.map(subject => (
-            <button key={subject} value={subject} onClick={handleSetForum}>
+            <button
+              className="forum__subject-card"
+              key={subject}
+              value={subject}
+              onClick={handleSetForum}
+            >
               {subject}
             </button>
           ))}
         </div>
-        <div className="forum__container">
+        <div className="forum__chat-container">
+          <ChatHeader
+            displayStatus={false}
+            secondUser={{ name: forumsubjects[forumSubject] }}
+          />
           <MessageList messages={forumPosts} />
           <ChatForm handleChatSubmit={handleForumSubmit} />
         </div>
-      </>
+      </div>
     );
   } else return null;
 };
