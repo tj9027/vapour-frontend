@@ -4,6 +4,7 @@ import "../../../styles/player-styles/playercard.css";
 import chatIcon from "../../../assets/icons/chat-icon.png";
 import phoneIcon from "../../../assets/icons/phone-icon.png";
 // import { handleCreateCall } from '../../rtc-components/ToMerge-RtcClient';
+import placeHolderAvatar from "../../../assets/images/placeholder-avatar.svg";
 
 const PlayerCard = ({
   player,
@@ -16,8 +17,15 @@ const PlayerCard = ({
   const [connected, setConnected] = useState(false);
   const statusButton = () =>
     player.status ? "button-enabled" : "button-disabled";
+
+  console.log(player);
   return (
     <div className={`player-card__container ${status()}`}>
+      <img
+        className="player-card__avatar"
+        src={player.avatar ? player.avatar : placeHolderAvatar}
+        alt={player.name.charAt(0)}
+      />
       <div className="player-card__player-name-container">
         <p className="player-card__player-name">{player.name}</p>
       </div>
