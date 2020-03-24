@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client';
 import PlayerList from './player-components/PlayerList';
 import ChatContainer from './chat-components/ChatContainer';
 import RtcContainer from '../rtc-components/RtcContainer';
 import '../../styles/socialmain.css';
 import { getPlayerMessages, sendMessage } from '../../api-services/messageAPI';
 import { getPlayers } from '../../api-services/playersAPI';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import {
+  joinRoomById,
+  disconnectSocket,
+  socketPostMessage
+} from '../../redux/actions/socket-actions';
 const ENDPOINT = 'http://localhost:4000/';
-let socket;
 
-const SocialMain = () => {
+const SocialMain = ({ currentUser, socket, loggedInUsers }) => {
+  const dispatch = useDispatch();
   const [calling, setCalling] = useState();
   const [chatting, setChatting] = useState();
   const [messages, setMessages] = useState([]);
@@ -18,33 +22,43 @@ const SocialMain = () => {
   const [secondUser, setSecondUser] = useState({});
   const [players, setPlayers] = useState();
 
-  const currentUser = useSelector(state => state.user);
-
   useEffect(() => {
     if (!players) {
       Object.assign(currentUser, { status: '1' });
       getPlayers(ENDPOINT)
-        .then(res => res.map(user => Object.assign(user, { status: '1' })))
+        .then(res =>
+          res.map(user => {
+            if (loggedInUsers.includes(user._id)) {
+              console.log(user);
+              return Object.assign(user, { status: '1' });
+            } else {
+              return Object.assign(user, { status: '0' });
+            }
+          })
+        )
         .then(res => {
           setPlayers(res);
         })
         .catch(err => console.log(err));
     }
-  }, [players]);
+  }, [players, loggedInUsers, currentUser]);
 
   useEffect(() => {
-    if (socket) {
-      socket.disconnect();
-    }
     if (roomid && secondUser) {
-      socket = io(ENDPOINT);
-      socket.emit('join', currentUser.name, roomid, currentUser._id, () => {});
-      return () => {
-        socket.emit('disconnect');
-        socket.off();
-      };
+      dispatch(
+        joinRoomById(
+          currentUser.name,
+          roomid,
+          currentUser._id,
+          socket,
+          () => {}
+        )
+      );
     }
-  }, [ENDPOINT, secondUser]);
+    return () => {
+      dispatch(disconnectSocket(socket));
+    };
+  }, [secondUser, currentUser, roomid, socket, dispatch]);
 
   useEffect(() => {
     if (roomid && secondUser) {
@@ -52,7 +66,7 @@ const SocialMain = () => {
         setMessages([...messages, message.message]);
       });
     }
-  }, [messages]);
+  }, [messages, secondUser, socket, roomid]);
 
   let chatSessionId = '';
 
@@ -66,14 +80,13 @@ const SocialMain = () => {
         currentUser.name
       )
         .then(res => {
-          socket.emit('message', res, () => {});
+          dispatch(socketPostMessage(res, () => {}, socket));
         })
         .catch(err => err);
     }
   };
 
   const handleShowChat = async secondUser => {
-    let roomId;
     setSecondUser(secondUser);
     setChatting(secondUser);
     setRoomid(secondUser.messages[currentUser._id].roomId);

@@ -1,7 +1,6 @@
 import React, { createRef, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Webcam from "react-webcam";
-import FileBase64 from "react-file-base64";
 import ImageUploader from "react-images-upload";
 import "../../styles/profile-styles/Profile.css";
 import * as faceapi from "face-api.js";
@@ -22,12 +21,12 @@ const Profile = () => {
     }
     load();
   }, []);
-
-  const currentUser = useSelector(({ user }) => user);
-  const [imageSrc, setImageSrc] = useState("");
   const dispatch = useDispatch();
-  const onDrop = async picture => {
-    await getBase64(picture[picture.length - 1], result => faceRecog(result));
+  const currentUser = useSelector(({ loginReducer }) => loginReducer.user);
+  const [imageSrc, setImageSrc] = useState('');
+
+  const onDrop = picture => {
+    getBase64(picture[picture.length - 1], result => faceRecog(result));
   };
 
   const webcamRef = createRef(null);
@@ -51,7 +50,7 @@ const Profile = () => {
       cb(reader.result);
     };
     reader.onerror = function(error) {
-      console.log("Error: ", error);
+      console.log('Error: ', error);
     };
   }
   async function faceRecog(imageSrc) {
@@ -103,6 +102,7 @@ const Profile = () => {
             <Webcam
               screenshotFormat="image/jpeg"
               audio={false}
+              mirrored={true}
               ref={webcamRef}
               videoConstraints={videoConstraints}
             />

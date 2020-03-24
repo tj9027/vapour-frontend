@@ -11,19 +11,17 @@ const PlayerList = ({
   calling,
   setCalling
 }) => {
-  console.log(players);
   const playerListToComponent = players.map(player => {
-    if (player._id !== currentUser._id)
-      return (
-        <PlayerCard
-          player={player}
-          key={player._id}
-          handleShowChat={handleShowChat}
-          setCalling={setCalling}
-          calling={calling}
-          handleShowCall={handleShowCall}
-        />
-      );
+    return player._id !== currentUser._id && (
+      <PlayerCard
+        player={player}
+        key={player._id}
+        handleShowChat={handleShowChat}
+        setCalling={setCalling}
+        calling={calling}
+        handleShowCall={handleShowCall}
+      />
+    );
   });
 
   return (
@@ -35,16 +33,16 @@ const PlayerList = ({
           src={currentUser.avatar ? currentUser.avatar : placeHolderAvatar}
           alt={currentUser.name.charAt(0)}
         />
-        <h3 className={currentUser.status ? "button" : "disabled"}>
+        <h3 className={currentUser.status === '1' ? "button" : "disabled"}>
           {currentUser.name}
         </h3>
 
         {/* <select
 					className="player-list__status-selector"
-					value={user.status}
+					value={currentUser.status}
 					onChange={e => {
 						e.preventDefault();
-						setUser(Object.assign({ ...user }, { status: e.target.value }));
+						Object.assign({ ...currentUser }, { status: e.target.value });
 					}
 					}>
 					<option value='1'>online</option>

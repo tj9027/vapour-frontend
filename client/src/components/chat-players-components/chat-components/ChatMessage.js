@@ -1,6 +1,5 @@
-import React from "react";
-import "../../../styles/chat-styles/chatmessage.css";
-import moment from "moment";
+import React from 'react';
+import '../../../styles/chat-styles/chatmessage.css';
 
 const isToday = dateToCheck => {
   const today = new Date();
@@ -14,8 +13,6 @@ const ChatMessage = ({ message }) => {
   const time = isToday(new Date(+message.time))
     ? new Date(+message.time).toLocaleTimeString()
     : new Date(+message.time).toLocaleDateString();
-  console.log(time);
-  const now = new Date().toDateString();
   if (message.senderName) {
     return (
       <div user={message._id} className={`chat-message__container`}>
