@@ -53,7 +53,7 @@ const Forum = ({ location, currentUser, socket }) => {
       const messageContent = {
         senderName: currentUser.name,
         message: message,
-        time: new Date()
+        time: Date.now()
       };
       dispatch(socketPostMessage(messageContent, () => {}, socket));
     }
