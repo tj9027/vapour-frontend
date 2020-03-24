@@ -5,6 +5,7 @@ import FileBase64 from 'react-file-base64';
 import ImageUploader from 'react-images-upload';
 import '../../styles/profile-styles/Profile.css';
 import * as faceapi from 'face-api.js';
+import userApi from '../../api-services/user-api-util';
 const MODEL_URL = '/models'
 
 const videoConstraints = {
@@ -80,8 +81,10 @@ const Profile = () => {
       tempCanvas.height = radius*2;
       tCtx.drawImage(canvas, -(centerX-radius), -(centerY-radius));
       const img = tempCanvas.toDataURL("image/png");
+      userApi(currentUser._id, img)
       setImageSrc(img)
     } catch (error) {
+      console.log(error)
       alert('Sorry, your face was not detected. Please ensure your face is clearly visible')
     }
   }
