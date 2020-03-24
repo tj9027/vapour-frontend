@@ -1,111 +1,133 @@
-import React, { Component } from 'react';
-import ErrorMessage from './error';
-import SuccessMessage from './success'
-import {Link} from 'react-router-dom';
-import '../../styles/session-styles/signup-form.css';
+import React, { Component } from "react";
+import ErrorMessage from "./ErrorMessage";
+import SuccessMessage from "./SuccessMessage";
+import { Link } from "react-router-dom";
+import "../../styles/session-styles/signup-form.css";
 
 class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      email: '',
-      password: '',
-      password2: '',
-      success: '',
-      errors: [],
+      name: "",
+      email: "",
+      password: "",
+      password2: "",
+      success: "",
+      errors: []
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-  onChange (event) {
+  onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
-  onSubmit (e) {
+  onSubmit(e) {
     e.preventDefault();
     const post = {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
-      password2: this.state.password2,
-    }
-    fetch('http://localhost:4000/users/register', {
-      method: 'POST',
+      password2: this.state.password2
+    };
+    fetch("http://localhost:4000/users/register", {
+      method: "POST",
       headers: {
-        'content-type': 'application/json'
+        "content-type": "application/json"
       },
       body: JSON.stringify(post)
     })
-      .then(res => res.status < 400 ? res : Promise.reject(res))
+      .then(res => (res.status < 400 ? res : Promise.reject(res)))
       .then(res => res.json())
       .then(data => {
         if (data.error) {
-          this.setState({ errors: data.error })
-        }
-        else if (data.success) {
-          this.setState({ success: data.success })
+          this.setState({ errors: data.error });
+        } else if (data.success) {
+          this.setState({ success: data.success });
           setTimeout(() => {
-            this.props.history.push('/login');
+            this.props.history.push("/login");
           }, 2000);
         }
       });
   }
 
-
-  render () {
+  render() {
     return (
-      <div className="row mt-5">
-        <div className="col-md-6 m-auto">
-          <div className="card card-body signupbox">
-            <h1 className="text-center mb-3">
-              <i className="fas fa-user-plus"></i> Register
-            </h1>
-            {(this.state.errors.length > 0) &&
-              this.state.errors.map(error => {
-                return (
-                  <div>
-                    <ErrorMessage
-                      error={error}
-                    />
-                  </div>
-                )
-              })
-            }
-            {(this.state.success.length > 0) &&
-              <SuccessMessage
-                success={this.state.success}
-              />
-            }
-            <form onSubmit={this.onSubmit}>
-              <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input type="name" id="name" name="name" className="form-control" placeholder="Enter Name" onChange={this.onChange}
-                  value={this.state.name} />
-              </div>
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <input type="email" id="email" name="email" className="form-control" placeholder="Enter Email" onChange={this.onChange}
-                  value={this.state.email} />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <input type="password" id="password" name="password" className="form-control" placeholder="Create Password" onChange={this.onChange}
-                  value={this.state.password} />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password2">Confirm Password</label>
-                <input type="password" id="password2" name="password2" className="form-control" placeholder="Confirm Password" onChange={this.onChange}
-                  value={this.state.password2} />
-              </div>
-              <button type="submit" className="btn btn-primary btn-block">
-                Register
-        </button>
-            </form>
-            <p className="lead mt-4">Have An Account? <Link to={"/login"}>Login</Link></p>
-          </div>
+      <div className="signup__container">
+        <div className="signup__title-container">
+          <h1 className="signup__title">Welcome to Vapour</h1>
+          <p>please complete the form to register your account</p>
+          <br />
         </div>
+        {this.state.errors.length > 0 &&
+          this.state.errors.map(error => {
+            return (
+              <div>
+                <ErrorMessage error={error} />
+              </div>
+            );
+          })}
+        {this.state.success.length > 0 && (
+          <SuccessMessage success={this.state.success} />
+        )}
+        <form className="signup-form" onSubmit={this.onSubmit}>
+          <label htmlFor="name">Name</label>
+          <input
+            type="name"
+            id="name"
+            name="name"
+            className="signup-form__input"
+            placeholder="Enter Name"
+            onChange={this.onChange}
+            value={this.state.name}
+          />
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            className="signup-form__input"
+            placeholder="Enter Email"
+            onChange={this.onChange}
+            value={this.state.email}
+          />
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            className="signup-form__input"
+            placeholder="Create Password"
+            onChange={this.onChange}
+            value={this.state.password}
+          />
+          <label htmlFor="password2">Confirm Password</label>
+          <input
+            type="password"
+            id="password2"
+            name="password2"
+            className="signup-form__input"
+            placeholder="Confirm Password"
+            onChange={this.onChange}
+            value={this.state.password2}
+          />
+          <input
+            className="button signup-form__button"
+            type="submit"
+            value="SIGN UP"
+          />
+        </form>
+        <p className="signup__text">
+          Have An Account? Click here to
+          <Link
+            className="button signup-form__link"
+            style={{ display: "inline" }}
+            to={"/login"}
+          >
+            Login
+          </Link>
+        </p>
       </div>
-    )
+    );
   }
 }
 

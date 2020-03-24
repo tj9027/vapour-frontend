@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import '../../../styles/chat-styles/chatform.css';
+import React, { useState } from "react";
+import "../../../styles/chat-styles/chatform.css";
 
 const ChatForm = ({ handleChatSubmit }) => {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   return (
     <div className="chat-form__container">
       <form>
@@ -19,14 +19,14 @@ const ChatForm = ({ handleChatSubmit }) => {
           //   onKeyPress={e => {return e.key === 'Enter' ? sendMessage(e) : null}}
         />
         <button
-          className="sendButton"
+          className="chat-form__submit"
           onClick={e => {
             e.preventDefault();
             handleChatSubmit(message);
-            setMessage('');
+            setMessage("");
           }}
         >
-          Send
+          SEND
         </button>
       </form>
     </div>

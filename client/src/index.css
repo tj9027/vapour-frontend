@@ -1,41 +1,43 @@
 :root {
   margin: 0;
   /* font-family: 'motiva sans'; */
-  font-family: "motiva sans",-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: "motiva sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-    font-size: 62.5%;
-    font-variant: small-caps;
-    height: 100vh;
-    width: 100vw;
-    max-width: 100%;
-    max-height: 100%;
+  font-size: 62.5%;
+  font-variant: small-caps;
+  height: 100vh;
+  width: 100vw;
+  max-width: 100%;
+  max-height: 100%;
 }
-body{
+body {
   margin: 0;
   min-width: 435px;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
 }
-#root{
+#root {
   position: relative;
   height: 100%;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
 /*general button*/
-.button{
-  color:#b8b6b4;
+.button {
+  color: #b8b6b4;
   margin: 1.2rem;
-  padding: .3rem;
+  padding: 0.3rem;
+  text-align: center;
   text-decoration: none;
+  padding-bottom: 0.9rem;
 }
 .button:hover {
   color: white;
@@ -44,7 +46,7 @@ code {
 /*player status icon colour*/
 
 .online {
- background-color: #03b5eb;
+  background-color: #03b5eb;
 }
 .away {
   background-color: #fff59d;
@@ -54,17 +56,3 @@ code {
 }
 
 /* form screen*/
-
-.logo{
-  text-align: center;
-  height:200px;
-  width: 200px;
-}
-.logo-container{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.landing-container{
-  min-width:20vw; 
-}
