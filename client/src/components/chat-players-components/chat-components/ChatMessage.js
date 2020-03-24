@@ -2,8 +2,19 @@ import React from "react";
 import "../../../styles/chat-styles/chatmessage.css";
 import moment from "moment";
 
+const isToday = dateToCheck => {
+  const today = new Date();
+  return (
+    dateToCheck.getDate() === today.getDate() &&
+    dateToCheck.getMonth() === today.getMonth() &&
+    dateToCheck.getFullYear() === today.getFullYear()
+  );
+};
 const ChatMessage = ({ message }) => {
-  const time = new Date(+message.time).toLocaleTimeString();
+  const time = isToday(new Date(+message.time))
+    ? new Date(+message.time).toLocaleTimeString()
+    : new Date(+message.time).toLocaleDateString();
+  console.log(time);
   const now = new Date().toDateString();
   if (message.senderName) {
     return (
