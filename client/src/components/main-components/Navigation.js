@@ -1,30 +1,27 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from 'react';
+import { useDispatch } from 'react-redux';
 
 import "../../styles/main-styles/navigation.css";
 import logo from "../../assets/images/logo.svg";
 import { Link } from "react-router-dom";
 
-const Navigation = () => {
+const Navigation = ({currentUser, socket}) => {
   const dispatch = useDispatch();
-  // const currentUser = useSelector(({user}) => user);
 
   const logout = () => {
-    console.log("logging out");
-    fetch("http://localhost:4000/users/logout", {
+    fetch('http://localhost:4000/users/logout', {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
-      credentials: "include",
-      method: "GET"
-    })
-      .then(res => (res.status < 400 ? res : Promise.reject(res)))
-      .then(res => res.json())
-      // .then(res => {socket.emit('logout', currentUser._id); return res})
-      .then(data => {
-        dispatch({ type: "LOGOUT" });
-      });
+      credentials: 'include',
+      method: 'GET',
+    })        
+    .then(res => res.status < 400 ? res : Promise.reject(res))
+    .then(res => res.json())
+    .then(res => {socket.emit('logout', currentUser._id); return res})
+    .then(data => {
+      dispatch({ type: 'LOGOUT' })
   };
   return (
     <div className="navigation__container ">

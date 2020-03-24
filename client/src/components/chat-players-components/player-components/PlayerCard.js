@@ -17,8 +17,6 @@ const PlayerCard = ({
   const [connected, setConnected] = useState(false);
   const statusButton = () =>
     player.status ? "button-enabled" : "button-disabled";
-
-  console.log(player);
   return (
     <div className={`player-card__container ${status()}`}>
       <img

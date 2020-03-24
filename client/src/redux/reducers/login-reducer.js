@@ -4,7 +4,7 @@ const initialState = {
   user: {},
 }
 
-function rootReducer (state = initialState, action) {
+function loginReducer (state = initialState, action) {
 
   switch (action.type) {
     case 'AUTHENTICATE':
@@ -30,4 +30,4 @@ function rootReducer (state = initialState, action) {
   }
 }
 
-export default rootReducer;
+export default loginReducer;

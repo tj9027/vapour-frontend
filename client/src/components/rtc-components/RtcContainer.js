@@ -1,22 +1,35 @@
-import React from 'react';
-// import RtcHeader from '. RtcHeader';
+import React, { createRef } from 'react';
+import Webcam from 'react-webcam';
+// import RtcHeader from './RtcHeader';
 import '../../styles/rtc-styles/rtccontainer.css';
-
-{/* not sure if either of these need to be included somewhere::
-    <meta charset="utf-8" />
-    <link rel = "stylesheet" href = "node_modules/bootstrap/dist/css/bootstrap.min.css"/> */}
+// import RtcMain from './RtcMain'
+// import { useUserMedia } from './useUserMedia'
 
 const RtcContainer = ({ secondUser }) => {
+  const videoRef = createRef(null);
+
+  const startCall = React.useCallback(() => {
+    console.log(videoRef.current.stream);
+  }, [videoRef]);
+  const endCall = React.useCallback(() => {
+    console.log(videoRef.current.stream);
+  }, [videoRef]);
+  // useUserMedia(videoRef)
   return (
     <div className="rtc__container">
       <h2>{secondUser.name}</h2>
-      < div id="callPage" class="call-page" >
-        <video id="localVideo" autoplay></video>
-        <video id="remoteVideo" autoplay></video>
-      </div >
-      <script src="./ToMerge-RtcClient"></script>
-    </div >
-  )
+      <div id="callPage" className="call-page">
+        <Webcam
+          audio={true}
+          mirrored={true}
+          ref={videoRef}
+        />
+        <button onClick={startCall}>Start Call</button>
+        <button onClick={endCall}>End Call</button>
+        {/* <video id="remoteVideo" autoPlay></video> */}
+      </div>
+    </div>
+  );
 };
 
 export default RtcContainer;

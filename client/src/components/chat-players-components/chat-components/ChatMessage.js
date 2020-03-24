@@ -1,6 +1,5 @@
-import React from "react";
-import "../../../styles/chat-styles/chatmessage.css";
-import moment from "moment";
+import React from 'react';
+import '../../../styles/chat-styles/chatmessage.css';
 
 const isToday = dateToCheck => {
   const today = new Date();

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { SocketContext } from './utils/socket-context';
 import Signup from "./components/session-components/signup";
 import Login from "./components/session-components/login";
 import Landing from "./components/session-components/landing";
@@ -27,8 +28,6 @@ function AuthRouter() {
       .then(res => (res.status < 400 ? res : Promise.reject(res)))
       .then(res => res.json())
       .then(data => {
-        console.log("fetching");
-        console.log(data);
         if (data.user) dispatch({ type: "AUTHENTICATE", user: data.user });
         else dispatch({ type: "FAILAUTHENTICATE" });
       });
@@ -46,6 +45,10 @@ function AuthRouter() {
         <Auth exact path="/landing" component={Landing} />
         <Auth exact path="/register" component={Signup} />
         <Auth exact path="/login" component={Login} />
+        <SocketContext.Consumer>
+          {socket => 
+            <Protected path="/" component={() => <App socket={socket} />} />}
+        </SocketContext.Consumer>
         <Protected path="/" component={App} />
         {/* </Switch> */}
       </AnimatedSwitch>
@@ -54,25 +57,25 @@ function AuthRouter() {
 }
 
 const Auth = ({ component: Component, ...rest }) => {
-  const isAuth = useSelector(state => state.isAuth);
+  const isAuth = useSelector(({ loginReducer }) => loginReducer.isAuth);
   return (
     <Route
       {...rest}
-      render={props =>
-        !isAuth ? (
+      render={props => {
+        return !isAuth ? (
           <Component {...props} />
         ) : (
           // Redirect to root if user is authenticated
           <Redirect to="/" />
-        )
-      }
+        );
+      }}
     />
   );
 };
 
 const Protected = ({ component: Component, ...rest }) => {
-  const isAuth = useSelector(state => state.isAuth);
-  const isLoading = useSelector(state => state.isLoading);
+  const isAuth = useSelector(({ loginReducer }) => loginReducer.isAuth);
+  const isLoading = useSelector(({ loginReducer }) => loginReducer.isLoading);
   return (
     <Route
       {...rest}
