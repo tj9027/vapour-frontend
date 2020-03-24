@@ -5,9 +5,9 @@ import '../../styles/game-styles/gamescreen.css';
 
 const GameScreen = () => {
 	const { id } = useParams();
-	const game = gamedb.find(el => el.id == id);
+	const game = gamedb.find(el => el.id === id);
 	const frameRef = useRef(null);
-	const frameWidth = game.id == 2 ? '500' : '1500'; //a hack to deal with Asteroids being tiny
+	const frameWidth = game.id === 2 ? '500' : '1500'; //a hack to deal with Asteroids being tiny
 	
 	return (
 		<div className="game-screen__container">

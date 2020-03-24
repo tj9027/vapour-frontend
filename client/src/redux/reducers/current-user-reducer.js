@@ -1,4 +1,4 @@
-import { GET_CURRENT_USER, UPDATE_MESSAGES, GET_MESSAGES } from '../actions/current-user-actions';
+import { GET_CURRENT_USER } from '../actions/current-user-actions';
 
 const initialState = {
   _id: '',
@@ -11,17 +11,17 @@ export default function currentUser(state = initialState, action) {
     case GET_CURRENT_USER:
       return { ...state, ...action.currentUser };
     //update messages handles POST new thread and GET messages methods.
-    case UPDATE_MESSAGES:
-      return { ...state, messages: action.messages };
-    case GET_MESSAGES:
-      return {
-        ...state,
-        messages: Object.assign(
-          {},
-          state.messages,
-          action.messages[action.secondUser._id]
-        )
-      };
+    // case UPDATE_MESSAGES:
+    //   return { ...state, messages: action.messages };
+    // case GET_MESSAGES:
+    //   return {
+    //     ...state,
+    //     messages: Object.assign(
+    //       {},
+    //       state.messages,
+    //       action.messages[action.secondUser._id]
+    //     )
+    //   }
     default:
       return state;
   }

@@ -3,21 +3,17 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import AuthRouter from './auth-router';
 import * as serviceWorker from './serviceWorker';
-import { Provider } from 'react-redux'
-import { createStore } from 'redux';
-import rootReducer from './redux/reducers/root-reducers'
+import { Provider } from 'react-redux';
+import configureStore from './redux/store/store';
 
-
-const store = createStore(
-  rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
+const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    <AuthRouter />
-  </Provider>
-  , document.getElementById('root'));
+     <AuthRouter />
+  </Provider>,
+  document.getElementById('root')
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

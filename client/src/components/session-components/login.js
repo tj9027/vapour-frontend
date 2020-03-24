@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import '../../styles/session-styles/login-form.css';
 
 function Login () {
-  const isAuth = useSelector(state => state.isAuth)
+  const isAuth = useSelector(({loginReducer}) =>loginReducer.isAuth)
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -49,7 +49,7 @@ function Login () {
 
   return (
     <div>
-      {isAuth == false &&
+      {!isAuth &&
         <div className="row mt-5">
           <div className="col-md-6 m-auto">
             <div className="card card-body login-container">

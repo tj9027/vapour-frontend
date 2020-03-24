@@ -1,10 +1,8 @@
 import React from 'react';
 import '../../../styles/chat-styles/chatmessage.css';
-import moment from 'moment';
 
 const ChatMessage = ({ message }) => {
 	const time = new Date(+message.time * 1000).toLocaleTimeString();
-	const now = new Date().toDateString();
 	if (message.senderName) {
 		return (
 			<div user={message._id} className={`chat-message__container`}>
