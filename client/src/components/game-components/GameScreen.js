@@ -5,7 +5,6 @@ import gamedb from '../../mocks/gameslist';
 import '../../styles/game-styles/gamescreen.css';
 
 const GameScreen = () => {
-			{/* <div className="game-screen__header">
   const currentUser = useSelector(({ user }) => user);
   const { id } = useParams();
   const game = gamedb.find(el => el.id == id);
@@ -23,10 +22,10 @@ const GameScreen = () => {
         title="inline frame"
         width={frameWidth}
         height="700"
-        src={game.url + '?a=' + currentUser._id + '&b=' + currentUser.password}>
-      </iframe>
+        src={game.url + '?a=' + currentUser._id + '&b=' + currentUser.password}
+      ></iframe>
     </div>
-  )
+  );
 };
 
 export default GameScreen;

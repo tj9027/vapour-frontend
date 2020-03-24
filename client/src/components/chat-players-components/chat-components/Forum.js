@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import MessageList from './MessageList';
 import ChatForm from './ChatForm';
+import '../../../styles/chat-styles/forum.css'
+import ChatHeader from './ChatHeader';
 import {
   joinRoomById,
   changeConnection,
@@ -35,7 +37,7 @@ const Forum = ({ location, currentUser, socket }) => {
   }, [location, forumSubject, socket, dispatch, currentUser]);
 
   useEffect(() => {
-    socket.on("message", ({ message }) => {
+    socket.on('message', ({ message }) => {
       setForumPosts([...forumPosts, message]);
     });
   }, [forumPosts, socket]);
