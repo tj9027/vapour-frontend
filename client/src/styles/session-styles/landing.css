@@ -1,6 +1,7 @@
 .landing__container {
   align-items: center;
   background-image: linear-gradient(#1a3f56 3%, #1b2838 100%);
+  color: #b8b6b4;
   display: flex;
   flex-direction: column;
   height: 100%;
