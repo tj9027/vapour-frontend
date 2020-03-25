@@ -1,4 +1,5 @@
 export const firstSocketLogin = (_id, socket) => () => {
+  console.log('logging in for the first time')
   socket.emit("login-user", _id);
 };
 

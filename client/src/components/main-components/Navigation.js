@@ -20,7 +20,6 @@ const Navigation = ({ currentUser, socket }) => {
       .then(res => (res.status < 400 ? res : Promise.reject(res)))
       .then(res => res.json())
       .then(res => {
-        socket.emit("logout", currentUser._id);
         return res;
       })
       .then(data => {
@@ -29,7 +28,7 @@ const Navigation = ({ currentUser, socket }) => {
   };
   return (
     <div className="navigation__container ">
-      <Link to="/" className="navigation__logo">
+      <Link to="/app" className="navigation__logo">
         <img src={logo} alt="logo" />
         <p>Vapour</p>
       </Link>
@@ -59,7 +58,8 @@ const Navigation = ({ currentUser, socket }) => {
           className="navigation__logout button"
           onClick={e => {
             logout();
-            socket.disconnect(currentUser.name, currentUser._id);
+            socket.emit("logout-user", currentUser._id)
+            socket.emit("disconnect");
           }}
           to="/"
         >

@@ -1,35 +1,36 @@
-import React, { useEffect } from "react";
-import { SocketContext } from "./utils/socket-context";
-import Signup from "./components/session-components/signup";
-import Login from "./components/session-components/login";
-import Landing from "./components/session-components/landing";
-import App from "./App";
-import Loading from "./components/session-components/loading";
+import React, { useEffect } from 'react';
+import { SocketContext } from './utils/socket-context';
+import Signup from './components/session-components/signup';
+import Login from './components/session-components/login';
+import Landing from './components/session-components/landing';
+import App from './App';
+import Loading from './components/session-components/loading';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect
-} from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { AnimatedSwitch } from "react-router-transition";
+} from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { AnimatedSwitch } from 'react-router-transition';
 
 function AuthRouter() {
+  const isAuth = useSelector(({ loginReducer }) => loginReducer.isAuth);
   const dispatch = useDispatch();
   useEffect(() => {
-    fetch("http://localhost:4000/users", {
+    fetch('http://localhost:4000/users', {
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
       },
-      credentials: "include",
-      method: "GET"
+      credentials: 'include',
+      method: 'GET'
     })
       .then(res => (res.status < 400 ? res : Promise.reject(res)))
       .then(res => res.json())
       .then(data => {
-        if (data.user) dispatch({ type: "AUTHENTICATE", user: data.user });
-        else dispatch({ type: "FAILAUTHENTICATE" });
+        if (data.user) dispatch({ type: 'AUTHENTICATE', user: data.user });
+        else dispatch({ type: 'FAILAUTHENTICATE' });
       });
   }, []);
   return (
@@ -41,15 +42,20 @@ function AuthRouter() {
         className="App switch-wrapper"
       >
         {/* <Switch> */}
-        <Auth exact path="/landing" component={Landing} />
         <Auth exact path="/register" component={Signup} />
         <Auth exact path="/login" component={Login} />
-        <SocketContext.Consumer>
-          {socket => (
-            <Protected path="/" component={() => <App socket={socket} />} />
-          )}
-        </SocketContext.Consumer>
-        {/* <Protected path="/" component={App} /> */}
+        {isAuth && (
+          <SocketContext.Consumer>
+            {socket => (
+              <Protected
+              exact
+              path="/app"
+              component={() => <App socket={socket} />}
+              />
+              )}
+          </SocketContext.Consumer>
+        )}
+        <Auth path="/" component={Landing} />
         {/* </Switch> */}
       </AnimatedSwitch>
     </Router>
@@ -66,7 +72,7 @@ const Auth = ({ component: Component, ...rest }) => {
           <Component {...props} />
         ) : (
           // Redirect to root if user is authenticated
-          <Redirect to="/" />
+          <Redirect to="/app" />
         );
       }}
     />
@@ -85,7 +91,7 @@ const Protected = ({ component: Component, ...rest }) => {
           <Component {...props} />
         ) : (
           // Redirect to the login page if the user is not authenticated
-          <Redirect to="/landing" />
+          <Redirect to="/" />
         );
       }}
     />

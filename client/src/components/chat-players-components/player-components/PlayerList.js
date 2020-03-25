@@ -35,6 +35,9 @@ const PlayerList = ({
           src={currentUser.avatar ? currentUser.avatar : placeHolderAvatar}
           alt={currentUser.name.charAt(0)}
         />
+        <button onClick={() => {window.location.reload()}}>
+          GO ONLINE
+        </button>
         <h3 className={currentUser.status ? "button" : "disabled"}>
           {currentUser.name}
         </h3>
