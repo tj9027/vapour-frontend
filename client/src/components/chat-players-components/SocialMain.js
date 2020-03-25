@@ -21,7 +21,9 @@ const SocialMain = ({ currentUser, socket }) => {
   const [roomid, setRoomid] = useState("");
   const [secondUser, setSecondUser] = useState({});
   const [players, setPlayers] = useState([]);
+
   const [loggedInUsers, setLoggedInUsers] = useState([]);
+
 
   socket.emit("updateUsers", currentUser._id);
   useEffect(() => {
@@ -63,6 +65,7 @@ const SocialMain = ({ currentUser, socket }) => {
     return () => {};
   }, [socket, players]);
 
+
   useEffect(() => {
     if (roomid && secondUser) {
       dispatch(
@@ -86,6 +89,7 @@ const SocialMain = ({ currentUser, socket }) => {
         setMessages([...messages, message.message]);
       });
     }
+    return () => {};
   }, [messages, secondUser, socket, roomid]);
 
   let chatSessionId = "";
@@ -120,7 +124,7 @@ const SocialMain = ({ currentUser, socket }) => {
     setSecondUser(targetUser);
   };
 
-  if (players) {
+  if (players.length) {
     return (
       <div className="social-main__container">
         <PlayerList
