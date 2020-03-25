@@ -49,7 +49,7 @@ function AuthRouter() {
             <Protected path="/" component={() => <App socket={socket} />} />
           )}
         </SocketContext.Consumer>
-        <Protected path="/" component={App} />
+        {/* <Protected path="/" component={App} /> */}
         {/* </Switch> */}
       </AnimatedSwitch>
     </Router>

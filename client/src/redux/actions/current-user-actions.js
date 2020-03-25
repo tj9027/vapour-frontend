@@ -19,24 +19,18 @@ export const getCurrentUser = _id => async dispatch => {
     .catch(err => console.log("An error occurred.", err));
 };
 
-export const uploadAvatar = (_id, src) => {
-  console.log("called uploadAvatar");
-  return dispatch => {
-    console.log("upload avatar  line 26");
-    return fetch(baseURL + `update-current?_id=${_id}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        avatar: src
-      }),
-      headers: {
-        "Content-Type": "application/json"
-      }
+export const updateUser = (_id, update) => dispatch => {
+  return fetch(baseURL + `update-current?_id=${_id}`, {
+    method: "PUT",
+    body: JSON.stringify(update),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(response => response.json())
+    .then(currentUser => {
+      console.log(currentUser);
+      dispatch(receiveCurrentUser(currentUser));
     })
-      .then(response => response.json())
-      .then(currentUser => {
-        console.log(currentUser);
-        dispatch(receiveCurrentUser(currentUser));
-      })
-      .catch(err => console.log("An error occurred.", err));
-  };
+    .catch(err => console.log("An error occurred.", err));
 };

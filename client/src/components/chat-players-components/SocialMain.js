@@ -1,47 +1,67 @@
-import React, { useState, useEffect } from 'react';
-import PlayerList from './player-components/PlayerList';
-import ChatContainer from './chat-components/ChatContainer';
-import RtcContainer from '../rtc-components/RtcContainer';
-import '../../styles/socialmain.css';
-import { getPlayerMessages, sendMessage } from '../../api-services/messageAPI';
-import { getPlayers } from '../../api-services/playersAPI';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import PlayerList from "./player-components/PlayerList";
+import ChatContainer from "./chat-components/ChatContainer";
+import RtcContainer from "../rtc-components/RtcContainer";
+import "../../styles/socialmain.css";
+import { getPlayerMessages, sendMessage } from "../../api-services/messageAPI";
+import { getPlayers } from "../../api-services/playersAPI";
+import { useDispatch } from "react-redux";
 import {
   joinRoomById,
   disconnectSocket,
   socketPostMessage
-} from '../../redux/actions/socket-actions';
-const ENDPOINT = 'http://localhost:4000/';
+} from "../../redux/actions/socket-actions";
+const ENDPOINT = "http://localhost:4000/";
 
-const SocialMain = ({ currentUser, socket, loggedInUsers }) => {
+const SocialMain = ({ currentUser, socket }) => {
   const dispatch = useDispatch();
   const [calling, setCalling] = useState();
   const [chatting, setChatting] = useState();
   const [messages, setMessages] = useState([]);
-  const [roomid, setRoomid] = useState('');
+  const [roomid, setRoomid] = useState("");
   const [secondUser, setSecondUser] = useState({});
-  const [players, setPlayers] = useState();
+  const [players, setPlayers] = useState([]);
+  const [loggedInUsers, setLoggedInUsers] = useState([]);
+
+  socket.emit("updateUsers", currentUser._id);
+  useEffect(() => {
+    Object.assign(currentUser, { status: 1 });
+
+    getPlayers(ENDPOINT)
+      .then(res => setPlayers(res))
+
+      // res.map(user => {
+      // if (loggedInUsers.includes(user._id)) {
+      //   console.log(user);
+      //   return Object.assign(user, { status: 1 });
+      // } else {
+      //   return Object.assign(user, { status: 0 });
+      // }
+      //   })
+      // )
+      .catch(err => console.log(err));
+  }, [currentUser]);
 
   useEffect(() => {
-    if (!players) {
-      Object.assign(currentUser, { status: '1' });
-      getPlayers(ENDPOINT)
-        .then(res =>
-          res.map(user => {
-            if (loggedInUsers.includes(user._id)) {
-              console.log(user);
-              return Object.assign(user, { status: '1' });
-            } else {
-              return Object.assign(user, { status: '0' });
-            }
-          })
-        )
-        .then(res => {
-          setPlayers(res);
-        })
-        .catch(err => console.log(err));
+    if (players) {
+      socket.on("updateUsers", data => {
+        const newPlayers = players.map(player => {
+          setLoggedInUsers([...data]);
+          if ([...data].includes(player._id)) {
+            return Object.assign(player, { status: 1 });
+          } else {
+            return Object.assign(player, { status: 0 });
+          }
+        });
+        setPlayers(newPlayers);
+      });
     }
-  }, [players, loggedInUsers, currentUser]);
+    // socket.on("updateUsers", data => {
+    //   console.log("updating online users");
+    //   setLoggedInUsers([...data]);
+    // });
+    return () => {};
+  }, [socket, players]);
 
   useEffect(() => {
     if (roomid && secondUser) {
@@ -62,18 +82,18 @@ const SocialMain = ({ currentUser, socket, loggedInUsers }) => {
 
   useEffect(() => {
     if (roomid && secondUser) {
-      socket.on('message', message => {
+      socket.on("message", message => {
         setMessages([...messages, message.message]);
       });
     }
   }, [messages, secondUser, socket, roomid]);
 
-  let chatSessionId = '';
+  let chatSessionId = "";
 
   const handleChatSubmit = message => {
     if (message) {
       sendMessage(
-        ENDPOINT + 'messages',
+        ENDPOINT + "messages",
         message,
         secondUser._id,
         currentUser._id,

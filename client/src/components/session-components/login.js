@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "../../styles/session-styles/login-form.css";
 
-function Login () {
-  const isAuth = useSelector(({loginReducer}) =>loginReducer.isAuth)
+function Login() {
+  const isAuth = useSelector(({ loginReducer }) => loginReducer.isAuth);
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -43,7 +43,6 @@ function Login () {
           dispatch({ type: "AUTHENTICATE", user: data.user });
         }
       });
-
   };
   return !isAuth ? (
     <div className="login__container">

@@ -34,11 +34,12 @@ code {
 /*general button*/
 .button {
   color: #b8b6b4;
+  font-variant: small-caps;
   margin: 1.2rem;
   padding: 0.3rem;
   text-align: center;
   text-decoration: none;
-  padding-bottom: 0.9rem;
+  cursor: pointer;
 }
 .button:hover {
   color: white;

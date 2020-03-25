@@ -1,6 +1,5 @@
-export const firstSocketLogin = (_id, socket, callback) => async () => {
-  socket.emit("login", _id, callback);
-  socket.emit("update-users", _id);
+export const firstSocketLogin = (_id, socket) => () => {
+  socket.emit("login-user", _id);
 };
 
 export const joinRoomById = (name, roomId, _id, socket, callback) => () => {
@@ -8,7 +7,7 @@ export const joinRoomById = (name, roomId, _id, socket, callback) => () => {
 };
 
 export const socketLogout = (_id, socket) => () => {
-  socket.emit("login", _id, () => {});
+  socket.emit("logout-user", _id, () => {});
 };
 export const changeConnection = socket => () => {
   socket.emit("changeConnection");

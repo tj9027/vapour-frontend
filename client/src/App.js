@@ -15,19 +15,13 @@ import Forum from "./components/chat-players-components/chat-components/Forum";
 function App({ socket }) {
   const currentUser = useSelector(({ loginReducer }) => loginReducer.user);
   const dispatch = useDispatch();
-  const [loggedInUsers, setLoggedInUsers] = useState([]);
 
   useEffect(() => {
-    console.log(loggedInUsers);
-    if (currentUser._id.length !== 0) {
-      dispatch(
-        firstSocketLogin(currentUser._id, socket, users =>
-          setLoggedInUsers([...users])
-        )
-      );
+    if (currentUser._id.length) {
+      dispatch(firstSocketLogin(currentUser._id, socket));
     }
-    socket.on("updateUsers", data => console.log(data));
-  }, [currentUser._id, dispatch, socket]);
+    console.log("just rendered app");
+  }, [currentUser._id, dispatch]);
 
   if (currentUser._id.length !== 0) {
     return (
@@ -40,11 +34,7 @@ function App({ socket }) {
               exact
               path="/messages"
               component={() => (
-                <SocialMain
-                  loggedInUsers={loggedInUsers}
-                  currentUser={currentUser}
-                  socket={socket}
-                />
+                <SocialMain currentUser={currentUser} socket={socket} />
               )}
             />
             <Route exact path="/game/:id">
