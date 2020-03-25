@@ -47,11 +47,7 @@ function AuthRouter() {
         <Auth exact path="/login" component={Login} />
         <SocketContext.Consumer>
           {socket => (
-            <Protected
-              exact
-              path="/"
-              component={() => <App socket={socket} />}
-            />
+            <Protected path="/"  component={() => <App socket={socket} />}/>
           )}
         </SocketContext.Consumer>
       </AnimatedSwitch>
