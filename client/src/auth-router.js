@@ -1,36 +1,37 @@
-import React, { useEffect } from 'react';
-import { SocketContext } from './utils/socket-context';
-import Signup from './components/session-components/signup';
-import Login from './components/session-components/login';
-import Landing from './components/session-components/landing';
-import App from './App';
-import Loading from './components/session-components/loading';
+import React, { useEffect } from "react";
+import { SocketContext } from "./utils/socket-context";
+import Signup from "./components/session-components/signup";
+import Login from "./components/session-components/login";
+import Landing from "./components/session-components/landing";
+import App from "./App";
+import Loading from "./components/session-components/loading";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect
-} from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { AnimatedSwitch } from 'react-router-transition';
+} from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { AnimatedSwitch } from "react-router-transition";
 
 function AuthRouter() {
-  const isAuth = useSelector(({ loginReducer }) => loginReducer.isAuth);
   const dispatch = useDispatch();
+  const isAuth = useSelector(({ loginReducer }) => loginReducer.isAuth);
+
   useEffect(() => {
-    fetch('http://localhost:4000/users', {
+    fetch("http://localhost:4000/users", {
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
-      credentials: 'include',
-      method: 'GET'
+      credentials: "include",
+      method: "GET"
     })
       .then(res => (res.status < 400 ? res : Promise.reject(res)))
       .then(res => res.json())
       .then(data => {
-        if (data.user) dispatch({ type: 'AUTHENTICATE', user: data.user });
-        else dispatch({ type: 'FAILAUTHENTICATE' });
+        if (data.user) dispatch({ type: "AUTHENTICATE", user: data.user });
+        else dispatch({ type: "FAILAUTHENTICATE" });
       });
   }, []);
   return (
@@ -41,22 +42,18 @@ function AuthRouter() {
         atActive={{ opacity: 1 }}
         className="App switch-wrapper"
       >
-        {/* <Switch> */}
+        <Auth exact path="/landing" component={Landing} />
         <Auth exact path="/register" component={Signup} />
         <Auth exact path="/login" component={Login} />
-        {isAuth && (
-          <SocketContext.Consumer>
-            {socket => (
-              <Protected
+        <SocketContext.Consumer>
+          {socket => (
+            <Protected
               exact
-              path="/app"
-              component={() => <App socket={socket} />}
-              />
-              )}
-          </SocketContext.Consumer>
-        )}
-        <Auth path="/" component={Landing} />
-        {/* </Switch> */}
+              path="/"
+              component={() => <App socket={socket} isAuth={isAuth} />}
+            />
+          )}
+        </SocketContext.Consumer>
       </AnimatedSwitch>
     </Router>
   );
@@ -72,7 +69,7 @@ const Auth = ({ component: Component, ...rest }) => {
           <Component {...props} />
         ) : (
           // Redirect to root if user is authenticated
-          <Redirect to="/app" />
+          <Redirect to="/" />
         );
       }}
     />
@@ -91,7 +88,7 @@ const Protected = ({ component: Component, ...rest }) => {
           <Component {...props} />
         ) : (
           // Redirect to the login page if the user is not authenticated
-          <Redirect to="/" />
+          <Redirect to="/landing" />
         );
       }}
     />

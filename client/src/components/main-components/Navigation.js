@@ -28,7 +28,7 @@ const Navigation = ({ currentUser, socket }) => {
   };
   return (
     <div className="navigation__container ">
-      <Link to="/app" className="navigation__logo">
+      <Link to="/" className="navigation__logo">
         <img src={logo} alt="logo" />
         <p>Vapour</p>
       </Link>
@@ -58,7 +58,7 @@ const Navigation = ({ currentUser, socket }) => {
           className="navigation__logout button"
           onClick={e => {
             logout();
-            socket.emit("logout-user", currentUser._id)
+            socket.emit("logout-user", currentUser._id);
             socket.emit("disconnect");
           }}
           to="/"

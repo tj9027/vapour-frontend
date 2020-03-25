@@ -29,7 +29,7 @@ function App({ socket }) {
         <div className="App">
           <Navigation currentUser={currentUser} socket={socket} />
           <Switch>
-            <Route exact path="/app" component={Main} />
+            <Route exact path="/" component={Main} />
             <Route
               exact
               path="/messages"

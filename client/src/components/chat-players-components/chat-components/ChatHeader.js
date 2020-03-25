@@ -1,7 +1,7 @@
 import React from "react";
 import "../../../styles/chat-styles/chatheader.css";
 
-const ChatHeader = ({ secondUser, displayStatus }) => {
+const ChatHeader = ({ secondUser, displayStatus, setChatting }) => {
   const status = () => {
     switch (+secondUser.status) {
       case 0:
@@ -16,12 +16,23 @@ const ChatHeader = ({ secondUser, displayStatus }) => {
   };
   return (
     <div className="chat-header__container">
-      <p>{secondUser.name}</p>
-      {displayStatus && (
-        <p className="chat-header__status">
-          <span className={`chat-header__status-icon ${status()}`}></span>
-        </p>
-      )}
+      <div className="chat-header__details-container">
+        <span>{secondUser.name}</span>
+        {displayStatus && (
+          <p className="chat-header__status">
+            <span className={`chat-header__status-icon ${status()}`}></span>
+          </p>
+        )}
+      </div>
+      <button
+        className="button chat-header__close-button"
+        onClick={e => {
+          e.preventDefault();
+          setChatting(false);
+        }}
+      >
+        Close
+      </button>
     </div>
   );
 };
