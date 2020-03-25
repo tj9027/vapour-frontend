@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { SocketContext } from './utils/socket-context';
+import { SocketContext } from "./utils/socket-context";
 import Signup from "./components/session-components/signup";
 import Login from "./components/session-components/login";
 import Landing from "./components/session-components/landing";
@@ -35,21 +35,21 @@ function AuthRouter() {
   return (
     <Router>
       <AnimatedSwitch
-        className="App"
         atEnter={{ opacity: 0 }}
         atLeave={{ opacity: 0 }}
         atActive={{ opacity: 1 }}
-        className="switch-wrapper"
+        className="App switch-wrapper"
       >
         {/* <Switch> */}
         <Auth exact path="/landing" component={Landing} />
         <Auth exact path="/register" component={Signup} />
         <Auth exact path="/login" component={Login} />
         <SocketContext.Consumer>
-          {socket => 
-            <Protected path="/" component={() => <App socket={socket} />} />}
+          {socket => (
+            <Protected path="/" component={() => <App socket={socket} />} />
+          )}
         </SocketContext.Consumer>
-        <Protected path="/" component={App} />
+        {/* <Protected path="/" component={App} /> */}
         {/* </Switch> */}
       </AnimatedSwitch>
     </Router>

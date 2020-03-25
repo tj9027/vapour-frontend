@@ -1,30 +1,30 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React from "react";
+import { useDispatch } from "react-redux";
 
-import '../../styles/main-styles/navigation.css';
-import logo from '../../assets/images/logo.svg';
-import { Link } from 'react-router-dom';
+import "../../styles/main-styles/navigation.css";
+import logo from "../../assets/images/logo.svg";
+import { Link } from "react-router-dom";
 
 const Navigation = ({ currentUser, socket }) => {
   const dispatch = useDispatch();
 
   const logout = () => {
-    fetch('http://localhost:4000/users/logout', {
+    fetch("http://localhost:4000/users/logout", {
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
-      credentials: 'include',
-      method: 'GET'
+      credentials: "include",
+      method: "GET"
     })
       .then(res => (res.status < 400 ? res : Promise.reject(res)))
       .then(res => res.json())
       .then(res => {
-        socket.emit('logout', currentUser._id);
+        socket.emit("logout", currentUser._id);
         return res;
       })
       .then(data => {
-        dispatch({ type: 'LOGOUT' });
+        dispatch({ type: "LOGOUT" });
       });
   };
   return (
@@ -33,30 +33,39 @@ const Navigation = ({ currentUser, socket }) => {
         <img src={logo} alt="logo" />
         <p>Vapour</p>
       </Link>
-      <Link
-        className="navigation__player-list-toggle button"
-        onClick={e => {}}
-        to="/profile"
-      >
-        <div>Profile</div>
-      </Link>
-      <Link
-        className="navigation__player-list-toggle button"
-        onClick={e => {}}
-        to="/messages"
-      >
-        <div>PLAYERS & CHAT</div>
-      </Link>
-      <Link
-        className="navigation__player-list-toggle button"
-        onClick={e => {}}
-        to="/forum"
-      >
-        <div>Forum</div>
-      </Link>
-      <Link className="navigation__logout button" onClick={logout} to="/">
-        SIGN OUT
-      </Link>
+      <div className="navigation__links-container">
+        <Link
+          className="navigation__player-list-toggle button"
+          onClick={e => {}}
+          to="/profile"
+        >
+          <div>Profile</div>
+        </Link>
+        <Link
+          className="navigation__player-list-toggle button"
+          onClick={e => {}}
+          to="/messages"
+        >
+          <div>PLAYERS & CHAT</div>
+        </Link>
+        <Link
+          className="navigation__player-list-toggle button"
+          onClick={e => {}}
+          to="/forum"
+        >
+          <div>Forum</div>
+        </Link>
+        <Link
+          className="navigation__logout button"
+          onClick={e => {
+            logout();
+            socket.disconnect(currentUser.name, currentUser._id);
+          }}
+          to="/"
+        >
+          SIGN OUT
+        </Link>
+      </div>
     </div>
   );
 };

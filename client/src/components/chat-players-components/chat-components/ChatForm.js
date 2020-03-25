@@ -16,7 +16,6 @@ const ChatForm = ({ handleChatSubmit }) => {
             e.preventDefault();
             setMessage(e.target.value);
           }}
-          //   onKeyPress={e => {return e.key === 'Enter' ? sendMessage(e) : null}}
         />
         <button
           className="chat-form__submit"

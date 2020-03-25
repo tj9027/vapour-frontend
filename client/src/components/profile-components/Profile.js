@@ -1,130 +1,98 @@
-import React, { createRef, useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import Webcam from "react-webcam";
-import ImageUploader from "react-images-upload";
+import React, { useState, useEffect } from "react";
 import "../../styles/profile-styles/Profile.css";
-import * as faceapi from "face-api.js";
-import { uploadAvatar } from "../../redux/actions/current-user-actions";
-const MODEL_URL = "/models";
-
-const videoConstraints = {
-  width: 400,
-  height: 400,
-  facingMode: "user"
-};
+import { useSelector, useDispatch } from "react-redux";
+import placeholderImg from "../../assets/images/placeholder-avatar.svg";
+import ProfileCamera from "./ProfileCamera";
+import ProfileForm from "./ProfileForm";
+import { getCurrentUser } from "../../redux/actions/current-user-actions";
 
 const Profile = () => {
-  useEffect(() => {
-    async function load() {
-      await faceapi.loadTinyFaceDetectorModel(MODEL_URL);
-      await faceapi.loadFaceRecognitionModel(MODEL_URL);
-    }
-    load();
-  }, []);
   const dispatch = useDispatch();
-  const currentUser = useSelector(({ loginReducer }) => loginReducer.user);
-  const [imageSrc, setImageSrc] = useState('');
+  const user = useSelector(({ loginReducer }) => loginReducer.user);
+  const [isOpenForm, setIsOpenForm] = useState(false);
+  const [currentUser, setCurrentUser] = useState(user);
 
-  const onDrop = picture => {
-    getBase64(picture[picture.length - 1], result => faceRecog(result));
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const openModal = () => setModalIsOpen(true);
+  const closeModal = () => setModalIsOpen(false);
+  const afterOpenModal = () => console.log("modal");
+
+  const openForm = type => setIsOpenForm(type);
+  const closeForm = type => setIsOpenForm(false);
+
+  const updateUserState = () => {
+    dispatch(getCurrentUser(currentUser._id)).then(data => {
+      console.log(data);
+      setCurrentUser(data);
+      window.location.reload();
+    });
   };
 
-  const webcamRef = createRef(null);
-
-  const capture = React.useCallback(() => {
-    faceRecog(webcamRef.current.getScreenshot());
-  }, [webcamRef]);
-
-  function clearImage() {
-    setImageSrc("");
-  }
-
-  const handleSaveAvatar = (id, src) => {
-    dispatch(uploadAvatar(id, src));
-  };
-
-  function getBase64(file, cb) {
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function() {
-      cb(reader.result);
-    };
-    reader.onerror = function(error) {
-      console.log('Error: ', error);
-    };
-  }
-  async function faceRecog(imageSrc) {
-    try {
-      const image = new Image();
-      image.src = imageSrc;
-      const detections = await faceapi.detectAllFaces(
-        image,
-        new faceapi.TinyFaceDetectorOptions()
-      );
-      const x = detections[0].box["_x"];
-      const y = detections[0].box["_y"];
-      const width = detections[0].box["_width"];
-      const height = detections[0].box["_height"];
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      canvas.width = image.width;
-      canvas.height = image.height;
-      const centerX = x + width / 2;
-      const centerY = y + height / 2 - height * 0.2;
-      const radius = (height / 2) * 1.5;
-      ctx.drawImage(image, 0, 0);
-      ctx.globalCompositeOperation = "destination-in";
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-      ctx.closePath();
-      ctx.fill();
-      const tempCanvas = document.createElement("canvas");
-      const tCtx = tempCanvas.getContext("2d");
-      tempCanvas.width = radius * 2;
-      tempCanvas.height = radius * 2;
-      tCtx.drawImage(canvas, -(centerX - radius), -(centerY - radius));
-      const img = tempCanvas.toDataURL("image/png");
-      setImageSrc(img);
-    } catch (error) {
-      alert(
-        "Sorry, your face was not detected. Please ensure your face is clearly visible"
-      );
-    }
-  }
-
-  if (currentUser.name.length !== 0) {
+  if (user.name.length) {
     return (
       <div className="profile__container">
-        <h1>{currentUser._id}</h1>
-        <h1>{currentUser.name}</h1>
-        <div className="container">
-          <div className="capture-container">
-            <Webcam
-              screenshotFormat="image/jpeg"
-              audio={false}
-              mirrored={true}
-              ref={webcamRef}
-              videoConstraints={videoConstraints}
-            />
-            <button onClick={capture}>Capture photo</button>
-            <button onClick={clearImage}>Clear image</button>
-            <ImageUploader
-              withIcon={true}
-              buttonText="Choose Avatar"
-              onChange={onDrop}
-              imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-              maxFileSize={5242880}
-            />
+        <div className="profile__details-container">
+          <img
+            className="profile__avatar"
+            src={user.avatar ? user.avatar : placeholderImg}
+            alt={user.name}
+          />
+          <div className="profile__details-seperator">
+            <h2 className="profile__name">Hi! {user.name}</h2>
+            <p className="profile__email">
+              email: <small>{user.email}</small>
+            </p>
+            <p className="profile__id">
+              id: <small>{user._id}</small>
+            </p>
           </div>
-          <div className="details-container">
-            <img style={{ width: "400px" }} src={imageSrc} id="myImage" />
-            <div
-              className="button"
-              onClick={e => handleSaveAvatar(currentUser._id, imageSrc)}
-            >
-              keep avatar
-            </div>
+        </div>
+        <div className="profile__options-container">
+          <h3 className="profile__options-title">settings:</h3>
+          <div
+            onClick={e => {
+              e.preventDefault();
+              openForm("name");
+            }}
+            className="button profile__button"
+          >
+            change name
           </div>
+          <div
+            onClick={e => {
+              e.preventDefault();
+              openForm("email");
+            }}
+            className="button profile__button"
+          >
+            change email
+          </div>
+          <div
+            className=" button profile-camera__modal-trigger"
+            onClick={e => {
+              e.preventDefault();
+              openModal();
+            }}
+          >
+            Choose Avatar
+          </div>
+        </div>
+        <div className="profile-form__container">
+          {isOpenForm && (
+            <ProfileForm
+              type={isOpenForm}
+              user={currentUser}
+              updateUserState={updateUserState}
+              closeForm={closeForm}
+            />
+          )}
+          <ProfileCamera
+            modalIsOpen={modalIsOpen}
+            openModal={openModal}
+            closeModal={closeModal}
+            afterOpenModal={afterOpenModal}
+          />
         </div>
       </div>
     );
