@@ -1,13 +1,12 @@
 import React, { createRef } from 'react';
 import Webcam from 'react-webcam';
 import '../../styles/rtc-styles/rtccontainer.css';
-// import RtcHeader from './RtcHeader';
-// import RtcMain from './RtcMain'
+import { secondUser, currentUser } from '../chat-players-components/SocialMain'
 
 export const ownVideoRef = createRef(null);
 export const remoteVideoRef = createRef(null);
 
-const RtcContainer = ({ secondUser }) => {
+const RtcContainer = ({ secondUser, currentUser }) => {
 
 
   // const startCall = React.useCallback(() => {
@@ -28,11 +27,10 @@ const RtcContainer = ({ secondUser }) => {
           mirrored={true}
           ref={ownVideoRef}
         />
-        <video id="remoteVideo" 
+        <video id="remoteVideo"
         autoPlay
         ref={remoteVideoRef}
         ></video>
-
       </div>
     </div>
   );

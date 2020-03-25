@@ -12,7 +12,7 @@ import {
   postNewThread
 } from '../../api-services/messageAPI';
 import { getPlayers } from '../../api-services/playersAPI';
-import { conn, send, currentUser } from '../rtc-components/RtcMain'
+import { send } from '../rtc-components/RtcMain'
 
 let socket;
 
@@ -37,7 +37,6 @@ const SocialMain = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log('test', currentUser)
     send({
       type: "join",
       name: currentUser.name,
@@ -127,8 +126,7 @@ const SocialMain = () => {
   };
 
   const handleShowCall = targetUser => {
-    setSecondUser(targetUser)
-      ;
+    setSecondUser(targetUser);
   }
 
   if (players) {
@@ -154,7 +152,9 @@ const SocialMain = () => {
           />
         )}
         {calling && (
-          <RtcContainer secondUser={secondUser} currentUser={currentUser} />
+          <RtcContainer 
+          secondUser={secondUser} 
+          currentUser={currentUser} />
         )}
       </div>
     );
