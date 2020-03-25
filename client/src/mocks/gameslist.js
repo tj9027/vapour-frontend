@@ -26,5 +26,14 @@ export default [
     description:
       'run left and right with arrow keys, jump with SPACE and attack with voice command "Attack"',
     multiplayer: false
+  },
+  {
+    id: 4,
+    name: "Snake",
+    image: gameImage,
+    description:
+      'Classic game of snake',
+    url: "http://localhost:3000/games/snake/snake.html",
+    multiplayer: false
   }
 ];

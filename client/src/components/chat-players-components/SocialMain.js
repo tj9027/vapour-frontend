@@ -20,27 +20,26 @@ const SocialMain = ({ currentUser, socket, loggedInUsers }) => {
   const [messages, setMessages] = useState([]);
   const [roomid, setRoomid] = useState('');
   const [secondUser, setSecondUser] = useState({});
-  const [players, setPlayers] = useState();
+  const [players, setPlayers] = useState([]);
 
   useEffect(() => {
-    if (!players) {
-      Object.assign(currentUser, { status: '1' });
-      getPlayers(ENDPOINT)
-        .then(res =>
-          res.map(user => {
-            if (loggedInUsers.includes(user._id)) {
-              console.log(user);
-              return Object.assign(user, { status: '1' });
-            } else {
-              return Object.assign(user, { status: '0' });
-            }
-          })
-        )
-        .then(res => {
-          setPlayers(res);
-        })
-        .catch(err => console.log(err));
+    const abortController = new AbortController();
+
+    Object.assign(currentUser, { status: '1' });
+
+    async function fetchPlayers(url) {
+      const players = await getPlayers(url);
+      const loggedinPlayers = players.map(user =>
+        loggedInUsers.includes(user._id)
+          ? Object.assign(user, { status: '1' })
+          : Object.assign(user, { status: '0' })
+      );
+
+      setPlayers(loggedinPlayers);
     }
+
+    fetchPlayers(ENDPOINT);
+    return abortController.abort();
   }, [players, loggedInUsers, currentUser]);
 
   useEffect(() => {
@@ -66,6 +65,7 @@ const SocialMain = ({ currentUser, socket, loggedInUsers }) => {
         setMessages([...messages, message.message]);
       });
     }
+    return () => {};
   }, [messages, secondUser, socket, roomid]);
 
   let chatSessionId = '';
@@ -100,7 +100,7 @@ const SocialMain = ({ currentUser, socket, loggedInUsers }) => {
     setSecondUser(targetUser);
   };
 
-  if (players) {
+  if (players.length) {
     return (
       <div className="social-main__container">
         <PlayerList

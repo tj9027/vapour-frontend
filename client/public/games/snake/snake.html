@@ -1,0 +1,113 @@
+<head>
+  <title>Sneaky Snake</title>
+  <link href="snake.css" rel="stylesheet" type="text/css" />
+  <link
+    href="https://fonts.googleapis.com/css?family=Orbitron&display=swap"
+    rel="stylesheet"
+  />
+  <script src="snake.js"></script>
+</head>
+<body>
+  <div id="gOver" class="game-over-container">
+    <div class="game-over-content">
+      <div class="title">
+        GAME OVER
+      </div>
+      <button id="restart" class="button">
+        Play again?
+      </button>
+    </div>
+  </div>
+  <div id="start" class="start-container">
+    <div class="start-content">
+      <div class="title">
+        Instructions
+      </div>
+      <table class="instructions">
+        <tr>
+          <td>
+            &uarr;
+          </td>
+          <td>
+            up
+          </td>
+        </tr>
+        <tr>
+          <td>
+            &larr;
+          </td>
+          <td>
+            left
+          </td>
+        </tr>
+        <tr>
+          <td>
+            &rarr;
+          </td>
+          <td>
+            right
+          </td>
+        </tr>
+        <tr>
+          <td>
+            &darr;
+          </td>
+          <td>
+            down
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <code>esc</code>
+          </td>
+          <td>
+            pause
+          </td>
+        </tr>
+      </table>
+      <button id="start-button" class="button">
+        BEGIN
+      </button>
+    </div>
+  </div>
+  <div id="pause-menu" class="pause-container">
+    <div class="pause-content">
+      <div class="title">
+        Press &crarr; to continue!
+      </div>
+    </div>
+  </div>
+  <div id="game-container" class="game-container">
+    <h1 class="title">Snake</h1>
+    <canvas id="gameCanvas" width="400px" height="400px"> </canvas>
+    <div class="panel">
+      <div class="scores">
+        <div id="score">Score: 0</div>
+        <div id="highScore">0</div>
+      </div>
+      <div class="slidecontainer">
+        <div id="speed-display" class="speed">
+          Speed (fps): 10
+        </div>
+        <input
+          type="range"
+          min="1"
+          max="100"
+          value="10"
+          class="slider"
+          id="speed"
+        />
+      </div>
+      <img id="pause" class="icon" src="./pause.svg" />
+      <img id="play" class="icon" src="./play.svg" />
+    </div>
+  </div>
+  <div style="display: none;">
+    Icons made by
+    <a href="https://www.flaticon.com/authors/roundicons" title="Roundicons"
+      >Roundicons</a
+    >
+    from
+    <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+  </div>
+</body>
