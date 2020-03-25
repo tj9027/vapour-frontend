@@ -3,7 +3,7 @@
   background-color: #434953;
   color: #b8b6b4;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   height: 5rem;
   width: 100%;
 }
@@ -27,4 +27,8 @@
 }
 
 .chat-header__close-button {
+  font-size: larger;
+  font-weight: 700;
+  background-color: transparent;
+  border: none;
 }

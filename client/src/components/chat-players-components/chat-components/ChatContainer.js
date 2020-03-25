@@ -21,6 +21,7 @@ const ChatContainer = ({
         displayStatus={true}
         chatSessionId={chatSessionId}
         setChatting={setChatting}
+        justify="space-between"
       />
       <MessageList messages={messages} />
       {/* <RtcContainer /> */}

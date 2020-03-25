@@ -50,7 +50,7 @@ function AuthRouter() {
             <Protected
               exact
               path="/"
-              component={() => <App socket={socket} isAuth={isAuth} />}
+              component={() => <App socket={socket} />}
             />
           )}
         </SocketContext.Consumer>
