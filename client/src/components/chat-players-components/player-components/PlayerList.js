@@ -3,6 +3,12 @@ import '../../../styles/player-styles/playerlist.css';
 import PlayerCard from './PlayerCard';
 
 const PlayerList = ({ currentUser, players, handleShowCall, handleShowChat, handleLeave, calling, setCalling }) => {
+
+
+  window.setIncomingCall = { 
+      // mamaId : {setIncomingCall}
+  }
+
   const playerListToComponent = players.map(player => {
     if (player._id !== currentUser._id)
       return (

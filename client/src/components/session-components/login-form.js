@@ -23,6 +23,7 @@ export const LoginForm = props => {
 
   useEffect(() => {
     console.log('current user: ', props.currentUser);
+    window.currentUser = props.currentUser
   }, [props.currentUser])
 
   return (
