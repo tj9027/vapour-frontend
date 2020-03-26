@@ -1,8 +1,13 @@
-import { GET_CURRENT_USER, UPDATE_MESSAGES, GET_MESSAGES } from '../actions/current-user-actions';
+import {
+  GET_CURRENT_USER,
+  UPDATE_MESSAGES,
+  GET_MESSAGES,
+  UPLOAD_AVATAR
+} from "../actions/current-user-actions";
 
 const initialState = {
-  _id: '',
-  name: '',
+  _id: "",
+  name: "",
   messages: {}
 };
 
@@ -21,6 +26,11 @@ export default function currentUser(state = initialState, action) {
           state.messages,
           action.messages[action.secondUser._id]
         )
+      };
+    case UPLOAD_AVATAR:
+      return {
+        ...state,
+        ...action.uploadAvatar
       };
     default:
       return state;

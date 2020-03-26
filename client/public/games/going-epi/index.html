@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Going Epi</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.22.0/dist/phaser.js"></script>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Most of the game code is courtesy of Phaser.js intro tutorial -->
+    <script>
+      var config = {
+        type: Phaser.AUTO,
+        width: 800,
+        height: 600,
+        scene: {
+          preload: preload,
+          create: create,
+          update: update,
+        },
+        physics: {
+          default: "arcade",
+          arcade: {
+            gravity: { y: 300 },
+            debug: false,
+          },
+        },
+      };
+      let player;
+      let platforms;
+      let cursors;
+      let avocados;
+      let viruses;
+      let score = 0;
+      let gameOver = false;
+      let scoreText;
+      let gameOverText;
+      let replayButton;
+      let game = new Phaser.Game(config);
+
+      function preload() {
+        this.load.image("sky", "assets/sky.png");
+        this.load.image("ground", "assets/platform.png");
+        this.load.image("avocado", "assets/avocado.png");
+        this.load.image("virus", "assets/virus.png");
+        this.load.spritesheet("dude", "assets/dude.png", {
+          frameWidth: 32,
+          frameHeight: 48,
+        });
+      }
+
+      function create() {
+
+        // this.add.image(400, 300, 'sky'); // positioning is based on the centre, and the image is 800:600
+        this.add.image(0, 0, "sky").setOrigin(0, 0); // lets Phaser know to start drawing from 0, 0 rather than the centre
+
+        // Platforms
+
+        platforms = this.physics.add.staticGroup();
+
+        platforms
+          .create(400, 568, "ground")
+          .setScale(2)
+          .refreshBody();
+
+        platforms.create(600, 400, "ground");
+        platforms.create(50, 250, "ground");
+        platforms.create(750, 220, "ground");
+
+        // Player
+
+        player = this.physics.add.sprite(100, 450, "dude");
+
+        player.setBounce(0.2);
+        player.setCollideWorldBounds(true);
+
+        this.anims.create({
+          key: "left",
+          frames: this.anims.generateFrameNumbers("dude", { start: 0, end: 3 }),
+          frameRate: 10,
+          repeat: -1,
+        });
+
+        this.anims.create({
+          key: "turn",
+          frames: [{ key: "dude", frame: 4 }],
+          frameRate: 20,
+        });
+
+        this.anims.create({
+          key: "right",
+          frames: this.anims.generateFrameNumbers("dude", { start: 5, end: 8 }),
+          frameRate: 10,
+          repeat: -1,
+        });
+
+        avocados = this.physics.add.group({
+          key: "avocado",
+          repeat: 11,
+          setXY: { x: 12, y: 0, stepX: 70 },
+        });
+
+        avocados.children.iterate(function(child) {
+          child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.6));
+        });
+
+        viruses = this.physics.add.group();
+
+        scoreText = this.add.text(16, 16, "score: 0", {
+          fontSize: "32px",
+          fill: "#000",
+        });
+        gameOverText = this.add.text(110, 280, "you got infected :(", {
+          fontSize: "72px",
+          fontFamily: 'Futura',
+          fill: "##1F3344",
+        });
+        gameOverText.visible = false;
+
+        replayButton = this.add.text(320, 550, 'REPLAY', {
+          fontSize: "40px", 
+          fill: '#fff',
+        })
+        .setInteractive()
+        .on('pointerup', () => replay());
+        replayButton.visible = false;
+
+        cursors = this.input.keyboard.createCursorKeys();
+        this.physics.add.collider(player, platforms);
+        this.physics.add.collider(avocados, platforms);
+        this.physics.add.collider(player, viruses, hitvirus, null, this);
+
+        this.physics.add.overlap(player, avocados, collectAvocado, null, this);
+      }
+
+      function update() {
+        if (cursors.left.isDown) {
+          player.setVelocityX(-160);
+          player.anims.play("left", true);
+        } else if (cursors.right.isDown) {
+          player.setVelocityX(160);
+          player.anims.play("right", true);
+        } else {
+          player.setVelocityX(0);
+          player.anims.play("turn");
+        }
+        // for jumping, check if the player is touching the floor,
+        // otherwise we jump in mid-air
+        if (cursors.up.isDown && player.body.touching.down) {
+          player.setVelocityY(-330);
+        }
+      }
+      function collectAvocado(player, avocado) {
+        avocado.disableBody(true, true);
+        score += 10;
+        scoreText.setText("Score: " + score);
+        if (avocados.countActive(true) === 0) {
+          //  A new batch of avocados to collect
+          avocados.children.iterate(function(child) {
+            child.enableBody(true, child.x, 0, true, true);
+          });
+
+          var x =
+            player.x < 400
+              ? Phaser.Math.Between(400, 800)
+              : Phaser.Math.Between(0, 400);
+
+          var virus = viruses.create(x, 16, "virus");
+          virus.setBounce(1);
+          virus.setTint(0xff0000);
+          virus.setCollideWorldBounds(true);
+          virus.setVelocity(Phaser.Math.Between(-200, 200), 20);
+          virus.allowGravity = false;
+        }
+      }
+      function hitvirus(player, virus) {
+        this.physics.pause();
+
+        player.setTint(0xff0000);
+
+        player.anims.play("turn");
+        gameOverText.visible = true;
+        replayButton.visible = true;
+        gameOver = true;
+      }
+
+      function replay () {
+        location.reload();
+      }
+    </script>
+  </body>
+</html>

@@ -1,44 +1,56 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import '../../../styles/player-styles/playercard.css';
-import chatIcon from '../../../assets/icons/chat-icon.png';
-import phoneIcon from '../../../assets/icons/phone-icon.png';
+
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import "../../../styles/player-styles/playercard.css";
+import chatIcon from "../../../assets/icons/chat-icon.png";
+import phoneIcon from "../../../assets/icons/phone-icon.png";
 import { handleCreateCall, handlePickup, handleReject, handleLeave } from '../../rtc-components/RtcMain';
 import { useSelector } from 'react-redux';
+import placeHolderAvatar from "../../../assets/images/placeholder-avatar.svg";
 
-
-const PlayerCard = ({ player, handleShowChat, handleShowCall, calling, setCalling }) => {
-
+const PlayerCard = ({
+  player,
+  handleShowChat,
+  handleShowCall,
+  calling,
+  setCalling
+}) => {
   const currentUser = useSelector(state => state.currentUser);
   const sessionUser = useSelector(state => state.session.user);
-  const status = () => (player.status ? 'online' : 'offline');
+  const status = () => (player.status ? "online" : "offline");
   const [connected, setConnected] = useState(false);
   // const [contacted, setContacted] = useState(false);
   const [incomingCall, setIncomingCall] = useState(null);
   window.setIncomingCall[player._id] = { setIncomingCall };
 
   const statusButton = () =>
-    player.status ? 'button-enabled' : 'button-disabled';
-
+    player.status ? "button-enabled" : "button-disabled";
   return (
     <div className={`player-card__container ${status()}`}>
+      <img
+        className="player-card__avatar"
+        src={player.avatar ? player.avatar : placeHolderAvatar}
+        alt={player.name.charAt(0)}
+      />
       <div className="player-card__player-name-container">
-        <h4 className="player-card__player-name">{player.name}</h4>
+        <p className="player-card__player-name">{player.name}</p>
       </div>
-      <div className="player-card__buttons-container"> <Link
-        className={`player-card__button ${statusButton()}`}
-        onClick={e => {
-          e.preventDefault();
-          player.status > 0 && handleShowChat(player);
-        }}
-        to={`/messages/?name=${player.name}`}
-      >
-        <img className="player-card__icon" src={chatIcon} alt="player-thumbnail"></img>
-      </Link>
-
-        {/* here below are the call buttons */}
-
-        {/* CREATES A CALL REQUEST */}
+      <div className="player-card__buttons-container">
+        {" "}
+        <Link
+          className={`player-card__button ${statusButton()}`}
+          onClick={e => {
+            e.preventDefault();
+            player.status > 0 && handleShowChat(player);
+          }}
+          to={`/messages/?name=${player.name}`}
+        >
+          <img
+            className="player-card__icon"
+            src={chatIcon}
+            alt="player-thumbnail"
+          ></img>
+        </Link>
         {(!calling && !incomingCall) &&
           <div
             className={`player-card__button call`}
@@ -55,8 +67,7 @@ const PlayerCard = ({ player, handleShowChat, handleShowCall, calling, setCallin
         {/* REMOVES CALL BUTTON, ADDS PICKUP/REJECT, ON INCOMING CALL */}
         {(incomingCall && !connected) &&
           <div
-            className="player-card__call-buttons"
-          >
+            className="player-card__call-buttons">
             <div
               //should accept connection
               onClick={e => {

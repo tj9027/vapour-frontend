@@ -1,21 +1,11 @@
 import React, { createRef } from 'react';
 import Webcam from 'react-webcam';
-import '../../styles/rtc-styles/rtccontainer.css';
 import { secondUser, currentUser } from '../chat-players-components/SocialMain'
 
 export const ownVideoRef = createRef(null);
 export const remoteVideoRef = createRef(null);
 
 const RtcContainer = ({ secondUser, currentUser }) => {
-
-
-  // const startCall = React.useCallback(() => {
-  //   console.log(videoRef.current.stream);
-  // }, [videoRef]);
-  // const endCall = React.useCallback(() => {
-  //   console.log(videoRef.current.stream);
-  // }, [videoRef]);
-  // // useUserMedia(videoRef)
 
   return (
     <div className="rtc__container">
@@ -36,5 +26,3 @@ const RtcContainer = ({ secondUser, currentUser }) => {
   );
 };
 export default RtcContainer;
-
-

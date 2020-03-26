@@ -1,0 +1,24 @@
+console.log("Webpack is working!");
+const MovingObject = require("./moving_object.js");
+const Asteroid = require("./asteroid.js");
+const Game = require("./game.js");
+const GameView = require("./game_view.js");
+const Ship = require("./ship.js");
+const Bullet = require("./bullet.js");
+window.MovingObject = MovingObject;
+window.Asteroid = Asteroid;
+window.Game = Game;
+window.Ship = Ship;
+window.Bullet = Bullet;
+window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    const gameCanvas = document.getElementById("game-canvas");
+    gameCanvas.height = 500;
+    gameCanvas.width = 500;
+    window.ctx = gameCanvas.getContext('2d');
+    const contx = gameCanvas.getContext('2d');
+    const gameView = new GameView(contx);
+    console.log("have a game view: ", gameView);
+    gameView.start();
+    console.log("started gameView");
+});

@@ -1,0 +1,26 @@
+.forum__container {
+  background-color: #1d1f24;
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.forum__subjects-container {
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+}
+
+.forum__subject-card {
+  color: #b8b6b4;
+  font-variant: small-caps;
+  background-color: #434953;
+  border: 2px solid #3b4048;
+  margin: 1.2rem;
+  height: 3.6rem;
+}
+
+.forum__chat-container {
+  border-left: solid 2px #2c343f;
+  width: 70vw;
+}

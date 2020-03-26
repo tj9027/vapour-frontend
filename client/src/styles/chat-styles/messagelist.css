@@ -1,14 +1,17 @@
 .message-list__container {
-	/* align-items: center; */
-	background-color: #1D1F24;
-	display: flex;
-	flex-direction: column;
-	position: relative;
-	height:100%;
-	overflow: scroll;
-	/* justify-content: center; */
-	width: 100%;
+  /* align-items: center; */
+  background-color: #1d1f24;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 68vh;
+  overflow: scroll;
+  /* justify-content: center; */
+  width: 100%;
 }
-.message-list__container::-webkit-scrollbar{
-	display: none;
+.css-y1c0xs::-webkit-scrollbar {
+  display: none;
+}
+.css-13azwyo::-webkit-scrollbar {
+  display: none;
 }

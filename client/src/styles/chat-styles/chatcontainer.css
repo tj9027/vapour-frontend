@@ -1,11 +1,11 @@
-.chat__container{
-	align-items: center;
-	background-color: #1D1F24;
-	border-left: solid 2px #21272F;
-	display: flex;
-	flex-direction: column;
-	flex-grow:1;
-	height: 100%;
-	justify-content: flex-start;
-	position: relative;
+.chat__container {
+  align-items: center;
+  background-color: #1d1f24;
+  border-left: solid 2px #2c343f;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+  justify-content: flex-start;
+  position: relative;
 }
