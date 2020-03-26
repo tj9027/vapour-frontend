@@ -1,35 +1,28 @@
 import React, { createRef } from 'react';
 import Webcam from 'react-webcam';
-// import RtcHeader from './RtcHeader';
-import '../../styles/rtc-styles/rtccontainer.css';
-// import RtcMain from './RtcMain'
-// import { useUserMedia } from './useUserMedia'
+import { secondUser, currentUser } from '../chat-players-components/SocialMain'
 
-const RtcContainer = ({ secondUser }) => {
-  const videoRef = createRef(null);
+export const ownVideoRef = createRef(null);
+export const remoteVideoRef = createRef(null);
 
-  const startCall = React.useCallback(() => {
-    console.log(videoRef.current.stream);
-  }, [videoRef]);
-  const endCall = React.useCallback(() => {
-    console.log(videoRef.current.stream);
-  }, [videoRef]);
-  // useUserMedia(videoRef)
+const RtcContainer = ({ secondUser, currentUser }) => {
+
   return (
     <div className="rtc__container">
       <h2>{secondUser.name}</h2>
       <div id="callPage" className="call-page">
-        <Webcam
+        <Webcam id="localVideo"
           audio={true}
+          // what does 'mirrored' do?
           mirrored={true}
-          ref={videoRef}
+          ref={ownVideoRef}
         />
-        <button onClick={startCall}>Start Call</button>
-        <button onClick={endCall}>End Call</button>
-        {/* <video id="remoteVideo" autoPlay></video> */}
+        <video id="remoteVideo"
+        autoPlay
+        ref={remoteVideoRef}
+        ></video>
       </div>
     </div>
   );
 };
-
 export default RtcContainer;

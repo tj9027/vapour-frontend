@@ -3,14 +3,13 @@ import "../../../styles/player-styles/playerlist.css";
 import PlayerCard from "./PlayerCard";
 import placeHolderAvatar from "../../../assets/images/placeholder-avatar.svg";
 
-const PlayerList = ({
-  currentUser,
-  players,
-  handleShowCall,
-  handleShowChat,
-  calling,
-  setCalling
-}) => {
+const PlayerList = ({ currentUser, players, handleShowCall, handleShowChat, handleLeave, calling, setCalling }) => {
+
+
+  window.setIncomingCall = { 
+      // mamaId : {setIncomingCall}
+  }
+
   const playerListToComponent = players.map(player => {
     return (
       player._id !== currentUser._id && (
