@@ -11,6 +11,7 @@ const GameScreen = () => {
   const frameRef = useRef(null);
   console.log(frameRef)
   const frameWidth = game.id == 2 ? '500' : '1500'; //a hack to deal with Asteroids being tiny
+  const frameHeight = game.id == 5 ? '1000' : '700'; 
   return (
     <div className="game-screen__container">
       {/* <div className="game-screen__header">
@@ -22,7 +23,7 @@ const GameScreen = () => {
         id="gameFrame"
         title="inline frame"
         width={frameWidth}
-        height="700"
+        height={frameHeight}
         src={game.url + '?a=' + currentUser._id + '&b=' + currentUser.password}
       ></iframe>
     </div>

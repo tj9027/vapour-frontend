@@ -1,4 +1,5 @@
 import gameImage from "../assets/images/game.jpg";
+import pong from "../assets/images/pong.JPG";
 import dot from "../assets/images/dot.png";
 import asteroids from "../assets/images/asteroids.png";
 import epi from "../assets/images/going-epi.png"
@@ -37,5 +38,14 @@ export default [
       'Classic game of snake',
     url: "http://localhost:3000/games/snake/snake.html",
     multiplayer: false
+  },
+  {
+    id: 5,
+    name: "Pong",
+    image: pong,
+    description:
+      'Use up and down arrows to move your paddle',
+    url: "https://db-pong.herokuapp.com/",
+    multiplayer: true
   }
 ];
