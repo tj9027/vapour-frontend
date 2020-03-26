@@ -16,7 +16,6 @@ import { AnimatedSwitch } from "react-router-transition";
 
 function AuthRouter() {
   const dispatch = useDispatch();
-  const isAuth = useSelector(({ loginReducer }) => loginReducer.isAuth);
 
   useEffect(() => {
     fetch("http://localhost:4000/users", {
@@ -63,8 +62,6 @@ function AuthRouter() {
 
 const Auth = ({ component: Component, ...rest }) => {
   const isAuth = useSelector(({ loginReducer }) => loginReducer.isAuth);
-  console.log('redirecting', isAuth);
-  console.log({ ...rest });
   return (
     <Route
       {...rest}
@@ -81,7 +78,6 @@ const Auth = ({ component: Component, ...rest }) => {
 };
 
 const Protected = ({ component: Component, ...rest }) => {
-  console.log('redirecting');
   const isAuth = useSelector(({ loginReducer }) => loginReducer.isAuth);
   const isLoading = useSelector(({ loginReducer }) => loginReducer.isLoading);
   return (

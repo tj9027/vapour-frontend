@@ -12,10 +12,8 @@ firstSocketLogin,
 disconnectSocket,
 socketPostMessage
 } from "../../redux/actions/socket-actions";
-import { getPlayers } from '../../api-services/playersAPI';
 import { send } from '../rtc-components/RtcMain'
 
-let socket;
 const ENDPOINT = "http://localhost:4000/";
 
 const SocialMain = ({ currentUser, socket }) => {
@@ -46,7 +44,9 @@ const SocialMain = ({ currentUser, socket }) => {
       });
     }
 
-    return () => {};
+    return () => {
+      dispatch(disconnectSocket(socket));
+    };
   }, [socket, players]);
 
   useEffect(() => {
@@ -103,13 +103,14 @@ const SocialMain = ({ currentUser, socket }) => {
         currentUser.name
       )
         .then(res => {
+          console.log(res);
           dispatch(socketPostMessage(res, () => {}, socket));
         })
         .catch(err => err);
     }
   };
 
-  const handleShowChat = async secondUser => {
+  const handleShowChat = secondUser => {
     setSecondUser(secondUser);
     setChatting(secondUser);
     setRoomid(secondUser.messages[currentUser._id].roomId);
@@ -119,8 +120,9 @@ const SocialMain = ({ currentUser, socket }) => {
       .catch(err => console.log(err));
   };
 
-  const handleShowCall = targetUser => {
-    setSecondUser(targetUser);
+  const handleShowCall = secondUser => {
+    setSecondUser(secondUser);
+    setCalling(secondUser);
   };
 
   if (players.length) {

@@ -15,8 +15,7 @@ const PlayerCard = ({
   calling,
   setCalling
 }) => {
-  const currentUser = useSelector(state => state.currentUser);
-  const sessionUser = useSelector(state => state.session.user);
+  const currentUser = useSelector(({ loginReducer }) => loginReducer.user);
   const status = () => (player.status ? "online" : "offline");
   const [connected, setConnected] = useState(false);
   // const [contacted, setContacted] = useState(false);

@@ -23,7 +23,6 @@ const Profile = () => {
 
   const updateUserState = () => {
     dispatch(getCurrentUser(currentUser._id)).then(data => {
-      console.log(data);
       setCurrentUser(data);
       window.location.reload();
     });

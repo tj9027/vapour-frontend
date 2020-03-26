@@ -1,7 +1,7 @@
-import gameImage from "../assets/images/game.jpg";
 import dot from "../assets/images/dot.png";
 import asteroids from "../assets/images/asteroids.png";
 import epi from "../assets/images/going-epi.png"
+import snake from "../assets/images/snake.png"
 export default [
   {
     id: 1,
@@ -32,9 +32,9 @@ export default [
   {
     id: 4,
     name: "Snake",
-    image: gameImage,
+    image: snake,
     description:
-      'Classic game of snake',
+      'Eat as many apples as you can without ',
     url: "http://localhost:3000/games/snake/snake.html",
     multiplayer: false
   }
