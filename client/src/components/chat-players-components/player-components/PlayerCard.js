@@ -1,11 +1,15 @@
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../../../styles/player-styles/playercard.css";
 import chatIcon from "../../../assets/icons/chat-icon.png";
 import phoneIcon from "../../../assets/icons/phone-icon.png";
-import { handleCreateCall, handlePickup, handleReject, handleLeave } from '../../rtc-components/RtcMain';
-import { useSelector } from 'react-redux';
+import {
+  handleCreateCall,
+  handlePickup,
+  handleReject,
+  handleLeave
+} from "../../rtc-components/RtcMain";
+import { useSelector } from "react-redux";
 import placeHolderAvatar from "../../../assets/images/placeholder-avatar.svg";
 
 const PlayerCard = ({
@@ -13,7 +17,8 @@ const PlayerCard = ({
   handleShowChat,
   handleShowCall,
   calling,
-  setCalling
+  setCalling,
+  secondUser
 }) => {
   const currentUser = useSelector(({ loginReducer }) => loginReducer.user);
   // const sessionUser = useSelector(state => state.session.user);
@@ -21,9 +26,9 @@ const PlayerCard = ({
   const [connected, setConnected] = useState(false);
   // const [contacted, setContacted] = useState(false);
   const [incomingCall, setIncomingCall] = useState(null);
-  const [endCall, setEndCall] = useState(false)
+  const [endCall, setEndCall] = useState(false);
   window.setIncomingCall[player._id] = { setIncomingCall };
-  window.setEndCall[player._id] = { setEndCall }
+  window.setEndCall[player._id] = { setEndCall };
 
   const statusButton = () =>
     player.status ? "button-enabled" : "button-disabled";
@@ -53,62 +58,65 @@ const PlayerCard = ({
             alt="player-thumbnail"
           ></img>
         </Link>
-        {(!calling && !incomingCall) &&
-          <div
-            className={`player-card__button call`}
-            onClick={e => {
-              e.preventDefault();
-              setCalling(true);
-              handleShowCall(player);
-              handleCreateCall(player, currentUser)
-            }}
-          >
-            <img className="player-card__icon" src={phoneIcon} alt="player-thumbnail" />
-          </div>
-        }
-        {/* REMOVES CALL BUTTON, ADDS PICKUP/REJECT, ON INCOMING CALL */}
-        {(incomingCall && !connected) &&
-          <div
-            className="player-card__call-buttons">
+        <div
+          className={`player-card__button call`}
+          onClick={e => {
+            e.preventDefault();
+            setCalling(true);
+            handleShowCall(player);
+            handleCreateCall(player, currentUser);
+          }}
+        >
+          <img
+            className="player-card__icon"
+            src={phoneIcon}
+            alt="player-thumbnail"
+          />
+        </div>
+        {incomingCall && !connected && player._id === secondUser._id && (
+          <div className="player-card__call-buttons">
             <div
               //should accept connection
               onClick={e => {
                 e.preventDefault();
                 setConnected(true);
-                handlePickup(player, currentUser)
+                handlePickup(player, currentUser);
                 handleShowCall(player);
-                setCalling(true)
+                setCalling(true);
               }}
-              className={`player-card__button pickup`}>
+              className={`player-card__button pickup`}
+            >
               yes
-        </div>
+            </div>
             <div
               //should close connection
               onClick={e => {
                 e.preventDefault();
                 setCalling(false);
                 setConnected(false);
-                handleReject()
+                handleReject();
               }}
-              className={'player-card__button reject'}>
+              className={"player-card__button reject"}
+            >
               no
             </div>
           </div>
-        }
-        { (calling && endCall) &&
+        )}
+        {calling && endCall && (
           <div
             //should close connection
             onClick={e => {
               e.preventDefault();
               setConnected(false);
-              setIncomingCall(null)
+              setIncomingCall(null);
               setCalling(false);
-              handleLeave()
+              handleLeave();
             }}
-            className={'player-card__button end'}>
+            className={"player-card__button end"}
+          >
             end
           </div>
-        }
+        )}
       </div>
     </div>
   );

@@ -3,11 +3,18 @@ import "../../../styles/player-styles/playerlist.css";
 import PlayerCard from "./PlayerCard";
 import placeHolderAvatar from "../../../assets/images/placeholder-avatar.svg";
 
-const PlayerList = ({ currentUser, players, handleShowCall, handleShowChat, handleLeave, calling, setCalling }) => {
-
-
-  window.setIncomingCall = {}
-  window.setEndCall = {}
+const PlayerList = ({
+  secondUser,
+  currentUser,
+  players,
+  handleShowCall,
+  handleShowChat,
+  handleLeave,
+  calling,
+  setCalling
+}) => {
+  window.setIncomingCall = {};
+  window.setEndCall = {};
 
   const playerListToComponent = players.map(player => {
     return (

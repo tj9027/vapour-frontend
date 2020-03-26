@@ -7,13 +7,13 @@ import { getPlayerMessages, sendMessage } from "../../api-services/messageAPI";
 // import { getPlayers } from "../../api-services/playersAPI";
 import { useDispatch } from "react-redux";
 import {
-joinRoomById,
-firstSocketLogin,
-disconnectSocket,
-socketPostMessage
+  joinRoomById,
+  firstSocketLogin,
+  disconnectSocket,
+  socketPostMessage
 } from "../../redux/actions/socket-actions";
-import { getPlayers } from '../../api-services/playersAPI';
-import { send } from '../rtc-components/RtcMain'
+import { getPlayers } from "../../api-services/playersAPI";
+import { send } from "../rtc-components/RtcMain";
 
 let socket;
 const ENDPOINT = "http://localhost:4000/";
@@ -27,8 +27,7 @@ const SocialMain = ({ currentUser, socket }) => {
   const [secondUser, setSecondUser] = useState({});
   const [players, setPlayers] = useState([]);
 
-
-  window.currentUser = currentUser
+  window.currentUser = currentUser;
   const [loggedInUsers, setLoggedInUsers] = useState([]);
 
   useEffect(() => {
@@ -54,7 +53,7 @@ const SocialMain = ({ currentUser, socket }) => {
     send({
       type: "join",
       name: currentUser.name,
-      id: currentUser._id,
+      id: currentUser._id
     });
     window.currentUser = currentUser;
     getPlayers(ENDPOINT)
@@ -129,6 +128,7 @@ const SocialMain = ({ currentUser, socket }) => {
         <PlayerList
           currentUser={currentUser}
           players={players}
+          secondUser={secondUser}
           handleShowChat={handleShowChat}
           setCalling={setCalling}
           calling={calling}
@@ -145,9 +145,7 @@ const SocialMain = ({ currentUser, socket }) => {
           />
         )}
         {calling && (
-          <RtcContainer
-          secondUser={secondUser}
-          currentUser={currentUser} />
+          <RtcContainer secondUser={secondUser} currentUser={currentUser} />
         )}
       </div>
     );
