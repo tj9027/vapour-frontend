@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './styles/App.css';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Main from './components/main-components/Main';
 import Navigation from './components/main-components/Navigation';
 import Footer from './components/main-components/Footer';
@@ -8,7 +8,6 @@ import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import SocialMain from './components/chat-players-components/SocialMain';
 import GameScreen from './components/game-components/GameScreen';
 import Profile from './components/profile-components/Profile';
-import { firstSocketLogin } from './redux/actions/socket-actions';
 
 import Forum from './components/chat-players-components/chat-components/Forum';
 

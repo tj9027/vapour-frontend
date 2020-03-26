@@ -38,22 +38,6 @@ const PlayerList = ({
         <h3 className={currentUser.status ? "button" : "disabled"}>
           {currentUser.name}
         </h3>
-
-        {/* <select
-          className="player-list__status-selector"
-          value={currentUser.status}
-          onChange={e => {
-            e.preventDefault();
-            setCurrentUser(
-              Object.assign({ ...currentUser }, { status: e.target.value })
-            );
-            console.log(currentUser);
-          }}
-        >
-          <option value={1}>online</option>
-          <option value={2}>away</option>
-          <option value={0}>offline</option>
-        </select> */}
       </div>
       <div className="player-list__list-container">{playerListToComponent}</div>
     </div>

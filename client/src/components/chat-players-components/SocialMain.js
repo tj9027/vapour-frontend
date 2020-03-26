@@ -39,28 +39,14 @@ const SocialMain = ({ currentUser, socket }) => {
         setPlayers(newPlayers);
       });
     }
-    // socket.on("updateUsers", data => {
-    //   console.log("updating online users");
-    //   setLoggedInUsers([...data]);
-    // });
+
     return () => {};
   }, [socket, players]);
   useEffect(() => {
     Object.assign(currentUser, { status: 1 });
-
     getPlayers(ENDPOINT)
       .then(res => setPlayers(res))
       .then(() => dispatch(firstSocketLogin(currentUser._id, socket)))
-
-      // res.map(user => {
-      // if (loggedInUsers.includes(user._id)) {
-      //   console.log(user);
-      //   return Object.assign(user, { status: 1 });
-      // } else {
-      //   return Object.assign(user, { status: 0 });
-      // }
-      //   })
-      // )
       .catch(err => console.log(err));
 
     return () => socket.emit("logout-user", currentUser._id);
