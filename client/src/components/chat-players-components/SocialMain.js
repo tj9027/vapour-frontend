@@ -4,13 +4,18 @@ import ChatContainer from "./chat-components/ChatContainer";
 import RtcContainer from "../rtc-components/RtcContainer";
 import "../../styles/socialmain.css";
 import { getPlayerMessages, sendMessage } from "../../api-services/messageAPI";
-import { getPlayers } from "../../api-services/playersAPI";
+// import { getPlayers } from "../../api-services/playersAPI";
 import { useDispatch } from "react-redux";
 import {
-  joinRoomById,
-  disconnectSocket,
-  socketPostMessage
+joinRoomById,
+firstSocketLogin,
+disconnectSocket,
+socketPostMessage
 } from "../../redux/actions/socket-actions";
+import { getPlayers } from '../../api-services/playersAPI';
+import { send } from '../rtc-components/RtcMain'
+
+let socket;
 const ENDPOINT = "http://localhost:4000/";
 
 const SocialMain = ({ currentUser, socket }) => {
@@ -22,6 +27,8 @@ const SocialMain = ({ currentUser, socket }) => {
   const [secondUser, setSecondUser] = useState({});
   const [players, setPlayers] = useState([]);
 
+
+  window.currentUser = currentUser
   const [loggedInUsers, setLoggedInUsers] = useState([]);
 
   useEffect(() => {
@@ -38,28 +45,21 @@ const SocialMain = ({ currentUser, socket }) => {
         setPlayers(newPlayers);
       });
     }
-    // socket.on("updateUsers", data => {
-    //   console.log("updating online users");
-    //   setLoggedInUsers([...data]);
-    // });
+
     return () => {};
   }, [socket, players]);
+
   useEffect(() => {
     Object.assign(currentUser, { status: 1 });
-
+    send({
+      type: "join",
+      name: currentUser.name,
+      id: currentUser._id,
+    });
+    window.currentUser = currentUser;
     getPlayers(ENDPOINT)
       .then(res => setPlayers(res))
-      .then(() => socket.emit("login-user", currentUser._id))
-
-      // res.map(user => {
-      // if (loggedInUsers.includes(user._id)) {
-      //   console.log(user);
-      //   return Object.assign(user, { status: 1 });
-      // } else {
-      //   return Object.assign(user, { status: 0 });
-      // }
-      //   })
-      // )
+      .then(() => dispatch(firstSocketLogin(currentUser._id, socket)))
       .catch(err => console.log(err));
 
     return () => socket.emit("logout-user", currentUser._id);
@@ -144,7 +144,11 @@ const SocialMain = ({ currentUser, socket }) => {
             messages={messages}
           />
         )}
-        {calling && <RtcContainer secondUser={secondUser} />}
+        {calling && (
+          <RtcContainer
+          secondUser={secondUser}
+          currentUser={currentUser} />
+        )}
       </div>
     );
   } else {

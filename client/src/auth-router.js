@@ -42,6 +42,8 @@ function AuthRouter() {
         atActive={{ opacity: 1 }}
         className="App switch-wrapper"
       >
+        {/* <Switch> */}
+
         <Auth exact path="/landing" component={Landing} />
         <Auth exact path="/register" component={Signup} />
         <Auth exact path="/login" component={Login} />
@@ -50,6 +52,7 @@ function AuthRouter() {
             <Protected path="/" component={() => <App socket={socket} />} />
           )}
         </SocketContext.Consumer>
+        {/* </Switch> */}
       </AnimatedSwitch>
     </Router>
   );
@@ -57,6 +60,8 @@ function AuthRouter() {
 
 const Auth = ({ component: Component, ...rest }) => {
   const isAuth = useSelector(({ loginReducer }) => loginReducer.isAuth);
+  console.log("redirecting", isAuth);
+  console.log({ ...rest });
   return (
     <Route
       {...rest}
@@ -73,6 +78,7 @@ const Auth = ({ component: Component, ...rest }) => {
 };
 
 const Protected = ({ component: Component, ...rest }) => {
+  console.log("redirecting");
   const isAuth = useSelector(({ loginReducer }) => loginReducer.isAuth);
   const isLoading = useSelector(({ loginReducer }) => loginReducer.isLoading);
   return (
