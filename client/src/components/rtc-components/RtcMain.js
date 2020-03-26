@@ -124,6 +124,7 @@ const handleCreateCall = (callee, currentUser) => {
   partner = { id: callee._id, name: callee.name }
   caller = { id: currentUser._id, name: currentUser.name }
   callee = { id: callee._id, name: callee.name }
+  window.setEndCall[callee.id].setEndCall(true)
   mediaStreamOnIce(currentUser)
   send({
     type: "receiveCall",
@@ -141,6 +142,7 @@ const handleReceiveCall = (data) => {
 
 async function handlePickup(player) {
 
+  window.setEndCall[caller.id].setEndCall(true);
   const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
   // console.log('stream', stream)
   // display local video stream on the page 
@@ -228,10 +230,10 @@ const handleLeave = () => {
   caller = null;
   callee = null;
   remoteVideo.src = null;
-  console.log('yourconn close', yourConn)
-  yourConn.close();
-  yourConn.onicecandidate = null;
-  yourConn.onaddstream = null;
+  // console.log('yourconn close', yourConn)
+  // yourConn.close();
+  // yourConn.onicecandidate = null;
+  // yourConn.onaddstream = null;
 };
 
 export { handleCreateCall, handlePickup, handleReject, handleLeave, handleReceiveCall };

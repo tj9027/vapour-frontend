@@ -4,7 +4,7 @@ import ChatContainer from "./chat-components/ChatContainer";
 import RtcContainer from "../rtc-components/RtcContainer";
 import "../../styles/socialmain.css";
 import { getPlayerMessages, sendMessage } from "../../api-services/messageAPI";
-import { getPlayers } from "../../api-services/playersAPI";
+// import { getPlayers } from "../../api-services/playersAPI";
 import { useDispatch } from "react-redux";
 import {
 joinRoomById,

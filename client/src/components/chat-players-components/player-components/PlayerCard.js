@@ -15,13 +15,15 @@ const PlayerCard = ({
   calling,
   setCalling
 }) => {
-  const currentUser = useSelector(state => state.currentUser);
-  const sessionUser = useSelector(state => state.session.user);
+  const currentUser = useSelector(({ loginReducer }) => loginReducer.user);
+  // const sessionUser = useSelector(state => state.session.user);
   const status = () => (player.status ? "online" : "offline");
   const [connected, setConnected] = useState(false);
   // const [contacted, setContacted] = useState(false);
   const [incomingCall, setIncomingCall] = useState(null);
+  const [endCall, setEndCall] = useState(false)
   window.setIncomingCall[player._id] = { setIncomingCall };
+  window.setEndCall[player._id] = { setEndCall }
 
   const statusButton = () =>
     player.status ? "button-enabled" : "button-disabled";
@@ -93,21 +95,7 @@ const PlayerCard = ({
             </div>
           </div>
         }
-        { calling &&
-          <div
-            //should close connection
-            onClick={e => {
-              e.preventDefault();
-              setConnected(false);
-              setIncomingCall(null)
-              setCalling(false);
-              handleLeave()
-            }}
-            className={'player-card__button end'}>
-            end
-          </div>
-        }
-        {connected &&
+        { (calling && endCall) &&
           <div
             //should close connection
             onClick={e => {

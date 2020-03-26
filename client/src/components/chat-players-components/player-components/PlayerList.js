@@ -6,9 +6,8 @@ import placeHolderAvatar from "../../../assets/images/placeholder-avatar.svg";
 const PlayerList = ({ currentUser, players, handleShowCall, handleShowChat, handleLeave, calling, setCalling }) => {
 
 
-  window.setIncomingCall = { 
-      // mamaId : {setIncomingCall}
-  }
+  window.setIncomingCall = {}
+  window.setEndCall = {}
 
   const playerListToComponent = players.map(player => {
     return (
