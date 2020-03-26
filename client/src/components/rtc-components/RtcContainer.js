@@ -1,6 +1,5 @@
 import React, { createRef } from 'react';
 import Webcam from 'react-webcam';
-import { secondUser, currentUser } from '../chat-players-components/SocialMain'
 
 export const ownVideoRef = createRef(null);
 export const remoteVideoRef = createRef(null);

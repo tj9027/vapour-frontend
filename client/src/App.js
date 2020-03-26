@@ -8,7 +8,6 @@ import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import SocialMain from './components/chat-players-components/SocialMain';
 import GameScreen from './components/game-components/GameScreen';
 import Profile from './components/profile-components/Profile';
-import { firstSocketLogin } from './redux/actions/socket-actions';
 
 import Forum from './components/chat-players-components/chat-components/Forum';
 

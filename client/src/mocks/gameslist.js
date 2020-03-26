@@ -35,7 +35,8 @@ export default [
     id: 4,
     name: "Snake",
     image: snake,
-    description: "Classic game of snake",
+    description:
+      'Eat as many apples as you can without ',
     url: "http://localhost:3000/games/snake/snake.html",
     multiplayer: false
   },
