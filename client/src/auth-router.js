@@ -16,6 +16,7 @@ import { AnimatedSwitch } from 'react-router-transition';
 
 function AuthRouter() {
   const isAuth = useSelector(({ loginReducer }) => loginReducer.isAuth);
+  console.log(isAuth);
   const dispatch = useDispatch();
   useEffect(() => {
     fetch('http://localhost:4000/users', {
@@ -42,20 +43,18 @@ function AuthRouter() {
         className="App switch-wrapper"
       >
         {/* <Switch> */}
+
+        <Auth exact path="/landing" component={Landing} />
         <Auth exact path="/register" component={Signup} />
         <Auth exact path="/login" component={Login} />
-        {isAuth && (
-          <SocketContext.Consumer>
-            {socket => (
-              <Protected
-              exact
-              path="/app"
+        <SocketContext.Consumer>
+          {socket => (
+            <Protected
+              path="/"
               component={() => <App socket={socket} />}
-              />
-              )}
-          </SocketContext.Consumer>
-        )}
-        <Auth path="/" component={Landing} />
+            />
+          )}
+        </SocketContext.Consumer>
         {/* </Switch> */}
       </AnimatedSwitch>
     </Router>
@@ -64,6 +63,8 @@ function AuthRouter() {
 
 const Auth = ({ component: Component, ...rest }) => {
   const isAuth = useSelector(({ loginReducer }) => loginReducer.isAuth);
+  console.log('redirecting', isAuth);
+  console.log({ ...rest });
   return (
     <Route
       {...rest}
@@ -72,7 +73,7 @@ const Auth = ({ component: Component, ...rest }) => {
           <Component {...props} />
         ) : (
           // Redirect to root if user is authenticated
-          <Redirect to="/app" />
+          <Redirect to="/" />
         );
       }}
     />
@@ -80,6 +81,7 @@ const Auth = ({ component: Component, ...rest }) => {
 };
 
 const Protected = ({ component: Component, ...rest }) => {
+  console.log('redirecting');
   const isAuth = useSelector(({ loginReducer }) => loginReducer.isAuth);
   const isLoading = useSelector(({ loginReducer }) => loginReducer.isLoading);
   return (
@@ -91,7 +93,7 @@ const Protected = ({ component: Component, ...rest }) => {
           <Component {...props} />
         ) : (
           // Redirect to the login page if the user is not authenticated
-          <Redirect to="/" />
+          <Redirect to="/landing" />
         );
       }}
     />

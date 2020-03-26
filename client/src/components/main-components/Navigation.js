@@ -28,7 +28,7 @@ const Navigation = ({ currentUser, socket }) => {
   };
   return (
     <div className="navigation__container ">
-      <Link to="/app" className="navigation__logo">
+      <Link to="/" className="navigation__logo">
         <img src={logo} alt="logo" />
         <p>Vapour</p>
       </Link>
