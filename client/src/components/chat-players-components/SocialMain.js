@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import PlayerList from './player-components/PlayerList';
-import ChatContainer from './chat-components/ChatContainer';
-import RtcContainer from '../rtc-components/RtcContainer';
-import '../../styles/socialmain.css';
-import { getPlayerMessages, sendMessage } from '../../api-services/messageAPI';
-import { getPlayers } from '../../api-services/playersAPI';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import PlayerList from "./player-components/PlayerList";
+import ChatContainer from "./chat-components/ChatContainer";
+import RtcContainer from "../rtc-components/RtcContainer";
+import "../../styles/socialmain.css";
+import { getPlayerMessages, sendMessage } from "../../api-services/messageAPI";
+import { getPlayers } from "../../api-services/playersAPI";
+import { useDispatch } from "react-redux";
 import {
   joinRoomById,
   firstSocketLogin,
   disconnectSocket,
   socketPostMessage
-} from '../../redux/actions/socket-actions';
-const ENDPOINT = 'http://localhost:4000/';
+} from "../../redux/actions/socket-actions";
+const ENDPOINT = "http://localhost:4000/";
 
 const SocialMain = ({ currentUser, socket }) => {
   const dispatch = useDispatch();
   const [calling, setCalling] = useState();
   const [chatting, setChatting] = useState();
   const [messages, setMessages] = useState([]);
-  const [roomid, setRoomid] = useState('');
+  const [roomid, setRoomid] = useState("");
   const [secondUser, setSecondUser] = useState({});
   const [players, setPlayers] = useState([]);
 
@@ -27,7 +27,7 @@ const SocialMain = ({ currentUser, socket }) => {
 
   useEffect(() => {
     if (players) {
-      socket.on('updateUsers', data => {
+      socket.on("updateUsers", data => {
         const newPlayers = players.map(player => {
           setLoggedInUsers([...data]);
           if ([...data].includes(player._id)) {
@@ -63,7 +63,7 @@ const SocialMain = ({ currentUser, socket }) => {
       // )
       .catch(err => console.log(err));
 
-    return () => socket.emit('logout-user', currentUser._id);
+    return () => socket.emit("logout-user", currentUser._id);
   }, [currentUser, socket]);
 
   useEffect(() => {
@@ -85,19 +85,19 @@ const SocialMain = ({ currentUser, socket }) => {
 
   useEffect(() => {
     if (roomid && secondUser) {
-      socket.on('message', message => {
+      socket.on("message", message => {
         setMessages([...messages, message.message]);
       });
     }
     return () => {};
   }, [messages, secondUser, socket, roomid]);
 
-  let chatSessionId = '';
+  let chatSessionId = "";
 
   const handleChatSubmit = message => {
     if (message) {
       sendMessage(
-        ENDPOINT + 'messages',
+        ENDPOINT + "messages",
         message,
         secondUser._id,
         currentUser._id,
@@ -138,6 +138,7 @@ const SocialMain = ({ currentUser, socket }) => {
         {chatting && (
           <ChatContainer
             user={currentUser}
+            setChatting={setChatting}
             chatSessionId={chatSessionId}
             secondUser={secondUser}
             handleChatSubmit={handleChatSubmit}

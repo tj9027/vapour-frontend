@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import MessageList from './MessageList';
-import ChatForm from './ChatForm';
-import '../../../styles/chat-styles/forum.css'
-import ChatHeader from './ChatHeader';
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import MessageList from "./MessageList";
+import ChatForm from "./ChatForm";
+import "../../../styles/chat-styles/forum.css";
+import ChatHeader from "./ChatHeader";
 import {
   joinRoomById,
   changeConnection,
   disconnectSocket,
   socketPostMessage
-} from '../../../redux/actions/socket-actions';
+} from "../../../redux/actions/socket-actions";
 
-const forumsubjects = ['forum', '#gaming', '#coding', '#careers', '#lifestyle'];
+const forumsubjects = ["forum", "#gaming", "#coding", "#careers", "#lifestyle"];
 
 const Forum = ({ location, currentUser, socket }) => {
   const dispatch = useDispatch();
@@ -37,7 +37,7 @@ const Forum = ({ location, currentUser, socket }) => {
   }, [location, forumSubject, socket, dispatch, currentUser]);
 
   useEffect(() => {
-    socket.on('message', ({ message }) => {
+    socket.on("message", ({ message }) => {
       setForumPosts([...forumPosts, message]);
     });
   }, [forumPosts, socket]);
@@ -78,6 +78,7 @@ const Forum = ({ location, currentUser, socket }) => {
         <div className="forum__chat-container">
           <ChatHeader
             displayStatus={false}
+            justify="center"
             secondUser={{ name: forumsubjects[forumSubject] }}
           />
           <MessageList messages={forumPosts} />

@@ -58,7 +58,7 @@ const Navigation = ({ currentUser, socket }) => {
           className="navigation__logout button"
           onClick={e => {
             logout();
-            socket.emit("logout-user", currentUser._id)
+            socket.emit("logout-user", currentUser._id);
             socket.emit("disconnect");
           }}
           to="/"

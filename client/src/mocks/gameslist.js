@@ -1,6 +1,7 @@
 import gameImage from "../assets/images/game.jpg";
 import dot from "../assets/images/dot.png";
 import asteroids from "../assets/images/asteroids.png";
+import epi from "../assets/images/going-epi.png"
 export default [
   {
     id: 1,
@@ -21,10 +22,11 @@ export default [
   },
   {
     id: 3,
-    name: "Ori and the Blind Forest",
-    image: gameImage,
+    name: "Going Epi",
+    image: epi,
     description:
-      'run left and right with arrow keys, jump with SPACE and attack with voice command "Attack"',
+      'use arrow keys to get as many food items as you can, before the virus gets you',
+    url: "http://localhost:3000/games/going-epi",
     multiplayer: false
   },
   {

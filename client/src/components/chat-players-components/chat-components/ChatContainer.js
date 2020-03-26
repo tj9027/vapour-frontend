@@ -11,7 +11,8 @@ const ChatContainer = ({
   messages,
   roomid,
   secondUser,
-  chatSessionId
+  chatSessionId,
+  setChatting
 }) => {
   return (
     <div className="chat__container">
@@ -19,6 +20,8 @@ const ChatContainer = ({
         secondUser={secondUser}
         displayStatus={true}
         chatSessionId={chatSessionId}
+        setChatting={setChatting}
+        justify="space-between"
       />
       <MessageList messages={messages} />
       {/* <RtcContainer /> */}
