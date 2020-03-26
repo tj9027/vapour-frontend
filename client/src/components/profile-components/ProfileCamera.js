@@ -51,6 +51,7 @@ const ProfileCamera = ({
 
   const handleSaveAvatar = (id, update) => {
     dispatch(updateUser(id, update));
+    closeModal();
   };
 
   function getBase64(file, cb) {
