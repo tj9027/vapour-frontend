@@ -5,14 +5,16 @@ import placeholderImg from "../../assets/images/placeholder-avatar.svg";
 import ProfileCamera from "./ProfileCamera";
 import ProfileForm from "./ProfileForm";
 import { getCurrentUser } from "../../redux/actions/current-user-actions";
+import gameslist from "../../mocks/gameslist";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const user = useSelector(({ loginReducer }) => loginReducer.user);
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [currentUser, setCurrentUser] = useState(user);
-
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  console.log(user);
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
@@ -28,6 +30,8 @@ const Profile = () => {
       window.location.reload();
     });
   };
+
+  const lastPlayed = gameslist.find(el => el.id === user.lastPlayed);
 
   if (user.name.length) {
     return (
@@ -46,6 +50,22 @@ const Profile = () => {
             <p className="profile__id">
               id: <small>{user._id}</small>
             </p>
+          </div>
+          <hr />
+          <div className="profile_lastPlayed-container">
+            <h3>lastplayed:</h3>
+            {user.lastPlayed ? (
+              <div>
+                <p>{lastPlayed.name}</p>
+                <img
+                  src={lastPlayed.image}
+                  style={{ width: "200px" }}
+                  alt={lastPlayed.name}
+                />
+              </div>
+            ) : (
+              "go play!"
+            )}
           </div>
         </div>
         <div className="profile__options-container">
