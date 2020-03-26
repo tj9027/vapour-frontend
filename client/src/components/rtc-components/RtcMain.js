@@ -220,11 +220,11 @@ function handleCandidate(candidate) {
 };
 
 const handleLeave = () => {
+  console.log('partner', partner)
   send({
     type: "leave",
     partner: partner,
   });
-  partner = null;
   caller = null;
   callee = null;
   remoteVideo.src = null;

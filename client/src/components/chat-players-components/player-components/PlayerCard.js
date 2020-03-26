@@ -67,7 +67,7 @@ const PlayerCard = ({ player, handleShowChat, handleShowCall, calling, setCallin
                 setCalling(true)
               }}
               className={`player-card__button pickup`}>
-              pickup
+              yes
         </div>
             <div
               //should close connection
@@ -78,8 +78,22 @@ const PlayerCard = ({ player, handleShowChat, handleShowCall, calling, setCallin
                 handleReject()
               }}
               className={'player-card__button reject'}>
-              reject
+              no
             </div>
+          </div>
+        }
+        { calling &&
+          <div
+            //should close connection
+            onClick={e => {
+              e.preventDefault();
+              setConnected(false);
+              setIncomingCall(null)
+              setCalling(false);
+              handleLeave()
+            }}
+            className={'player-card__button end'}>
+            end
           </div>
         }
         {connected &&
@@ -93,7 +107,7 @@ const PlayerCard = ({ player, handleShowChat, handleShowCall, calling, setCallin
               handleLeave()
             }}
             className={'player-card__button end'}>
-            end call
+            end
           </div>
         }
       </div>
