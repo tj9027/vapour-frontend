@@ -45,7 +45,7 @@ export default [
     image: pong,
     description:
       'Use up and down arrows to move your paddle',
-    url: "https://db-pong.herokuapp.com/",
+    url: "https://db-pongv2.herokuapp.com/",
     multiplayer: true
   }
 ];
