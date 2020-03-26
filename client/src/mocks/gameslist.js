@@ -2,7 +2,8 @@ import gameImage from "../assets/images/game.jpg";
 import pong from "../assets/images/pong.JPG";
 import dot from "../assets/images/dot.png";
 import asteroids from "../assets/images/asteroids.png";
-import epi from "../assets/images/going-epi.png"
+import epi from "../assets/images/going-epi.png";
+import snake from "../assets/images/snake.png";
 export default [
   {
     id: 1,
@@ -26,16 +27,15 @@ export default [
     name: "Going Epi",
     image: epi,
     description:
-      'use arrow keys to get as many food items as you can, before the virus gets you',
+      "use arrow keys to get as many food items as you can, before the virus gets you",
     url: "http://localhost:3000/games/going-epi",
     multiplayer: false
   },
   {
     id: 4,
     name: "Snake",
-    image: gameImage,
-    description:
-      'Classic game of snake',
+    image: snake,
+    description: "Classic game of snake",
     url: "http://localhost:3000/games/snake/snake.html",
     multiplayer: false
   },
