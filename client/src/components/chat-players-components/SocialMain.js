@@ -8,6 +8,7 @@ import { getPlayers } from "../../api-services/playersAPI";
 import { useDispatch } from "react-redux";
 import {
   joinRoomById,
+  firstSocketLogin,
   disconnectSocket,
   socketPostMessage
 } from "../../redux/actions/socket-actions";
@@ -49,7 +50,7 @@ const SocialMain = ({ currentUser, socket }) => {
 
     getPlayers(ENDPOINT)
       .then(res => setPlayers(res))
-      .then(() => socket.emit("login-user", currentUser._id))
+      .then(() => dispatch(firstSocketLogin(currentUser._id, socket)))
 
       // res.map(user => {
       // if (loggedInUsers.includes(user._id)) {
